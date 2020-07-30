@@ -1,11 +1,6 @@
-# Multi-Scale Neuron Modeling
-
-NEURON vs Neuron
-
+# Neuron Model Generation
 Explanation
 
-Instruction
+## Instructions
 
-Requirements
-
-License
+## Requirements
