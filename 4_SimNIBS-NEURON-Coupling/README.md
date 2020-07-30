@@ -15,7 +15,7 @@ Run <code>couple_gui.m</code> in Matlab. The GUI walks you through the procedure
 <img src="./images/nrnori.png" width="800"></img>
 5. Automatically interpolates the data to calculate the electric fields at the neuron compartments.
 6. Scales the electric fields if necessary.<sup>[c](#myfootnoteC)</sup>
-<img src="./images/scale.png" width="700"></img>
+<figure><img src="./images/scale.png" width="600"></img></figure>
 7. Calculates the quasipotentials for the neuron placed at the desired location and orientation in the FEM model.
 8. Receives the output directory and exports the results in that directory.
 <img src="./images/output_dir.png" width="500"></img>
