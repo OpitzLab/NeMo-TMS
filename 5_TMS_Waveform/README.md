@@ -1,5 +1,5 @@
 # TMS Waveform
-Generate TMS pulse train in Matlab to be used in the NEURON simulations.
+In this step the waveform of the elcteric field induced by the TMS pulse train is generated. The output waveform file is used later in the NEURON simulations.
 
 ## Instructions
 Make sure the 'TMS_Waveform' is located within the root NEURON folder, to ensure the output files are located where NEURON code is looking for. Then, Run 'TMS_Waveform.m' in Matlab. A GUI pops up asking for the TMS pulse type (monophasic, biphasic) and then the inter-pulse interval and the number of pulses. After the generation of the pulse train, the resulting waveform is saved in the 'TMS_Waveform_out' directory. That directory includes the following files:
