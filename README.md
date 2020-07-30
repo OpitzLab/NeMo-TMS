@@ -19,7 +19,7 @@ The procdures for running simulations at each scale and the intermediate steps a
 To run a full multi-scale model, follow the documentations in each directory in the following order:
 1. <code>NEURON-Model-Generation</code> generates neuron models from the morphological reconstructions of neurons (samples in <code>Neuron_Reconstructions</code>)
 2. <code>Export_NEURON_Segments</code> exports the coordinates of the NEURON model segments to be used in later steps
-3. <code>Electric-Field-Modeling</code> outlines the macroscopic electric field modeling (sample FEM models in <code>FEM_Models</code>)
+3. <code>Electric-Field-Modeling</code> outlines the macroscopic electric field modeling
 4. <code>SimNIBS-NEURON-Coupling</code> couples the electric fields in step 3 to the NEURON models generated in step 1
 5. <code>TMS_Waveform</code> generates the TMS waveform that is used in the NEURON simulation
 6. <code>NEURON-Simulation</code> simulates the activity of the neuron based on the data from previous steps (you can also run this step under the assumption of uniform electric field, in which case, you can skip steps 3 and 4)
