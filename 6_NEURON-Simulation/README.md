@@ -1,4 +1,4 @@
-# NEURON Modeling
+# NEURON Simulation
 NEURON codes for simulating the neuron behavior under TMS.
 
 ## Insturctions
