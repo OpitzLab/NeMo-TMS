@@ -14,7 +14,7 @@ Run <code>couple_gui.m</code> in Matlab. The GUI walks you through the procedure
 4. Receives the neuron's somato-dendritic axis (mainly defined for pyramidal cells) from the user.<sup>[b](#myfootnoteB)</sup> **Optional:** You can also specify the desired orientation of the neuron here. If left blank, the neuron will be placed perpendicular to the surface by default as this is the typical orientation for pyramidal cells.
 ![](./images/nrnori.png)
 5. Automatically interpolates the data to calculate the electric fields at the neuron compartments.
-6. Scales the electric fields if necessary.<sup>[c](#myfootnoteC)</sup>
+6. Scales the electric fields if necessary.<sup>[c](#myfootnoteC)</sup>  
 ![](./images/scale.png)
 7. Calculates the quasipotentials for the neuron placed at the desired location and orientation in the FEM model.
 8. Receives the output directory and exports the results in that directory.
