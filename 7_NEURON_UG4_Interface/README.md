@@ -1,5 +1,5 @@
 # NEURON-UG4 Interface
-In this step we describe how the simulation results from NEURON can be converted into a format compatible with UG4. UG4 requires the following data to work:
+In this step we describe how the simulation results from NEURON can be converted into a format compatible with UG4 for calcium simulations. UG4 requires the following data to work:
 * Voltage traces across the neuron segments at each time point
 * The morphology file (SWC format) corresponding to the neuron segments (Note that this morphology file may be different from the original morphology file you used to generate NEURON models).
 
