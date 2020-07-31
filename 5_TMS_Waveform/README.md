@@ -3,8 +3,8 @@ In this step the waveform of the elcteric field induced by the TMS pulse train i
 
 ## Instructions
 The content of this directory is automaticlly placed in the folder 'TMS_Waveform' inside the root NEURON model folder when the NEURON model is generated in the [first step](../1_NEURON-Model-Generation/). This ensures the output files are located where the NEURON code is looking for. Run <code>TMS_Waveform.m</code> in that location in Matlab. A GUI pops up asking for the TMS pulse type (monophasic, biphasic) and then the inter-pulse interval and the number of pulses. After the generation of the pulse train, the resulting waveform is saved in the 'TMS_Waveform_out' directory. That directory includes the following files:
-1. 'TMS_E_train.txt' which represent the values of the E-fields waveform (and therefore the quasipotentials due to linear relation) for every sample
-2. 'TMS_t_train.txt' which holds the time points of the samples in ms
+1. <code>TMS_E_train.txt</code> which represent the values of the E-fields waveform (and therefore the quasipotentials due to linear relation) for every sample
+2. <code>TMS_t_train.txt</code> which holds the time points of the samples in ms
 
 **Note:** The waveforms are normalized and therefore unitless. The amplitude of the TMS pulse is taken care of during calculation of the spatial distribution of the E-field and quasipotentials.
 
