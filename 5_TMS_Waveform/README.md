@@ -8,7 +8,7 @@ The content of this directory is automaticlly placed in the folder 'TMS_Waveform
 
 **Note:** The waveforms are normalized and therefore unitless. The amplitude of the TMS pulse is taken care of during calculation of the spatial distribution of the E-field and quasipotentials.
 
-**For advanced users:** You can create any custom waveform you are interested in by creating the files above with the similar format. Make sure you use the same time steps in generating the waveforms as in the NEURON simulations (default: 0.025 ms).
+**For advanced users:** You can change the delay before and after the pulse train by adjusting the values of **delay_start** and **delay_end** (units are in *ms*) in line 46 and 56. You can also create any custom waveform you are interested in by creating the files above with the similar format. Make sure you use the same time steps in generating the waveforms as in the NEURON simulations (default: 0.025 *ms*).
 
 ## Software Requirements
 [Matlab](https://www.mathworks.com/) (Tested on Matlab 2019a and 2019b) 
