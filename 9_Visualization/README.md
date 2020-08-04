@@ -9,7 +9,7 @@ Run <code>visualize_adjacent()</code> to generate the video of the volatge trace
 * **output_folder** points to the folder where the results are generated in
 * **NEURON_results** points to the folder including the results of the NEURON simulation. The following files should be present in this folder:
     1. **'voltage_trace.dat'** which contains the voltage data for all segments across time
-    2. **'locs\locs_all_seg.txt'** which contains the list of segment coordinates and the connections
+    2. **'locs\locs_all_seg.txt'** which contains the list of segment coordinates and their connections
     
 <code>visualize_calcium(calcium_results,output_folder)</code> where:
 * **output_folder** points to the folder where the results are generated in
