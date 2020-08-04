@@ -1,5 +1,5 @@
 # NEURON Simulation
-NEURON codes for simulating the neuron behavior under TMS.
+NEURON codes for simulating the neuron behavior under TMS are generated in the previous steps.
 
 ## Insturctions
 First, generate the desired TMS waveform (refer to TMS_Waveform directory described [here](../5_TMS_Waveform/)). Then ...
