@@ -20,6 +20,4 @@ Every time the generation is completed, the script will return an error - ignore
 
 ## Requirements
 
-MATLAB
-TREES Toolbox (http://treestoolbox.org/)
-T2N (https://www.treestoolbox.org/T2N.html)
+[MATLAB] (https://www.mathworks.com/), [TREES Toolbox] (http://treestoolbox.org/), [T2N] (https://www.treestoolbox.org/T2N.html)
