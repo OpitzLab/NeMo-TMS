@@ -1,0 +1,282 @@
+/* Adapted from interpxyz.hoc:
+* $Id: interpxyz.hoc,v 1.2 2005/09/10 23:02:15 ted Exp $
+* 2018/05/20 Modified by Aman Aberra
+* AUTHOR: Aman Aberra, Duke University
+* CONTACT: aman.aberra@duke.edu
+*/
+
+// original data, irregularly spaced
+objref xx, yy, zz, length
+// interpolated data, spaced at regular intervals
+objref xint, yint, zint, range
+// coordinate file directory
+strdef current_dir
+current_dir = getcwd()
+objref xList, yList, zList
+xList = new List()
+yList = new List()
+zList = new List()
+
+numSect = 1 // set to 1 if nothing has been run 
+numComp = 1 // set to 1 if nothing has been run 
+proc getcoords() { local ii, nn, kk, xr, xr1
+	// list of segment coordinates from each section		
+	xList.remove_all()
+	yList.remove_all()
+	zList.remove_all()	
+	forall {
+	  if (ismembrane("xtra")) {	  	        
+		// get the data for the section		
+		nn = n3d()		// number of pt3d() points
+		xx = new Vector(nn) //creates xx vector length of nn
+		yy = new Vector(nn)
+		zz = new Vector(nn)
+		length = new Vector(nn) 		
+		for ii = 0,nn-1 {					
+			xx.x[ii] = x3d(ii) //loops through points in sec, assigns x coordinate to xx
+			yy.x[ii] = y3d(ii) // assigns y coordinates to yy
+			zz.x[ii] = z3d(ii) // assigns z coordinates to zz
+			length.x[ii] = arc3d(ii) // length position of point
+		}
+
+		// to use Vector class's .interpolate() 
+		// must first scale the independent variable
+		// i.e. normalize length along centroid
+		length.div(length.x[nn-1])
+
+		// initialize the destination "independent" vector
+		range = new Vector(nseg+2) //nseg+2 because counts centers of each seg + 0 and 1
+		range.indgen(1/nseg) //stepsize is 1/nseg, normalized to go from 0 to 1
+		range.sub(1/(2*nseg))
+		range.x[0]=0
+		range.x[nseg+1]=1
+
+		// length contains the normalized distances of the pt3d points 
+		// along the centroid of the section.  These are spaced at 
+		// irregular intervals.
+		// range contains the normalized distances of the nodes along the 
+		// centroid of the section.  These are spaced at regular intervals.
+		// Ready to interpolate.
+
+		xint = new Vector(nseg+2) 
+		yint = new Vector(nseg+2)
+		zint = new Vector(nseg+2)
+		xint.interpolate(range, length, xx)
+		yint.interpolate(range, length, yy)
+		zint.interpolate(range, length, zz)
+
+		// for each node, assign the xyz values to x_xtra, y_xtra, z_xtra
+		//		for ii = 0, nseg+1 {
+		// don't bother computing coords of the 0 and 1 ends
+		// also avoid writing coords of the 1 end into the last internal node's coords								
+        for ii = 1, nseg {			
+            xr = range.x[ii]				
+            x_xtra(xr) = xint.x[ii] 
+            y_xtra(xr) = yint.x[ii]
+            z_xtra(xr) = zint.x[ii]								
+        }				
+		// remove coords of 0 and 1 ends before adding to coord list 				
+		xint.remove(nseg+1)
+		xint.remove(0)
+		yint.remove(nseg+1)
+		yint.remove(0)
+		zint.remove(nseg+1)
+		zint.remove(0)
+				
+		xList.append(xint) //add section's interpolated coordinates to list 
+		yList.append(yint)
+		zList.append(zint)		        
+	  }	  
+	}
+    numSect = xList.count()		
+    printf("numSect was %g\n",numSect)	
+}
+
+objref secrefs
+proc getSecRefs(){ local secnum 
+	getcoords()
+	secrefs = new List()
+	secnum = 0 // count number of sections
+	numComp = 0 // count number of compartments
+	forall {
+		if (ismembrane("xtra")){ // only create for sections with xtra mechanism			
+			secrefs.append(new SectionRef())
+			secnum += 1 // increment secnum
+			numComp += nseg // keep track of number of compartments of model
+		}
+	}
+	printf("Created List of SectionRefs for %g sections\n",secnum)
+	assign_section_types() // now that secrefs has been created, assign type_xtra field in each section
+    assign_order2() // use depth-first tree traversal, works for any tree, but requires NSTACK > 1000 for most cells
+}
+/*
+1 = soma (no parent)
+2 = termination from non-bifurcation (parent is a 1,3, or 6) OR far from bifurcation (parent is 4 or 7, L > length constant) ** contains termination point (1) ** 
+3 = intermediate from non-bifurcation (parent is 1,3, or 6)
+4 = parent side of bifurcation (child is a 5,6, or 7) (parent is 3 OR far from bifurcation (4 or 7)) ** contains parent side bifurcation point (1)** 
+5 = child termination from bifurcation (parent is a 1 or 4 and L < length constant) ** contains termination point (1)** 
+6 = child side of bifurcation (parent is a 1 or 4) **contains child side bifurcation point (0)**
+7 = parent bifurcation and child of bifurcation (parent is a 1 or 4, child is a 5,6, or 7) ** contains parent side bifurcation point (1) **
+*/
+proc assign_section_types(){ localobj parent_sec// assign morphological type to section center as part of xtra (type_xtra)
+	for i=0,numSect-1 {
+		//access secrefs.o(i).sec		
+		if (secrefs.o(i).has_trueparent() == 0) { // Soma/root section o-
+			secrefs.o(i).sec.type_xtra = 1 // assigns to 0.5 by default, but is always uniform for each section, so doesn't matter 			
+		} else { // not root section			
+			secrefs.o(i).parent() {
+				parent_sec = new SectionRef()
+				parent_nchildren = parent_sec.nchild()
+			}
+			secrefs.o(i).sec {
+				Li = L
+				if (ismembrane("pas")) {
+					Lambdai = Lambda(1)*1000
+				} else {
+					Lambdai = L
+				}
+				nn = nseg 
+			}
+			if (parent_nchildren == 1) { // intermediate section -=-
+				if (secrefs.o(i).nchild() == 0) { 
+					// **normal termination** -=
+					for ix=1,nn {secrefs.o(i).sec.type_xtra((2*ix-1)/(2*nn)) = 3} // all intermediate compartments, except last 					
+					secrefs.o(i).sec.type_xtra(1) = 2 // termination from intermediate section, not bifurcation					
+				} else if (secrefs.o(i).nchild() == 1) {
+					// **normal intermediate** -=-
+					for ix=1,nn {secrefs.o(i).sec.type_xtra((2*ix-1)/(2*nn)) = 3}// all intermediate, not adjacent to bifurcation or a termination
+				} else { // nchild >= 2
+					// **bifurcation** -=<
+					for ix=1,nn {secrefs.o(i).sec.type_xtra((2*ix-1)/(2*nn)) = 3}					
+					secrefs.o(i).sec.type_xtra(1) = 4 // parent of a bifurcation
+				}
+			} else { // child of bifurcation -≤ 
+				if (secrefs.o(i).nchild() == 0) { 
+					// **bifurcation -> termination** -≤
+					if (Li <= Lambdai) { // for Blue-brain, 40 µm <= L < 160 µm (geom_nseg(40))
+						for ix=1,nn {secrefs.o(i).sec.type_xtra((2*ix-1)/(2*nn)) = 3} // set intermediate compartments first
+						secrefs.o(i).sec.type_xtra(0) = 6 // first compartment child side of bifurcation
+ 						secrefs.o(i).sec.type_xtra(1) =  5  // if nseg = 1, section will get set to 5 last
+					} else { // L > length constant at terminal (terminal is farther from bifurcation)
+						for ix=1,nn {secrefs.o(i).sec.type_xtra((2*ix-1)/(2*nn)) = 3} // set intermediate compartments first
+						secrefs.o(i).sec.type_xtra(0) = 6 // first compartment child side of bifurcation
+ 						secrefs.o(i).sec.type_xtra(1) =  2 // termination of intermediate (far from bifurcation/non-bifurcation)
+					}
+				} else if (secrefs.o(i).nchild() == 1) {
+					// **bifurcation -> intermediate** -≤=
+					for ix=1,nn {secrefs.o(i).sec.type_xtra((2*ix-1)/(2*nn)) = 3} // all intermediate compartments, except first one
+					secrefs.o(i).sec.type_xtra(0) = 6 // first compartment child side of bifurcation
+				} else { // nchild >= 2
+					// **bifurcation -> bifurcation** -≤<
+					if (Li <= Lambdai) {	
+						for ix=1,nn {secrefs.o(i).sec.type_xtra((2*ix-1)/(2*nn)) = 3}
+						secrefs.o(i).sec.type_xtra(0) = 6 // first compartment child side of bifurcation
+						secrefs.o(i).sec.type_xtra(1) = 7 // parent of a bifurcation
+					} else { // L > length constant (bifurcation is far from parent bifurcation)
+						for ix=1,nn {secrefs.o(i).sec.type_xtra((2*ix-1)/(2*nn)) = 3}						
+						secrefs.o(i).sec.type_xtra(0) = 6 //first compartment child side of bifurcation
+						secrefs.o(i).sec.type_xtra(1) = 4 // parent of a bifurcation from intermediate (NOT from bifurcation)
+					}
+				}
+			} 
+		}		
+	 }
+	 print "Assigned section types to each section in type_xtra"
+}
+
+proc assign_order(){ local i localobj oseci, oseci_c, oseci_secref
+	access secrefs.o(0).sec // access soma
+	i=1
+	end_loop=0
+	oseci = new SectionList() 	
+	oseci.children() // append children of soma
+	while (end_loop==0) {	
+		nchildren = 0	
+		oseci_c = new SectionList()		// children of ith children
+		forsec oseci {
+			//print "order = ", i, " ", secname()
+			order_xtra = i // ith order
+			oseci_secref = new SectionRef()
+			nchildren += oseci_secref.nchild
+			oseci_c.children() // append children of ith order sections (i+1)			
+		}		
+		oseci = oseci_c // access children of ith order for next loop
+		i = i+1 // increment order i
+		if (nchildren ==0) end_loop = 1 // exit loop				
+	}
+	print "Assigned branch orders using depth first algorithm (assign_order) in order_xtra"
+}
+
+proc assign_order2() { local i,n localobj oseci_secref
+	access secrefs.o(0).sec // access soma
+	i = 1 // start order at 1					
+	for n = 0, secrefs.o(0).nchild() - 1 {		
+		secrefs.o(0).child[n] {
+			oseci_secref = new SectionRef()
+			traverse_tree(i,oseci_secref)
+			//print "n = ", n, "in section", secname()
+		}		
+	}	
+	print "Assigned branch orders using traverse_tree (assign_order2) in order_xtra"
+}
+proc traverse_tree() { local j, order localobj current_secref, child_secref,parent_secref
+	order = $1
+	current_secref = $o2
+	current_secref.sec.order_xtra = order // assign order to currently access section
+	/*
+	current_secref.sec {		
+		print " "
+		print secname()
+	}
+	*/	
+	if (current_secref.nchild == 0) { 
+		/*		
+		current_secref.sec {
+			printf("Reached terminal at %s, order is %g\n",secname(),current_secref.sec.order_xtra)
+		}
+		*/				
+		// return to most recent branch point
+		not_branch = 1
+		while (not_branch==1) {
+			current_secref.parent {				
+				current_secref = new SectionRef()				
+				if (current_secref.nchild>1) {
+					not_branch = 0 					
+					//print "exiting while"
+				} else {					
+					order -= 1
+					//print "still in while"
+				}
+			}
+		}
+	} else if (current_secref.nchild() == 1) {	
+		/*
+		current_secref.sec {
+			printf("1 Child at %s, order is %g\n",secname(),current_secref.sec.order_xtra)
+		}
+		*/							
+		current_secref.child[0] {
+			current_secref = new SectionRef()			
+		}		
+		traverse_tree(order,current_secref)		
+	} else { // 2 or more children		
+		/*
+		current_secref.sec {
+			printf("%g Children in %s, order is %g\n",current_secref.nchild(),secname(),current_secref.sec.order_xtra)
+		}
+		*/		
+		order += 1 // advance order by 1		
+		for j = 0, current_secref.nchild() - 1 {
+			current_secref.child[j] {
+				child_secref = new SectionRef()				
+				//child_secref.sec {print secname(), " order = ", order_xtra, "new order = ", order}
+			}
+			traverse_tree(order,child_secref)
+		}
+	}
+}
+
+func Lambda() { // input relative position x in section
+	lambda = 10*sqrt( ((1/g_pas($1))*diam($1)*1e-4)/(4*Ra) ) // returns length constant in mm
+	return lambda
+}

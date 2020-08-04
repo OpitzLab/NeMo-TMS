@@ -1,0 +1,17 @@
+/*
+* $Id: setpointers.hoc,v 1.4 2008/12/02 22:19:41 ted Exp ted $
+* sets up the pointers after the sections have been created
+* 2018/05/20 Modified by Aman Aberra
+*/
+
+proc setpointers() { local done 
+  getSecRefs() // save coordinates, get section refs, and assign section types
+  forall {
+    if (ismembrane("xtra") && ismembrane("extracellular")) {
+		for (x, 0) {		
+			setpointer ex_xtra(x), e_extracellular(x)
+		}
+    }
+  }
+  //print "After any change to cell geometry or nseg, be sure to invoke setpointers()"
+}

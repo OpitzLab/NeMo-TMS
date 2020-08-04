@@ -1,0 +1,94 @@
+begintemplate Temperature
+	external strf, cellList
+	public init, reset, correct
+
+	proc init() {
+		q10_g_pas  =  1.98  // simulations. Passive membrane parameters (Ra, cm, g_pas) 
+		q10_Ra     =  0.80  // have no built-in temperature dependence. Instead, they
+		q10_cm     =  0.96  // will be scaled when calling membrane.hoc using Q10 values
+					// according to:
+                    // Trevelyan AJ, Jack JJB (2002), J Physiol 539:623-636
+                    // Note that these Q10 values have been obtained for LII/III
+                    // pyramidal cells, not for granule cells.
+                    // defaults:
+                    // celsius    = 24    (our recording temperature)
+                    // q10_g_pas  =  1.98 
+                    // q10_Ra     =  0.80 
+                    // q10_cm     =  0.96 
+	/*if (strf.is_name("celsius_init")) {
+		celsius = celsius_init
+	}else{
+		celsius    =  25    // This is to roughly account for the effects of temperature on
+	}*/
+	}
+proc reset() { local CELLINDEX
+	for CELLINDEX = 0,cellList.count()-1 {
+		if (cellList.o(CELLINDEX).is_artificial == 0) {
+			forsec cellList.o(CELLINDEX).allreg {
+				if (ismembrane("pas")) {
+					g_pas 	= g_pas / q10_g_pas^((celsius-24)/10)
+					Ra 		= Ra / q10_Ra^((celsius-24)/10)
+					cm 		= cm / q10_cm^((celsius-24)/10)
+				}
+			}
+		}	
+	}
+}
+
+proc correct() { local CELLINDEX
+	//forsec reg_tree_all {
+	celsius = $1
+	for CELLINDEX = 0,cellList.count()-1 {
+		if (cellList.o(CELLINDEX).is_artificial == 0) {
+			forsec cellList.o(CELLINDEX).allreg {
+				if (ismembrane("pas")) {
+					g_pas 	= g_pas * q10_g_pas^((celsius-24)/10)
+					Ra 		= Ra * q10_Ra^((celsius-24)/10)
+					cm 		= cm * q10_cm^((celsius-24)/10)
+				}
+			}
+		}
+	}
+}
+
+endtemplate Temperature
+
+proc addsurf_spines() {
+	for CELLINDEX = 0,cellList.count()-1 {
+			if (cellList.o(CELLINDEX).is_artificial == 0) {
+				forsec cellList.o(CELLINDEX).allreg {
+					if (ismembrane("spines")) {
+						if (scale_spines > 0) {
+							g_pas 	= g_pas * scale_spines
+							cm 		= cm * scale_spines
+							/*if (ismembrane("Kir32")) {
+								gkbar_Kir32 = gkbar_Kir32 * scale_spines
+							}
+							if (ismembrane("ichan3")) {
+								gkabar_ichan3 = gkabar_ichan3 * scale_spines
+							}
+							*/
+							
+							
+						}else{
+							if (density_spines > 0) {
+								x1 = arc3d(0)
+								for i=1, n3d()-1 {
+										x1 += arc3d(i)
+								}
+								g_pas = g_pas * (1 + density_spines * x1 * 1.2 / area(0.5) )
+								cm = cm * (1 + density_spines * x1 * 1.2 / area(0.5) )
+								print  "spine factor: ", 1+ density_spines * x1 * 1.2 / area(0.5) 
+							}else{
+								if (count_spines > 0) {
+									cm = cm * (1 + count_spines * 1.2 / area(0.5) )
+									g_pas = g_pas * (1 + count_spines * 1.2 / area(0.5) )
+									print  "spine factor: ", 1+ count_spines * 1.2 / area(0.5) 
+									}
+							}
+						}
+					}
+				}
+			}
+	}
+}
