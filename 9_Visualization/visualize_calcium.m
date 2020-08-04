@@ -41,7 +41,7 @@ geo_file_mod = strrep(geo_file, 'SIMTYPE', 'calcium');
 % replace SPIKE_LEN with proper number
 geo_file_mod = strrep(geo_file_mod, 'SPIKE_LEN', num2str(size(data,2)));
 % replace the value range with proper numbers
-geo_file_mod = strrep(geo_file_mod, 'MINVAL', num2str(0));%min(data(:))));
+geo_file_mod = strrep(geo_file_mod, 'MINVAL', num2str(5e-8));%min(data(:))));
 geo_file_mod = strrep(geo_file_mod, 'MAXVAL', num2str(1e-6));%max(data(:))));
 fid = fopen([folder_out filesep 'gmsh' filesep 'spike_movie_calcium.geo'],'wt');
 fwrite(fid,geo_file_mod);
