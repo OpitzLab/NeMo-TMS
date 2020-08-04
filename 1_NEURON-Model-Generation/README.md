@@ -8,9 +8,11 @@ First, compile the mod files located in Generator/lib_mech/mods. This is a neces
 
 Next, place the input morphology file (either .SWC or .MTR if multiple morphologies are to be rpocessed) into Generator/morphos alongside the example_tree.mtr file.
 
+The input morphology must be in standard SWC format, with soma as region 1, axon as region 2, basal dendrites as region 3, and apical dendrite as region 4.
+
 Open Jarsky_model.m in MATLAB and change the line labelled "Input file here" to refer to the selected input morphology. Run the script.
 
-If the input morphology lacks an axon, uncomment line 41, and a simple "stick" axon will be added. If the input morphology lacks a soma, uncomment line 40, and a soma will be added at the intersection of the branches.
+If the input morphology lacks an axon, uncomment line 46, and a simple "stick" axon will be added. If the input morphology lacks a soma, uncomment line 45, and a soma will be added at the intersection of the branches.
 
 For each morphology given, a figure will be produced showing the assigned model regions.
 
