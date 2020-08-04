@@ -2,7 +2,7 @@
 In this step, we discuss how to visualize the results of the NEURON and calcium concentration simulations. Note that this is just one method for visualizaiton and the users are free to implement their own visualization procdure as they see fit.
 
 ## Instruction
-run <code>visualize_adjacent()</code> to generate the video of the volatge traces (NEURON simulation results), calcium concentrations, and a side by side representation of both. If you are interested in generating only one of those videos, you can also run <code>visualize_neuron()</code> or <code>visualize_calcium()</code> individually.
+Run <code>visualize_adjacent()</code> to generate the video of the volatge traces (NEURON simulation results), calcium concentrations, and a side by side representation of both. If you are interested in generating only one of those videos, you can also run <code>visualize_neuron()</code> or <code>visualize_calcium()</code> individually.
 
 ## Inputs
 <code>visualize_neuron(NEURON_results,output_folder)</code> where:
