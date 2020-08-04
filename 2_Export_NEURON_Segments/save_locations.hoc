@@ -14,7 +14,6 @@ strdef s, result_folder
 //*********Load libraries and initialize***********
 {load_file("initialize.hoc")}
 initialize()
-read_params()
 io = xopen("../sim1/init_cells.hoc")
 io = xopen("init_mech.hoc")
 access cellList.o(0).allregobj.o(0).sec
