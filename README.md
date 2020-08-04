@@ -13,7 +13,7 @@ This paradigm incorporates modeling at three scales:
 
 The procdures for running simulations at each scale and the intermediate steps are given in details in the corresponding directories.
 
-**Note:** throughout this repository, <ins>neuron</ins> refers to the actual neural cells, while <ins>NEURON</ins> refers to the NEURON simulation environment used for the computational modeling of neurons.
+**Note:** throughout this repository, <ins>neuron</ins> refers to the biological neural cells, while <ins>NEURON</ins> refers to the NEURON simulation environment used for the computational modeling of neurons.
 
 ## Instructions
 To run a full multi-scale model, follow the documentations in each directory in the following order:
