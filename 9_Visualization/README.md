@@ -25,7 +25,7 @@ Run <code>visualize_adjacent()</code> to generate the video of the volatge trace
 
 ## Outputs
 The following results can be found in the 'output_folder' after running the functions.
-* **video_adjacent** contains the video of volatge traces and calcium concentrations together. The top and bottom panels represent the voltage in *mv* and *mol/liter* respectively. 
+* **video_adjacent** contains the video of volatge traces and calcium concentrations together. The top and bottom panels represent the local membrane voltage in *mv* and calcium concentration in *mol/liter* respectively. 
 * **video_neuron** contains the video of volatge traces.
 * **video_calcium** contains the video of calcium concentrations.
 * **gmsh** folder includes the data used for generating the videos:
