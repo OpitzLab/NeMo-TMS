@@ -1,5 +1,5 @@
 # Export NEURON Segments
-This script is automatically placed in the NEURON model directory after running the [first step](../1_NEURON-Model-Generation). The coordinates and other information about the segments implemented in the HOC model are exported from the generated NEURON model. These data are used in multiple subsequent steps.
+This script is automatically placed in the NEURON model directory after running the [first step](../1_NEURON-Model-Generation). The coordinates and other information about the segments implemented in the HOC files are exported from the generated NEURON model. These data are used in multiple subsequent steps.
 
 ## Instructions
 Run <code>save_locations.hoc</code> in the NEURON model directory. The output data will be exported in the 'results\locs\' folder.
