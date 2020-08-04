@@ -8,15 +8,15 @@ Run <code>visualize_adjacent()</code> to generate the video of the volatge trace
 <code>visualize_neuron(NEURON_results,output_folder)</code> where:
 * **output_folder** points to the folder where the results are generated in
 * **NEURON_results** points to the folder including the results of the NEURON simulation. The following files should be present in this folder:
-    1. **'voltage_trace.dat'** which contains the voltage data for all segments across time
-    2. **'locs\locs_all_seg.txt'** which contains the list of segment coordinates and their connections
+    - **'voltage_trace.dat'** which contains the voltage data for all segments across time
+    - **'locs\locs_all_seg.txt'** which contains the list of segment coordinates and their connections
     
 <code>visualize_calcium(calcium_results,output_folder)</code> where:
 * **output_folder** points to the folder where the results are generated in
 * **calcium_results** points to the folder including the results of the calcium simulation. The following files should be present in this folder:
-    1. **'fullDataOut.txt'** which contains the calcium concentrations for all segments across time
-    2. **'outDom.txt'** which contains the list of segment coordinates used in 'fullDataOut.txt'
-    3. **neuron_out.swc** is the morphology file used in the calcium simulations.
+    - **'fullDataOut.txt'** which contains the calcium concentrations for all segments across time
+    - **'outDom.txt'** which contains the list of segment coordinates used in 'fullDataOut.txt'
+    - **neuron_out.swc** is the morphology file used in the calcium simulations.
     
 <code>visualize_adjacent(NEURON_results,calcium_results,output_folder)</code> where:
 * both the calcium concentration data and voltage traces from NEURON is needed. See above for the requirements.
