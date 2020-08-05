@@ -4,6 +4,10 @@ This stage of the pipeline will generate NEURON HOC model files from .SWC morpho
 Currently, the pipeline supports the Jarsky model of the CA1 pyramidal cell. 
 
 ## Instructions
+Before running any scripts utilizing TREES Toolbox, initialize TREES Toolbox by running the included start_trees.m. This only needs to be done once per computer.
+
+Additionally, T2N must be initialized before use, with the script t2n_runthisAfterUnzip.m.
+
 First, compile the mod files located in Generator/lib_mech/mods. This is a necessary step for each computer that the simulations are executed on. Refer to this [link](https://www.neuron.yale.edu/phpBB/viewtopic.php?t=3263) for more information on how to do this. After this is done, move the nrnmech.dll file to Generator/lib_mech.
 
 Next, place the input morphology file (either .SWC or .MTR if multiple morphologies are to be processed) into Generator/morphos alongside the example_tree.mtr file.
