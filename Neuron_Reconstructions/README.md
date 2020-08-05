@@ -3,6 +3,8 @@
 This file will process Neurolucida .ASC files into .SWC files which can be used by the model generation files, and apply a quadratic diameter taper appropriate to a CA1 pyramidal cell.
 
 ## Instructions
+Before running any scripts utilizing TREES Toolbox, initialize TREES Toolbox by running the included start_trees.m.
+
 First, specify the input .ASC file on line 8 of the taper_unified script.
 
 Next, run the first section of the script only - this is necessary for manual specification of the orientation and the trunk branch point.
