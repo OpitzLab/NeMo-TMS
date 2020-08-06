@@ -16,7 +16,7 @@ The input morphology must be in standard SWC format, with soma as region 1, axon
 
 Open <code>Jarsky_model.m</code> in MATLAB and change the line labelled "Input file here" to refer to the selected input morphology. Run the script.
 
-If the input morphology lacks an axon, uncomment line 46, and a simple "stick" axon will be added. If the input morphology lacks a soma, uncomment line 45, and a soma will be added at the intersection of the branches.
+A prompt will open asking the user how they wish for the axon to be handled. "Do not alter" will make no changes. "No axon" will strip any existing axon from the morphology. "Stick axon" will add a simple straight axon in the negative Y direction. "Myelinated axon" will apply a basic myelination algorithm with nodes of Ranvier at 100um intervals and at every branch point.
 
 For each morphology given, a figure will be produced showing the assigned model regions.
 
