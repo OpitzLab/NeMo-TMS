@@ -20,7 +20,7 @@ If the input morphology lacks an axon, uncomment line 46, and a simple "stick" a
 
 For each morphology given, a figure will be produced showing the assigned model regions.
 
-Every time the generation is completed, the script will return an error: [https://raw.githubusercontent.com/OpitzLab/Multi-Scale-Neuron-Modeling/master/1_NEURON-Model-Generation/expected_error.png?token=AAIAFOX4C2STUFQXG2MKWZS7FP7HQ]
+Every time the generation is completed, the script will return an error: [Error image](1_NEURON-Model-Generation/expected_error.png)
 
  - ignore this: It is expected. After completion, the script will copy all other necessary files to the model folders.
 
