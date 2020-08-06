@@ -21,7 +21,7 @@ proc read_params(){local THETA, PHI, bPolar localobj params
     E_UNIFORM = params.scanvar()
     if (!E_UNIFORM){
         params.scanstr(quasi_file)
-		TMSAMP = params.scanvar()
+	TMSAMP = params.scanvar()
     } else {
         TMSAMP = params.scanvar()
         bPolar = params.scanvar()
