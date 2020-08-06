@@ -11,5 +11,4 @@ objref pc,nil,cvode,strf,tmpvec,tvec,tvecs,cell,cellList,pp,ppList,con,conList,n
 strdef s, result_folder
 
 load_file("GUI.hoc")
-load_file("TMS_sim.hoc")
 GUI()
