@@ -21,6 +21,9 @@ neuron.params.dlambda    = 0.025;
 neuron.params.freq       = 500;
 
 trees = load_tree('./morphos/tree.mtr'); %Specify input morphology here!
+
+axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','Myelinated axon');
+
 %%
 for cell_num = 1:length(trees)
 
@@ -41,10 +44,10 @@ else
     tree{1,1} = trees{1,1};
 end
 tree{1,1} = tran_tree(tree{1,1}, [tree{1,1}.X(1), tree{1,1}.Y(1), tree{1,1}.Z(1)].*(-1));
-%tree{1,1} = strip_axon(tree{1,1}); %Uncomment line to remove axon
-%tree{1,1} = soma_tree(tree{1,1}); %Uncomment line to add artificial soma
-%tree{1,1} = add_axon(tree{1,1}); %Uncomment line to add artificial axon
 
+if(axon_type == 2 || axon_type == 3)
+    tree{1,1} = strip_axon(tree{1,1});
+end
 
 %% Divide the tree morphology (if it hasn't been divided before)
 for t                    = 1 : numel (tree)
@@ -52,7 +55,12 @@ for t                    = 1 : numel (tree)
     %tree{t}.R            = tree{t}.R * 0 + 2;
     %tree{t}.R (1)        = 1;
     tree{t}.rnames       = {'soma', 'axon', 'dendrite' 'dendrite'};
-    tree{t} = myelinate_axon(tree{t});
+    if(axon_type == 3)
+        tree{1,1} = add_axon(tree{1,1});
+    end
+    if(axon_type == 4)
+        tree{t} = myelinate_axon(tree{t});
+    end
     tree{t}              = CA1pyramidalcell_sort_Jmodel_len(tree{t},'-j -axon');
 end 
 

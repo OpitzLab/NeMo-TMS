@@ -40,7 +40,7 @@ proc E_field_params(){ localobj pwm, qasifile, paramfile
         paramfile.printf("E_UNIFORM\t0\n")
         paramfile.printf("%s\n",qasifile.getname())
         paramfile.close()
-        TMS_sim()
+		quit()
     }
 }
 
@@ -101,5 +101,5 @@ proc save_params(){ localobj pwm, paramfile
         paramfile.printf("EZ\t%f\n",EZ)
     }
     paramfile.close()
-    TMS_sim()
+	quit()
 }
