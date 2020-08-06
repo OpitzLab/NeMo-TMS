@@ -22,7 +22,7 @@ For each morphology given, a figure will be produced showing the assigned model 
 
 Every time the generation is completed, the script will return an error:
 
-![Error image](https://raw.githubusercontent.com/OpitzLab/Multi-Scale-Neuron-Modeling/master/1_NEURON-Model-Generation/expected_error.png?token=AAIAFOUXC34VND3OCJN7DGS7FP7QI)
+![Error image](expected_error.png)
 
  Ignore this: It is expected. After completion, the script will copy all other necessary files to the model folders.
 
