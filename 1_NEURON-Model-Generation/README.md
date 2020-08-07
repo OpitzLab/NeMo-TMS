@@ -1,7 +1,7 @@
 # Neuron Model Generation
 This stage of the pipeline will generate NEURON HOC model files from .SWC morphology files, or TREES Toolbox generated .MTR files which contain multiple morphologies.
 
-Currently, the pipeline supports the Jarsky model of the CA1 pyramidal cell. 
+Currently, the pipeline supports the Jarsky model of the CA1 pyramidal cell. (Jarsky T, Roxin A, Kath WL, Spruston N (2005) Conditional dendritic spike propagation following distal synaptic activation of hippocampal CA1 pyramidal neurons. Nat Neurosci 8:1667-76)
 
 ## Instructions
 
