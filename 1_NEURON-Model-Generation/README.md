@@ -18,7 +18,6 @@ Given a morphology specified in a file 'cell.ASC', the following commands in MAT
 
 <code>tree = neurolucida_tree('cell.ASC');</code>
 
-
 <code>SWC_tree(tree, 'cell.SWC');</code>
 
 
