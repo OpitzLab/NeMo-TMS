@@ -11,5 +11,5 @@ Then, execute GUI_params.hoc and select the desired parameters. If the realistic
 
 Finally, run TMS_script.hoc and wait for the simulation to complete. It will generate a voltage trace for every segment in results/voltage_trace.dat, and will save index and location files to results/locs. The simulation will exit when it has finished running.
 
-## Requirements
+## Software Requirements
 [NEURON](https://www.neuron.yale.edu/neuron/) (Tested on NEURON 7.5) 
