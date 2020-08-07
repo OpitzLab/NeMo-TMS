@@ -16,8 +16,8 @@ The morphology files for this script must be in either .SWC or .MTR format. TREE
 
 Given a morphology specified in a file 'cell.ASC', the following commands in MATLAB with TREES Toolbox will save it as an .SWC file:
 
-<code>tree = neurolucida_tree('cell.ASC');
-SWC_tree(tree, 'cell.SWC');</code>
+<code>tree = neurolucida_tree('cell.ASC');</code>
+<code>SWC_tree(tree, 'cell.SWC');</code>
 
 
 Place the input morphology file (either .SWC or .MTR if multiple morphologies are to be processed) into Generator/morphos alongside the place_tree.mtr file.
