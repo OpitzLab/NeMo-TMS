@@ -5,11 +5,11 @@ For more information regarding quasipotentials, refere to: Wang, B., Grill, W. M
 
 ## Instructions for the GUI version
 Run <code>couple_gui.m</code> in Matlab. The GUI walks you through the procedure step by step and is therefore suitable for those who are not familiar with the topic. In summary, the following steps will run:
-1. Loads and plots the SimNIBS mesh file (generated after the E-field simulation on the FEM model).
+1. Loads and plots the SimNIBS mesh file (generated in [step 3](../3_Electric-Field-Modeling) after the E-field simulation on the FEM model).
 ![](./images/FEM.png)
 2. Receives the neuron's desired location and depth from the user.<sup>[a](#myfootnoteA)</sup>
 ![](./images/nrnloc.png)
-3. Loads and plots the neuron morphology file exported from the corresponding NEURON model.
+3. Loads and plots the neuron morphology file exported from the corresponding NEURON model (created in [step 2](../2_Export_NEURON_Segments/)).
 ![](./images/locs.png)
 4. Receives the neuron's somato-dendritic axis (mainly defined for pyramidal cells) from the user.<sup>[b](#myfootnoteB)</sup> **Optional:** You can also specify the desired orientation of the neuron here. If left blank, the neuron will be placed perpendicular to the surface by default as this is the typical orientation for pyramidal cells.
 ![](./images/nrnori.png)
