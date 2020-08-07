@@ -38,4 +38,4 @@ Every time the generation is completed, the script will return an error:
 
 ## Software Requirements
 
-[MATLAB](https://www.mathworks.com/), [TREES Toolbox](http://treestoolbox.org/), [T2N](https://www.treestoolbox.org/T2N.html)
+[MATLAB](https://www.mathworks.com/), [TREES Toolbox](http://treestoolbox.org/), [T2N](https://www.treestoolbox.org/T2N.html), [NEURON](https://www.neuron.yale.edu/neuron/)
