@@ -20,7 +20,7 @@ Given a morphology specified in a file 'cell.asc', the following commands in MAT
 <code>swc_tree(tree, 'cell.swc');</code>
 
 
-Place the input morphology file (either .SWC or .MTR if multiple morphologies are to be processed) into 'Generator/morphos' alongside the 'place_tree.mtr' file. You can use the sample [morphology files](./Neuron-Reconstructions) provided.
+Place the input morphology file (either .SWC or .MTR if multiple morphologies are to be processed) into 'Generator/morphos' alongside the 'place_tree.mtr' file. You can use the sample [morphology files](../Neuron-Reconstructions) provided.
 
 The input morphology must be in standard SWC format, with soma as region 1, axon as region 2, basal dendrites as region 3, and apical dendrite as region 4.
 
