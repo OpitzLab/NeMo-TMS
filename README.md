@@ -16,7 +16,7 @@ The procdures for running simulations at each scale and the intermediate steps a
 **Note:** throughout this repository, <ins>neuron</ins> refers to the biological neural cells, while <ins>NEURON</ins> refers to the NEURON simulation environment used for the computational modeling of neurons.
 
 ## Instructions
-To run a full multi-scale model, follow the documentations in each directory in the following order:
+To run a full multi-scale model, follow the documentations in each directory in the given order. Make sure to set up the software requirements (at the end of the documentation at each folder) before running each step.
 1. <code>NEURON-Model-Generation</code> generates neuron models from the morphological reconstructions of neurons (samples in <code>Neuron_Reconstructions</code>)
 2. <code>Export_NEURON_Segments</code> exports the coordinates of the NEURON model segments to be used in later steps
 3. <code>Electric-Field-Modeling</code> outlines the macroscopic electric field modeling
