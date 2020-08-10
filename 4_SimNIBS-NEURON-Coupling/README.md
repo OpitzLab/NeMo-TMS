@@ -36,7 +36,7 @@ Regardless of which version you use, the outputs should be identical given the s
 **Note:** You can overlay the neuron on your FEM model by openning <code>quasipotentials.msh</code> and merging (**File**->**Merge**) <code>mesh_trim.msh</code>. <code>mesh_trim.msh</code> is trimmed to the vicinity of the neuron location for easier and faster visualization. If you need to visualize the full mesh, you can still use the original mesh file you used for the simulation. 
 
 ## Software Requirements
-[Matlab](https://www.mathworks.com/) (Tested on Matlab 2019a and 2019b), [SimNIBS](http://simnibs.org/) (tested on SimNIBS 3.1.2)
+[Matlab](https://www.mathworks.com/) (Tested on Matlab 2019a and 2019b), [SimNIBS Matlab Functions](http://simnibs.org/) (tested on SimNIBS 3.1.2)
 
 **Optional:** [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6, note that SimNIBS comes with this version of Gmsh)
 
