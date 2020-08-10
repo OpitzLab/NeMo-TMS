@@ -28,7 +28,7 @@ Below is a description of the folders and files:
 
 5. You will need to select the file locations for the uG4 folder, simulation script, Geometry <code>.swc</code> file, VM folder (voltage), and output folder. 
 These are boxed in red in the figure above. Disregard the large code window. Set the other parameters to desired values, for now leave ER ON/OFF unchecked.
-  - For the simulation script choose <code>vdccFullCellCalcium.lua</code>
+  - For the simulation script choose <code>vdccFullCellCalcium.lua</code> inside the 'scripts' folder.
   - For the Geometry choose the file with <code>.swc</code> extension, make sure the geometry corresponds to the voltage data (used the output of [previous step](../7_NEURON_UG4_Interface)).
 6. Once you have selected the folders, files, and set the desired parameters, press the invoke button and the simulation will begin.
 7. You can  monitor the progress of the simulation by clicking the bottom tab on the button and pulling the tab up.
