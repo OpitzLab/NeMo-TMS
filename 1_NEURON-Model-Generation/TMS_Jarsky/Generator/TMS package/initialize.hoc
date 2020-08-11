@@ -21,7 +21,6 @@ proc read_params(){local THETA, PHI, bPolar localobj params
     E_UNIFORM = params.scanvar()
     if (!E_UNIFORM){
         params.scanstr(quasi_file)
-	TMSAMP = params.scanvar()
     } else {
         TMSAMP = params.scanvar()
         bPolar = params.scanvar()
@@ -71,10 +70,14 @@ proc initialize(){
 	tstart = 0.0250000
 	dt = 0.025000
 	steps_per_ms = 1/dt
-	v_init = -70.000000
 	prerun = 200
-	nrn_load_dll("../../lib_mech/nrnmech.dll")
+	if (unix_mac_pc() == 3) {
+		nrn_load_dll("../../lib_mech/mods/nrnmech.dll")
+	} else {
+		nrn_load_dll("../../lib_mech/mods/x86_64/.libs/libnrnmech.so")
+	}
 	io = load_file("stdgui.hoc")
+	v_init = -70.000000
 	simfold = "../sim1"
 	io = xopen("../../lib_genroutines/genroutines.hoc")
 	io = xopen("../../lib_genroutines/pasroutines.hoc")
