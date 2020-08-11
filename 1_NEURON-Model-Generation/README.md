@@ -9,7 +9,7 @@ Before running any scripts utilizing TREES Toolbox and T2N, initialize them by r
 
 Additionally, T2N must be initialized before use, with the script t2n_runthisAfterUnzip.m.
 
-First, compile the mod files located in Generator/lib_mech/mods. This is a necessary step for each computer that the simulations are executed on. Refer to this [link](https://www.neuron.yale.edu/phpBB/viewtopic.php?t=3263) for more information on how to do this. After this is done, move the nrnmech.dll file to Generator/lib_mech.
+First, compile the mod files located in Generator/lib_mech/mods. This is a necessary step for each computer that the simulations are executed on. Refer to this [link](https://www.neuron.yale.edu/phpBB/viewtopic.php?t=3263) for more information on how to do this.
 
 
 The morphology files for this script must be in either .SWC or .MTR format. TREES Toolbox contains tools to process Neurolucida .ASC files into these formats.
