@@ -24,7 +24,7 @@ Place the input morphology file (either .SWC or .MTR if multiple morphologies ar
 
 The input morphology must be in standard SWC format, with soma as region 1, axon as region 2, basal dendrites as region 3, and apical dendrite as region 4.
 
-Open <code>Jarsky_model.m</code> in MATLAB and change the line labelled "Input file here" to refer to the selected input morphology. Run the script.
+Ensure that <code>Jarsky_model.m</code> is on the MATLAB path, and run the function <code>Jarsky_model('cell.swc')</code>, where <code>cell.swc</code> can be substituted for your morphology of choice.
 
 A prompt will open asking the user how they wish for the axon to be handled. "Do not alter" will make no changes. "No axon" will strip any existing axon from the morphology. "Stick axon" will add a simple straight axon in the negative Y direction. "Myelinated axon" will apply a basic myelination algorithm with nodes of Ranvier at 100um intervals and at every branch point.
 
