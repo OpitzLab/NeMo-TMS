@@ -35,7 +35,7 @@ for cell_num = 1:length(trees)
 tname                    = 'Jarsky_model';
 treeFilename = './morphos/place_tree.mtr'; %Input file here!
 treepath = '';
-neuron.params.exchfolder = strcat('../Model/Cell_',num2str(cell_num));
+neuron.params.exchfolder = strcat('../Model/Jarsky_',num2str(cell_num));
 %to de-group the morphologies (if necessary), and have the different tree
 %strucutres in the cell array 'tree':
 
@@ -238,7 +238,7 @@ copyfile('./lib_genroutines/', '../Model/lib_genroutines/', 'f');
 copyfile('./lib_mech/', '../Model/lib_mech/', 'f');
 
 for i = 1:numel(trees)
-    copyfile('./TMS package/', strcat('../Model/Cell_', num2str(i), '/sim1/'), 'f');
+    copyfile('./TMS package/', strcat('../Model/Jarsky_', num2str(i), '/sim1/'), 'f');
 end
 end
 
