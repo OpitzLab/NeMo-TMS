@@ -43,8 +43,8 @@ dt = 0.025; % time step used in NEURON simulation
 if length(TMS_E) > round(ipi/dt)
     error('Inter-pulse interval cannot be shorter than TMS pulse duration.');
 end
-delay_start = 100; % delay at the beginning before TMS delivery
-delay_end = 100; % delay after the TMS delivery
+delay_start = 40; % delay at the beginning before TMS delivery
+delay_end = 40; % delay after the TMS delivery
 ipi = round(ipi/dt)*dt;
 train_length = delay_start + (nump-1)*ipi + delay_end; % in ms
 train_t = (0:dt:train_length)';
@@ -59,4 +59,5 @@ end
 
 save(['TMS_waveform_out' filesep 'TMS_E_train.txt'], 'train_E','-ascii');
 save(['TMS_waveform_out' filesep 'TMS_t_train.txt'], 'train_t','-ascii');
+disp('Successfully generated the TMS waveform!');
 end
