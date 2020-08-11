@@ -24,18 +24,21 @@ neuron.params.nseg       = 'dlambda';
 neuron.params.dlambda    = 0.025;
 neuron.params.freq       = 500;
 
-trees = load_tree(strcat('./morphos/', input_cell)); %Specify input morphology here!
+fileid = strcat('./morphos/', input_cell);
+[filepath, name, ext] = fileparts(fileid);
+trees = load_tree(fileid); %Specify input morphology here!
 
 axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','Myelinated axon');
 
 %%
+
 for cell_num = 1:length(trees)
 
 %% Load morphology
 tname                    = 'Jarsky_model';
 treeFilename = './morphos/place_tree.mtr'; %Input file here!
 treepath = '';
-neuron.params.exchfolder = strcat('../Model/Jarsky_',num2str(cell_num));
+
 %to de-group the morphologies (if necessary), and have the different tree
 %strucutres in the cell array 'tree':
 
@@ -44,8 +47,10 @@ neuron.params.exchfolder = strcat('../Model/Jarsky_',num2str(cell_num));
 %provided but not active.
 if(length(trees) == 1)
     tree{1,1} = trees;
+    neuron.params.exchfolder = strcat('../Model/',name);
 else
     tree{1,1} = trees{1,1};
+    neuron.params.exchfolder = strcat('../Model/Cell_',num2str(cell_num));
 end
 tree{1,1} = tran_tree(tree{1,1}, [tree{1,1}.X(1), tree{1,1}.Y(1), tree{1,1}.Z(1)].*(-1));
 
@@ -238,7 +243,11 @@ copyfile('./lib_genroutines/', '../Model/lib_genroutines/', 'f');
 copyfile('./lib_mech/', '../Model/lib_mech/', 'f');
 
 for i = 1:numel(trees)
-    copyfile('./TMS package/', strcat('../Model/Jarsky_', num2str(i), '/sim1/'), 'f');
+    if length(trees) == 1
+        copyfile('./TMS package/', strcat('../Model/', name , '/sim1/'), 'f');
+    else
+        copyfile('./TMS package/', strcat('../Model/Cell_', num2str(i), '/sim1/'), 'f');
+    end
 end
 end
 
