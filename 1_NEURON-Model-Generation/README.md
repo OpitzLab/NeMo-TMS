@@ -30,6 +30,8 @@ A prompt will open asking the user how they wish for the axon to be handled. "Do
 
 For each morphology given, a figure will be produced showing the assigned model regions.
 
+Click on 'Yes' if you are prompted to initialize model folders.
+
 Every time the generation is completed, the script will return an error:
 
 ![Error image](expected_error.png)
