@@ -1,8 +1,12 @@
 %% Jarsky CA1 PC model generator for TMS simulation
-% Based on code by Laura Mediavilla
+% Implements the Jarsky model of the CA1 PC:
+% Jarsky T, Roxin A, Kath WL, Spruston N (2005) Conditional dendritic spike propagation following distal synaptic activation of hippocampal CA1 pyramidal neurons. Nat Neurosci 8:1667-76
+% 
+% Input: SWC or MTR file containing morphology data in ./morphos/
+%  
 % Adapted by Nicholas Hananeia, 2019-2020
 %%
-clear all; clc;
+function[] = Jarsky_model(input_cell)
 % initialize model folder hierarchy in current folder:
 pwd = '../Model/';
 t2n_initModelfolders(pwd);
@@ -20,7 +24,7 @@ neuron.params.nseg       = 'dlambda';
 neuron.params.dlambda    = 0.025;
 neuron.params.freq       = 500;
 
-trees = load_tree('./morphos/tree.mtr'); %Specify input morphology here!
+trees = load_tree(strcat('./morphos/', input_cell)); %Specify input morphology here!
 
 axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','Myelinated axon');
 
@@ -236,7 +240,7 @@ copyfile('./lib_mech/', '../Model/lib_mech/', 'f');
 for i = 1:numel(trees)
     copyfile('./TMS package/', strcat('../Model/Cell_', num2str(i), '/sim1/'), 'f');
 end
-
+end
 
 
 
