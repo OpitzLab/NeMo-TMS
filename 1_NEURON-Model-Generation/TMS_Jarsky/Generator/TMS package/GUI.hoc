@@ -39,6 +39,7 @@ proc E_field_params(){ localobj pwm, qasifile, paramfile
         paramfile.printf("/******E-field specification and quasipotential file location\n")
         paramfile.printf("E_UNIFORM\t0\n")
         paramfile.printf("%s\n",qasifile.getname())
+	paramfile.printf("TMSAMP\t1\n")
         paramfile.close()
 		quit()
     }
