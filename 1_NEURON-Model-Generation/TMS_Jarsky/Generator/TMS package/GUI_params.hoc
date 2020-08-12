@@ -6,10 +6,7 @@ CONTACT: nickhananeia@gmail.com
 *******************************/
 
 strdef tmpstr,simfold, quasi_file // temporary string object
-objref f, vlist, tvec, secRef, loc
-objref pc,nil,cvode,strf,tmpvec,tvec,tvecs,cell,cellList,pp,ppList,con,conList,nilcon,nilconList,rec,recList,rect,rectList 
 strdef s, result_folder
 
 load_file("GUI.hoc")
-load_file("TMS_sim.hoc")
 GUI()
