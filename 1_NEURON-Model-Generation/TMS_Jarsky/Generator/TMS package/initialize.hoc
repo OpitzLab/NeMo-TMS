@@ -72,9 +72,9 @@ proc initialize(){
 	steps_per_ms = 1/dt
 	prerun = 200
 	if (unix_mac_pc() == 3) {
-		nrn_load_dll("../../lib_mech/mods/nrnmech.dll")	
+		nrn_load_dll("../../lib_mech/nrnmech.dll")	
 	} else {	
-		nrn_load_dll("../../lib_mech/mods/x86_64/.libs/libnrnmech.so")	
+		nrn_load_dll("../../lib_mech/x86_64/.libs/libnrnmech.so")	
 	}
 	io = load_file("stdgui.hoc")
 	v_init = -70.000000
