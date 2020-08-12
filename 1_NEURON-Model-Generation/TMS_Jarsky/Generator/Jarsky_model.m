@@ -24,6 +24,7 @@ neuron.params.nseg       = 'dlambda';
 neuron.params.dlambda    = 0.025;
 neuron.params.freq       = 500;
 
+
 fileid = strcat('./morphos/', input_cell);
 [filepath, name, ext] = fileparts(fileid);
 trees = load_tree(fileid); %Specify input morphology here!
@@ -52,7 +53,6 @@ else
     tree{1,1} = trees{1,1};
     neuron.params.exchfolder = strcat('../Model/Cell_',num2str(cell_num));
 end
-tree{1,1} = tran_tree(tree{1,1}, [tree{1,1}.X(1), tree{1,1}.Y(1), tree{1,1}.Z(1)].*(-1));
 
 if(axon_type == 2 || axon_type == 3)
     tree{1,1} = strip_axon(tree{1,1});
@@ -223,7 +223,7 @@ end
 
 %This will generate a segmentation fault error; ignore it and save outputs
 try
-out              = t2n (neuronn,tree, '-d-w-q');
+out              = t2n (neuronn,tree, '-d-w-q-m');
 time             = out{1}.t;
 catch
 end
