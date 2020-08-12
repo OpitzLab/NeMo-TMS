@@ -5,13 +5,16 @@ NEURON codes for simulating the neuron behavior under TMS are generated in the p
 
 First, generate the desired TMS waveform (refer to TMS_Waveform directory described [here](../5_TMS_Waveform/)). Then ...
 
+
 Then, execute GUI_params.hoc (<code>nrngui GUI_params.hoc</code> in terminal) and select the desired parameters. If the realistic electric field condition is chosen, be sure to select the corresponding quasipotentials file calculated [previously](../4_SimNIBS-NEURON-Coupling/). Otherwise, choose field amplitude and direction using either polar or Cartesian co-ordinates. When this is completed, it will generate a parameters file.
+
 
 Finally, run TMS_script.hoc (<code>nrniv TMS_script.hoc</code> in terminal) and wait for the simulation to complete.
 
 ## Inputs
 
 <code>TMS_sim()</code> is the primary simulation function. It will execute the simulation and return 1 if the cell generated at least one spike, and 0 otherwise.
+
 <code>GUI()</code> will launch a graphical user interface for choosing simulation parameters. It will generate a file <code>params.txt</code> which is necessary for the simulation to run.
 
 ## Outputs
