@@ -7,10 +7,7 @@ Currently, the pipeline supports the Jarsky model of the CA1 pyramidal cell. (Ja
 
 Before running any scripts utilizing TREES Toolbox and T2N, initialize them by running the included scripts <code>start_trees.m</code> and <code>t2n_runthisAfterUnzip.m</code>. This only needs to be done once per computer.
 
-Additionally, T2N must be initialized before use, with the script t2n_runthisAfterUnzip.m.
-
-First, compile the mod files located in Generator/lib_mech/mods. This is a necessary step for each computer that the simulations are executed on. Refer to this [link](https://www.neuron.yale.edu/phpBB/viewtopic.php?t=3263) for more information on how to do this. After this is done, move the nrnmech.dll file to Generator/lib_mech.
-
+First, compile the mod files located in Generator/lib_mech/. This is a necessary step for each computer that the simulations are executed on. Refer to this [link](https://www.neuron.yale.edu/phpBB/viewtopic.php?t=3263) for more information on how to do this.
 
 The morphology files for this script must be in either .SWC or .MTR format. TREES Toolbox contains tools to process Neurolucida .ASC files into these formats.
 
@@ -18,7 +15,6 @@ Given a morphology specified in a file 'cell.asc', the following commands in MAT
 
 <code>tree = neurolucida_tree('cell.asc');</code>  
 <code>swc_tree(tree, 'cell.swc');</code>
-
 
 Place the input morphology file (either .SWC or .MTR if multiple morphologies are to be processed) into 'Generator/morphos' alongside the 'place_tree.mtr' file. You can use the sample [morphology files](../Neuron-Reconstructions) provided.
 
