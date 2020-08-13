@@ -4,7 +4,7 @@ The Matlab codes used for coupling the SimNIBS simulation results with NEURON mo
 For more information regarding quasipotentials, refere to: Wang, B., Grill, W. M., & Peterchev, A. V. (2018). Coupling magnetically induced electric fields to neurons: longitudinal and transverse activation. *Biophysical journal, 115*(1), 95-107.
 
 ## Instructions for the GUI version
-**Note:** Make sure to add the "Matlab" directory in the SimNIBS installation directory to the Matlab path. Some of the functions that come with SimNIBS are required for the coupling process.
+**Note:** Make sure to add the **'Matlab'** directory in the SimNIBS installation directory to the Matlab path. Some of the functions that come with SimNIBS are required for the coupling process.
 
 Run <code>couple_gui.m</code> in Matlab. The GUI walks you through the procedure step by step and is therefore suitable for those who are not familiar with the topic. In summary, the following steps will run:
 1. Loads and plots the SimNIBS mesh file (generated in [step 3](../3_Electric-Field-Modeling) after the E-field simulation on the FEM model).
