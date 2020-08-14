@@ -4,7 +4,7 @@ In this step, we discuss how to visualize the results of the NEURON and calcium 
 ## Instruction
 **Note:** This visualization method requires a lot of time and disk space. Therefore it is only suitable for short simulations (set up in [previous step](../5_TMS_Waveform)).
 
-First, make sure gmsh can run as a command in the terminal. Then, Run <code>visualize_adjacent()</code> to generate the video of the volatge traces (NEURON simulation results), calcium concentrations, and a side by side representation of both. If you are interested in generating only one of those videos, you can also run <code>visualize_neuron()</code> or <code>visualize_calcium()</code> individually.
+First, make sure you can call **gmsh** from terminal and through MATLAB (run <code>gmsh</code> in the terminal and run <code>system('gmsh')</code> in MATLAB command window). If you can't, it is usually because you haven't set up the environment variables properly for gmsh. Then, Run <code>visualize_adjacent()</code> to generate the video of the volatge traces (NEURON simulation results), calcium concentrations, and a side by side representation of both. If you are interested in generating only one of those videos, you can also run <code>visualize_neuron()</code> or <code>visualize_calcium()</code> individually.
 
 ## Inputs
 <code>visualize_neuron(NEURON_results,output_folder)</code> where:
@@ -36,4 +36,4 @@ The following results can be found in the 'output_folder' after running the func
     * **msh and geo files** are the files that generate the corresponding snapshots in gmsh.
 
 ## Software Requirements
-[Matlab](https://www.mathworks.com/) (Tested on Matlab 2019b), [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6)
+[MATLAB](https://www.mathworks.com/) (Tested on Matlab 2019b), [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6)
