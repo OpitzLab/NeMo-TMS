@@ -6,6 +6,8 @@ In this step, we discuss how to visualize the results of the NEURON and calcium 
 
 First, make sure you can call **gmsh** from terminal and through MATLAB (run <code>gmsh</code> in the terminal and run <code>system('gmsh')</code> in MATLAB command window). If you can't, it is usually because you haven't set up the environment variables properly for gmsh. Then, Run <code>visualize_adjacent()</code> to generate the video of the volatge traces (NEURON simulation results), calcium concentrations, and a side by side representation of both. If you are interested in generating only one of those videos, you can also run <code>visualize_neuron()</code> or <code>visualize_calcium()</code> individually.
 
+If you get an error similar to 'The specified profile is not valid.', you don't have the MPEG-4 codec. To resolve this, you can either install the proper codec or change the format of the video to one of the existing profiles (edit <code>VideoWriter(...)</code> accordingly in the line the error occurs).
+
 ## Inputs
 <code>visualize_neuron(NEURON_results,output_folder)</code> where:
 * **output_folder** points to the folder where the results are generated in
