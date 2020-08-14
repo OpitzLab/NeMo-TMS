@@ -2,6 +2,8 @@
 In this step, we discuss how to visualize the results of the NEURON and calcium concentration simulations. Note that this is just one method for visualizaiton and the users are free to implement their own visualization procdure as they see fit.
 
 ## Instruction
+**Note:** This visualization method requires a lot of time and disk space. Therefore it is only suitable for short simulations (set up in [previous step](../5_TMS_Waveform)).
+
 First, make sure gmsh can run as a command in the terminal. Then, Run <code>visualize_adjacent()</code> to generate the video of the volatge traces (NEURON simulation results), calcium concentrations, and a side by side representation of both. If you are interested in generating only one of those videos, you can also run <code>visualize_neuron()</code> or <code>visualize_calcium()</code> individually.
 
 ## Inputs
@@ -28,7 +30,7 @@ The following results can be found in the 'output_folder' after running the func
 * **video_adjacent** contains the video of volatge traces and calcium concentrations together. The top and bottom panels represent the local membrane voltage in *mv* and calcium concentration in *mol/liter* respectively. 
 * **video_neuron** contains the video of volatge traces.
 * **video_calcium** contains the video of calcium concentrations.
-* **gmsh** folder includes the data used for generating the videos:
+* **gmsh** folder includes the data used for generating the videos (You can delete this folder after the the script is finished to save space):
     * **png_neuron** contains the snapshots of the voltage distribution over the neuron at each sample.
     * **png_calcium** contains the snapshots of the calcium concentrations over the neuron at each sample.
     * **msh and geo files** are the files that generate the corresponding snapshots in gmsh.
