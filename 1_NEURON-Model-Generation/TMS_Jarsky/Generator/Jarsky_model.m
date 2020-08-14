@@ -221,6 +221,12 @@ for t = 1:numel (cells)
     nneuron{t}.custom{t}       = [];
 end
 
+%Files are copied before running t2n to save c and o files of compiled mods
+copyfile('./morphos/', '../Model/morphos/', 'f');
+copyfile('./lib_custom/', '../Model/lib_custom/', 'f');
+copyfile('./lib_genroutines/', '../Model/lib_genroutines/', 'f');
+copyfile('./lib_mech/', '../Model/lib_mech/', 'f');
+
 %This will generate a segmentation fault error; ignore it and save outputs
 try
 out              = t2n (neuronn,tree, '-d-w-q-m');
@@ -237,10 +243,6 @@ disp(strcat('Cell number  ', num2str(cell_num), ' complete.'))
 end
 
 %% Copy across necessary files to model folder
-copyfile('./morphos/', '../Model/morphos/', 'f');
-copyfile('./lib_custom/', '../Model/lib_custom/', 'f');
-copyfile('./lib_genroutines/', '../Model/lib_genroutines/', 'f');
-copyfile('./lib_mech/', '../Model/lib_mech/', 'f');
 
 for i = 1:numel(trees)
     if length(trees) == 1
