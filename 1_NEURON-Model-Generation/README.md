@@ -7,7 +7,7 @@ Currently, the pipeline supports the Jarsky model of the CA1 pyramidal cell. (Ja
 
 Before running any scripts utilizing TREES Toolbox and T2N, initialize them by running the included scripts <code>start_trees.m</code> and <code>t2n_runthisAfterUnzip.m</code>. This only needs to be done once per computer.
 
-First, compile the mod files located in Generator/lib_mech/. This is a necessary step for each computer that the simulations are executed on. Refer to this [link](https://www.neuron.yale.edu/phpBB/viewtopic.php?t=3263) for more information on how to do this.
+First, compile the mod files located in 'TMS_Jarksky/Generator/lib_mech/'. This is a necessary step for each computer that the simulations are executed on. Refer to this [link](https://www.neuron.yale.edu/phpBB/viewtopic.php?t=3263) for more information on how to do this.
 
 The morphology files for this script must be in either .SWC or .MTR format. TREES Toolbox contains tools to process Neurolucida .ASC files into these formats.
 
