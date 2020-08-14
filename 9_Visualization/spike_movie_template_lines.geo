@@ -37,7 +37,7 @@ For k In {0:Spike_len-1}
 	View[k].ShowScale = 1;
 	Sleep 0.1;
 	Draw;
-	Print Sprintf("png_SIMTYPE\view_%01g.png",k+1);
+	Print Sprintf("png_SIMTYPEFILESEPview_%01g.png",k+1);
 	View[k].Visible = 0;
 EndFor
 

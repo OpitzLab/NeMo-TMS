@@ -38,6 +38,8 @@ geo_file = char(geo_file.');
 geo_file_mod = strrep(geo_file, 'SIMTYPE', 'neuron');
 % replace SPIKE_LEN with proper number
 geo_file_mod = strrep(geo_file_mod, 'SPIKE_LEN', num2str(size(v_trace,2)));
+% replace FILESEP with proper file separator
+geo_file_mod = strrep(geo_file_mod, 'FILESEP', filesep);
 % replace the value range with proper numbers
 geo_file_mod = strrep(geo_file_mod, 'MINVAL', num2str(min(v_trace(:))));
 geo_file_mod = strrep(geo_file_mod, 'MAXVAL', num2str(max(v_trace(:))));

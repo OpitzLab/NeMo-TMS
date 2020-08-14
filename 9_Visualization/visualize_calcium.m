@@ -40,6 +40,8 @@ geo_file = char(geo_file.');
 geo_file_mod = strrep(geo_file, 'SIMTYPE', 'calcium');
 % replace SPIKE_LEN with proper number
 geo_file_mod = strrep(geo_file_mod, 'SPIKE_LEN', num2str(size(data,2)));
+% replace FILESEP with proper file separator
+geo_file_mod = strrep(geo_file_mod, 'FILESEP', filesep);
 % replace the value range with proper numbers
 geo_file_mod = strrep(geo_file_mod, 'MINVAL', num2str(5e-8));%min(data(:))));
 geo_file_mod = strrep(geo_file_mod, 'MAXVAL', num2str(1e-6));%max(data(:))));
