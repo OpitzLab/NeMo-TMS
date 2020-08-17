@@ -44,13 +44,12 @@ treepath = '';
 %strucutres in the cell array 'tree':
 
 
-%Load morphologies. Functions to strip the axon or add artificial soma
-%provided but not active.
+%Load morphologies. 
 if(length(trees) == 1)
     tree{1,1} = trees;
     neuron.params.exchfolder = strcat('../Model/',name);
 else
-    tree{1,1} = trees{1,1};
+    tree{1,1} = trees{cell_num};
     neuron.params.exchfolder = strcat('../Model/Cell_',num2str(cell_num));
 end
 
@@ -74,10 +73,6 @@ for t                    = 1 : numel (tree)
 end 
 
 
-figure(cell_num);
-xplore_tree(tree{t}, '-2');
-
-
 %% Convert the tree into NEURON
 for t                    = 1 : numel (tree)
     if ~all (cellfun (@(x) isfield (x, 'NID'), tree)) || ...
@@ -90,6 +85,8 @@ for t                    = 1 : numel (tree)
             tname = strcat('Jarsky_',num2str(cell_num));
             % Tanslation of morphologies into hoc file:
             tree         = t2n_writeTrees (tree,tname, fullfile (treepath, treeFilename));
+            figure(cell_num);
+            xplore_tree(tree{t}, '-2');
         end
     end
 end
@@ -222,7 +219,6 @@ for t = 1:numel (cells)
 end
 
 %Files are copied before running t2n to save c and o files of compiled mods
-copyfile('./morphos/', '../Model/morphos/', 'f');
 copyfile('./lib_mech/', '../Model/lib_mech/', 'f');
 
 %This will generate a segmentation fault error; ignore it and save outputs
@@ -231,6 +227,15 @@ out              = t2n (neuronn,tree, '-d-w-q-m');
 time             = out{1}.t;
 catch
 end
+
+h = findall(0,'Type','figure','Name','Error in NEURON'); % it returns all the handles for dialog boxes with the title "Error in NEURON"
+if isempty(h) % check if such error dialog exists
+    error('unsucessful message here');
+else
+    close(h) % close the error dialog
+    disp('successful message for NEURON_NAME here')
+end
+
 disp(strcat('Cell number  ', num2str(cell_num), ' complete.'))
 %V                = zeros (length (time) ,length (out));
 
@@ -243,6 +248,7 @@ end
 %% Copy across necessary files to model folder
 copyfile('./lib_custom/', '../Model/lib_custom/', 'f');
 copyfile('./lib_genroutines/', '../Model/lib_genroutines/', 'f');
+copyfile('./morphos/', '../Model/morphos/', 'f');
 
 %copy lib_mech back to generator to get our c and o files back 
 copyfile('../Model/lib_mech/', './lib_mech/', 'f');
