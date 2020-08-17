@@ -17,7 +17,7 @@ zlabel('Z (mm)');
 dcm_obj = datacursormode(fig);
 set(dcm_obj,'DisplayStyle','datatip','SnapToDataVertex','off','Enable','on')
 %% Receive neuron location
-prompt = {'\bfEnter the coordinates of the neuron on the grey matter surface in mm:\rm (X Y Z with space in between)',...
+prompt = {'\bfEnter the coordinates of the center of neuron on the grey matter surface in mm:\rm (X Y Z with space in between)',...
     '\bf Enter the depth of the center of neuron from the grey matter surface in mm:'};
 dlgtitle = 'Neuron location';
 dims = [1 92];
