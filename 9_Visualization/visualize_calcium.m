@@ -1,6 +1,6 @@
 function visualize_calcium(folder_in,folder_out)
 %% Load files
-data = load([folder_in filesep 'fullDataOut.txt']);
+data = readmatrix([folder_in filesep 'fullDataOut.txt']);
 nodes = load([folder_in filesep 'outDom.txt']);
 swc = load([folder_in filesep 'neuron_out.swc']);
 swc(:,3:5) = swc(:,3:5)*1e6; % convert to um
