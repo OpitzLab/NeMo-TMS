@@ -1,7 +1,7 @@
 function visualize_neuron(folder_in,folder_out)
 %% Load files
 locs = load([folder_in filesep 'locs' filesep 'locs_all_seg.txt']);
-v_trace = load([folder_in filesep 'voltage_trace.dat'])';
+v_trace = readmatrix([folder_in filesep 'voltage_trace.dat'])';
 %% Extract pairs
 nodes = locs(:,1:3);
 line_list = zeros(size(locs,1)-1,2);
