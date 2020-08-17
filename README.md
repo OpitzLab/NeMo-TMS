@@ -11,7 +11,7 @@ This paradigm incorporates modeling at three scales:
 - Simulation of neuronal activity under the external electric field from the previous step
 - Simulation of subcellular calcium concentrations based on the membrane voltages calculated in the previous step.
 
-The procdures for running simulations at each scale and the intermediate steps are given in details in the corresponding directories.
+The procedures for running simulations at each scale and the intermediate steps are given in the instructions. This pipeline can run on **Windows**, **Linux**, and **macOS**. However, the codes are developed to run on the native operating system's configurations and possibly not work if there are any modifications (for example, using other forms of shell).
 
 **Note:** throughout this repository, <ins>neuron</ins> refers to the biological neural cells, while <ins>NEURON</ins> refers to the NEURON simulation environment used for the computational modeling of neurons.
 
