@@ -2,7 +2,7 @@
 In this step, we discuss how to visualize the results of the NEURON and calcium concentration simulations. Note that this is just one method for visualizaiton and the users are free to implement their own visualization procdure as they see fit.
 
 ## Software Requirements
-[MATLAB](https://www.mathworks.com/) (Tested on Matlab 2019b), [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6)
+[MATLAB](https://www.mathworks.com/) (Tested on MATLAB 2019b), [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6)
 
 ## Instruction
 **Note:** This visualization method requires a lot of time and disk space. Therefore it is only suitable for short simulations (set up in [previous step](../5_TMS_Waveform)).
