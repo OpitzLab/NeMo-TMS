@@ -3,6 +3,12 @@ Calcium simulations are run using the [uG4](https://github.com/UG4) simulation f
 running a VRL-ug4 gui simulator, see [VRL](https://vrl-studio.mihosoft.eu/) for downloading VRL studio. 
 The VRL-ug4 gui will simulate the calcium dynamics inside a neuron, through activation by voltage dependent calcium channels (VDCC's), these channels follow the Borg-Graham model for calcium exchanges.
 
+## Software Requirements
+* [VRL](https://vrl-studio.mihosoft.eu/) studio, this is the gui used for setting file paths and simulation parameters.
+* [uG4](https://github.com/UG4) simulation framework
+* **Optional:** [Gmsh](https://gmsh.info/), [ParaView](https://www.paraview.org/download/) both for visualization of output data
+* **Optional:** [ProMesh](http://www.promesh3d.com/) for visualizing the 3d geometry and converting from <code>.swc</code> to <code>.ugx</code>
+
 ## VRL-uG4 GUI Simulation (MacOS Catalina Version 10.15.5 & Windows 10)
 The following steps have been tested on MacOS and Windows 10, the Linux version is still in development.
 To run a simulation using VRL:
@@ -45,9 +51,3 @@ Below is a description of the files:
   - <code>run-simulation.sh</code> is the bash shell script for running the code, for Windows 10 this is a PowerShell script and will have the <code>.ps1</code> extension.
   - <code>meas</code> is a folder containing the separate calcium concentrations for the different geometry subsets
   - <code>vtk</code> is a folder that contains the vtk output for the calcium concentrations and vtk output of the VDCC voltage data. Both files can be opened in Paraview.
-
-## Software Requirements
-* [VRL](https://vrl-studio.mihosoft.eu/) studio, this is the gui used for setting file paths and simulation parameters.
-* [uG4](https://github.com/UG4) simulation framework
-* **Optional:** [Gmsh](https://gmsh.info/), [ParaView](https://www.paraview.org/download/) both for visualization of output data
-* **Optional:** [ProMesh](http://www.promesh3d.com/) for visualizing the 3d geometry and converting from <code>.swc</code> to <code>.ugx</code>
