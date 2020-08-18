@@ -1,6 +1,9 @@
 # NEURON Simulation
 NEURON codes for simulating the neuron behavior under TMS are generated in the previous steps.
 
+## Software Requirements
+[NEURON](https://www.neuron.yale.edu/neuron/) (Tested on NEURON 7.5) 
+
 ## Instructions
 
 First, generate the desired TMS waveform (refer to TMS_Waveform directory described [here](../5_TMS_Waveform/)). Then, execute **GUI_params.hoc** (<code>nrngui GUI_params.hoc</code> in terminal, double-click on the file on Windows) to select the desired parameters using the GUI. The realistic electric field condition allows you to simulate neuronal activity under the electric fields calculated in the FEM model. In this case, be sure to select the corresponding quasipotentials file from the [previous step](../4_SimNIBS-NEURON-Coupling/). Otherwise, you can skip steps 2-4 and choose to simulate the neuron under a uniform electric field. In this case, select the field amplitude (in _V/m_) and direction using either polar or Cartesian co-ordinates. The Cartesian co-ordinates will be normalized to unit vector, therefore the magnitude of the vector is ignored. After the user has selected the desired parameters, it will generate a parameters file. 
@@ -23,6 +26,3 @@ Within the subfolder 'locs':
 <code>locs_all_seg.txt</code> saves the location of each segment as well as the location of its parent segment. Each row refers to a segment, the first 3 columns are the (X,Y,Z) co-ordinates of the segment itself, and columns 4,5, and 6 refer to the (X,Y,Z) co-ordinates of the parent.
 
 <code>diam_all.txt</code> saves the diameter of every section.
-
-## Software Requirements
-[NEURON](https://www.neuron.yale.edu/neuron/) (Tested on NEURON 7.5) 
