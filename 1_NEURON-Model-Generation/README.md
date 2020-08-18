@@ -7,7 +7,7 @@ Currently, the pipeline supports the Jarsky model of the CA1 pyramidal cell. (Ja
 
 [MATLAB](https://www.mathworks.com/), [TREES Toolbox](http://treestoolbox.org/), [T2N](https://www.treestoolbox.org/T2N.html), [NEURON](https://www.neuron.yale.edu/neuron/)
 
-Before running any scripts utilizing TREES Toolbox and T2N, initialize them by running <code>start_trees.m</code> and <code>t2n_runthisAfterUnzip.m</code> included in the corresponding folders. This only needs to be done once per computer.
+Before running any scripts utilizing TREES Toolbox and T2N, initialize them by running <code>start_trees.m</code> and <code>t2n_runthisAfterUnzip.m</code> included in the corresponding folders, otherwise you will receive errors that MATLAB cannot find certain functions. This only needs to be done once per computer.
 
 ## Instructions
 
