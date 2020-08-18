@@ -4,7 +4,7 @@ The Matlab codes used for coupling the SimNIBS simulation results with NEURON mo
 For more information regarding quasipotentials, refere to: Wang, B., Grill, W. M., & Peterchev, A. V. (2018). Coupling magnetically induced electric fields to neurons: longitudinal and transverse activation. *Biophysical journal, 115*(1), 95-107.
 
 ## Software Requirements
-[Matlab](https://www.mathworks.com/) (Tested on Matlab 2019a and 2019b), [SimNIBS Matlab Functions](http://simnibs.org/) (tested on SimNIBS 3.1.2)
+[Matlab](https://www.mathworks.com/) (Tested on Matlab 2019a and 2019b), [SimNIBS](http://simnibs.org/) MATLAB functions (can be found inside the SimNIBS folder after installation, tested on SimNIBS 3.1.2)
 
 **Optional:** [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6, note that SimNIBS comes with this version of Gmsh)
 
