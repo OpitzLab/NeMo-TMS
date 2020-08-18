@@ -3,9 +3,13 @@ This stage of the pipeline will generate NEURON HOC model files from .SWC morpho
 
 Currently, the pipeline supports the Jarsky model of the CA1 pyramidal cell. (Jarsky T, Roxin A, Kath WL, Spruston N (2005) Conditional dendritic spike propagation following distal synaptic activation of hippocampal CA1 pyramidal neurons. Nat Neurosci 8:1667-76)
 
-## Instructions
+## Software Requirements
 
-Before running any scripts utilizing TREES Toolbox and T2N, initialize them by running the included scripts <code>start_trees.m</code> and <code>t2n_runthisAfterUnzip.m</code>. This only needs to be done once per computer.
+[MATLAB](https://www.mathworks.com/), [TREES Toolbox](http://treestoolbox.org/), [T2N](https://www.treestoolbox.org/T2N.html), [NEURON](https://www.neuron.yale.edu/neuron/)
+
+Before running any scripts utilizing TREES Toolbox and T2N, initialize them by running <code>start_trees.m</code> and <code>t2n_runthisAfterUnzip.m</code> included in the corresponding folders. This only needs to be done once per computer.
+
+## Instructions
 
 First, compile the mod files located in 'TMS_Jarksky/Generator/lib_mech/'. This is a necessary step for each computer that the simulations are executed on. Refer to this [link](https://www.neuron.yale.edu/phpBB/viewtopic.php?t=3263) for more information on how to do this.
 
@@ -33,7 +37,3 @@ Every time the generation is completed, the script will return an error:
 ![Error image](expected_error.png)
 
  Ignore this: It is expected. After completion, the script will generate all necessary files to the 'Model' folder where the 'Generator' directory was located.
-
-## Software Requirements
-
-[MATLAB](https://www.mathworks.com/), [TREES Toolbox](http://treestoolbox.org/), [T2N](https://www.treestoolbox.org/T2N.html), [NEURON](https://www.neuron.yale.edu/neuron/)
