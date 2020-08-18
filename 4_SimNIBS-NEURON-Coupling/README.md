@@ -12,7 +12,7 @@ For more information regarding quasipotentials, refere to: Wang, B., Grill, W. M
 **Note:** Make sure to add the **'Matlab'** directory in the SimNIBS installation directory to the Matlab path. Some of the functions that come with SimNIBS are required for the coupling process.
 
 Run <code>couple_gui.m</code> in Matlab. The GUI walks you through the procedure step by step and is therefore suitable for those who are not familiar with the topic. In summary, the following steps will run:
-1. Loads and plots the SimNIBS mesh file (generated in [step 3](../3_Electric-Field-Modeling) after the E-field simulation on the FEM model).
+1. Loads and plots the SimNIBS mesh file (generated in [step 3](../3_Electric-Field-Modeling) after the E-field simulation on the FEM model). Make sure to use the mesh file resulted from the SimNIBS simulation, and not the raw mesh file you used as the input to SimNIBS.
 ![](./images/FEM.png)
 2. Receives the neuron's desired location and depth from the user.<sup>[a](#myfootnoteA)</sup>
 ![](./images/nrnloc.png)
