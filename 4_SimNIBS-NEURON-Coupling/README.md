@@ -3,6 +3,11 @@ The Matlab codes used for coupling the SimNIBS simulation results with NEURON mo
 
 For more information regarding quasipotentials, refere to: Wang, B., Grill, W. M., & Peterchev, A. V. (2018). Coupling magnetically induced electric fields to neurons: longitudinal and transverse activation. *Biophysical journal, 115*(1), 95-107.
 
+## Software Requirements
+[Matlab](https://www.mathworks.com/) (Tested on Matlab 2019a and 2019b), [SimNIBS Matlab Functions](http://simnibs.org/) (tested on SimNIBS 3.1.2)
+
+**Optional:** [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6, note that SimNIBS comes with this version of Gmsh)
+
 ## Instructions for the GUI version
 **Note:** Make sure to add the **'Matlab'** directory in the SimNIBS installation directory to the Matlab path. Some of the functions that come with SimNIBS are required for the coupling process.
 
@@ -34,11 +39,6 @@ Regardless of which version you use, the outputs should be identical given the s
 * <code>parameters.txt</code> includes the parameters used for the simulation. Such parameter file can be used as an input to <code>couple_script.m</code>.
 
 **Note:** You can overlay the neuron on your FEM model by openning <code>quasipotentials.msh</code> and merging (**File**->**Merge**) <code>mesh_trim.msh</code>. <code>mesh_trim.msh</code> is trimmed to the vicinity of the neuron location for easier and faster visualization. If you need to visualize the full mesh, you can still use the original mesh file you used for the simulation. 
-
-## Software Requirements
-[Matlab](https://www.mathworks.com/) (Tested on Matlab 2019a and 2019b), [SimNIBS Matlab Functions](http://simnibs.org/) (tested on SimNIBS 3.1.2)
-
-**Optional:** [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6, note that SimNIBS comes with this version of Gmsh)
 
 ---
 <sup><a name="myfootnoteA">a</a></sup> If you want to visually pick a location for the neuron, you can use data tips in the Matlab figure of the head model to receive the x, y, z coordniates. Alternatively you can open the head model mesh in Gmsh software. After visualizing the grey matter surface, in the left panel, select **Mesh**->**Inspect**, then click on the triangle of interest, an information box pops up. You can use the barycenter coordinates as the location of the neuron.
