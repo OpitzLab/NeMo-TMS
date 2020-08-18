@@ -3,19 +3,11 @@ NEURON codes for simulating the neuron behavior under TMS are generated in the p
 
 ## Instructions
 
-First, generate the desired TMS waveform (refer to TMS_Waveform directory described [here](../5_TMS_Waveform/)). Then ...
+First, generate the desired TMS waveform (refer to TMS_Waveform directory described [here](../5_TMS_Waveform/)). Then, execute **GUI_params.hoc** (<code>nrngui GUI_params.hoc</code> in terminal, double-click on the file on Windows) to select the desired parameters using the GUI. The realistic electric field condition allows you to simulate neuronal activity under the electric fields calculated in the FEM model. In this case, be sure to select the corresponding quasipotentials file from the [previous step](../4_SimNIBS-NEURON-Coupling/). Otherwise, you can skip steps 2-4 and choose to simulate the neuron under a uniform electric field. In this case, select the field amplitude (in _V/m_) and direction using either polar or Cartesian co-ordinates. The Cartesian co-ordinates will be normalized to unit vector, therefore the magnitude of the vector is ignored. After the user has selected the desired parameters, it will generate a parameters file. 
 
+Finally, run **TMS_script.hoc** (<code>nrniv TMS_script.hoc</code> in terminal, double-click on the file on Windows) to run the NEURON simulation based on the parameters you selected.
 
-Then, execute GUI_params.hoc (<code>nrngui GUI_params.hoc</code> in terminal) and select the desired parameters. If the realistic electric field condition is chosen, be sure to select the corresponding quasipotentials file calculated [previously](../4_SimNIBS-NEURON-Coupling/). Otherwise, choose field amplitude and direction using either polar or Cartesian co-ordinates. When this is completed, it will generate a parameters file.
-
-
-Finally, run TMS_script.hoc (<code>nrniv TMS_script.hoc</code> in terminal) and wait for the simulation to complete.
-
-## Inputs
-
-<code>TMS_sim()</code> is the primary simulation function. It will execute the simulation and return 1 if the cell generated at least one spike, and 0 otherwise.
-
-<code>GUI()</code> will launch a graphical user interface for choosing simulation parameters. It will generate a file <code>params.txt</code> which is necessary for the simulation to run.
+**For advanced users:** You can make new parameters files or edit existing ones yourself, as long as it has the same name (params.txt) and you follow the same format that **GUI_params.hoc** generates. Note that the order of the parameters defined in the file matters.
 
 ## Outputs
 The following output files can be found in the 'results' folder after running the simulation:
