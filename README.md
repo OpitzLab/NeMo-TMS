@@ -22,7 +22,7 @@ To run a full multi-scale model, follow the documentations in each directory in 
 3. <code>Electric-Field-Modeling</code> outlines the macroscopic electric field modeling
 4. <code>SimNIBS-NEURON-Coupling</code> couples the electric fields in step 3 to the NEURON models generated in step 1
 5. <code>TMS_Waveform</code> generates the TMS waveform that is used in the NEURON simulation
-6. <code>NEURON-Simulation</code> simulates the activity of the neuron based on the data from previous steps (you can also run this step under the assumption of uniform electric field, in which case, you can skip steps 3 and 4)
+6. <code>NEURON-Simulation</code> simulates the activity of the neuron based on the data from previous steps (you can also run this step under the assumption of uniform electric field, in which case, you can skip steps 2 to 4)
 7. <code>NEURON_UG4_Interface</code> exports the NEURON simulation data in the compatible format for calcium modeling
 8. <code>Calcium-Modeling</code> runs the simulations for calcium concentration based on the data from step 7
 9. <code>Visualization</code> outlines the procedure for visualizing the results
