@@ -1,6 +1,9 @@
 # Visualization
 In this step, we discuss how to visualize the results of the NEURON and calcium concentration simulations. Note that this is just one method for visualizaiton and the users are free to implement their own visualization procdure as they see fit.
 
+## Software Requirements
+[MATLAB](https://www.mathworks.com/) (Tested on Matlab 2019b), [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6)
+
 ## Instruction
 **Note:** This visualization method requires a lot of time and disk space. Therefore it is only suitable for short simulations (set up in [previous step](../5_TMS_Waveform)).
 
@@ -36,6 +39,3 @@ The following results can be found in the 'output_folder' after running the func
     * **png_neuron** contains the snapshots of the voltage distribution over the neuron at each sample.
     * **png_calcium** contains the snapshots of the calcium concentrations over the neuron at each sample.
     * **msh and geo files** are the files that generate the corresponding snapshots in gmsh.
-
-## Software Requirements
-[MATLAB](https://www.mathworks.com/) (Tested on Matlab 2019b), [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6)
