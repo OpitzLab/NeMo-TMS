@@ -2,7 +2,7 @@
 * $Id: stim.hoc,v 1.5 2009/02/24 00:55:27 ted Exp ted $
 * Set up stimulation waveform
 * 2018/05/20 Modified by Aman Aberra
-* Modified by Sina Shirinpour
+* Modified by Sina Shirinpour (2020)
 */
 
 //n_time = tstop/dt+1 // number of time points
