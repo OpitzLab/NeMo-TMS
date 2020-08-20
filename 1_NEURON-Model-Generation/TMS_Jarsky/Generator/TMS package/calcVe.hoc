@@ -1,5 +1,6 @@
 /* 
-* Procedures for generating GUI panels for choosing E-field parameters
+* Procedures for calculating extracellular potentials (Ve)
+* Based on code by Aman Aberra (2018)
 * AUTHOR: Sina Shirinpour, University of Minnesota
 * CONTACT: shiri008[at]umn.edu
 */
