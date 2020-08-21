@@ -8,8 +8,8 @@
 %%
 function[] = Jarsky_model(input_cell)
 % initialize model folder hierarchy in current folder:
-pwd = '../Model/';
-t2n_initModelfolders(pwd);
+current_dir = '../Model/';
+t2n_initModelfolders(current_dir);
 tstop                    = 1100;%40000;
 dt                       = 0.05;
 
@@ -26,7 +26,7 @@ neuron.params.freq       = 500;
 
 
 fileid = strcat('./morphos/', input_cell);
-[filepath, name, ext] = fileparts(fileid);
+[~, name, ~] = fileparts(fileid);
 trees = load_tree(fileid); %Specify input morphology here!
 
 axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','Myelinated axon');
@@ -36,7 +36,6 @@ axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','M
 for cell_num = 1:length(trees)
 
 %% Load morphology
-tname                    = 'Jarsky_model';
 treeFilename = './morphos/place_tree.mtr'; %Input file here!
 treepath = '';
 
@@ -50,7 +49,8 @@ if(length(trees) == 1)
     neuron.params.exchfolder = strcat('../Model/',name);
 else
     tree{1,1} = trees{cell_num};
-    neuron.params.exchfolder = strcat('../Model/Cell_',num2str(cell_num));
+    name = trees{cell_num}.name;
+    neuron.params.exchfolder = strcat('../Model/',name);
 end
 
 if(axon_type == 2 || axon_type == 3)
@@ -77,16 +77,17 @@ end
 for t                    = 1 : numel (tree)
     if ~all (cellfun (@(x) isfield (x, 'NID'), tree)) || ...
             ~all (cellfun (@(x) exist (fullfile ( ...
-            pwd, 'morphos', 'hocs', [x.NID, '.hoc']), 'file'), ...
+            current_dir, 'morphos', 'hocs', [x.NID, '.hoc']), 'file'), ...
             tree))
         answer = 'OK';
         if strcmp        (answer, 'OK')
             tree{t}      = sort_tree      (tree{t}, '-LO');
-            tname = strcat('Jarsky_',num2str(cell_num));
+            tname = strcat('Jarsky_',name);
             % Tanslation of morphologies into hoc file:
             tree         = t2n_writeTrees (tree,tname, fullfile (treepath, treeFilename));
             figure(cell_num);
             xplore_tree(tree{t}, '-2');
+            title(name,'Interpreter','none');
         end
     end
 end
@@ -97,8 +98,6 @@ Ra                       = 200;               % Cytoplasmic resistivity (ohm*cm)
 Rm                       = 40000;             % Membrane resistance (ohm/cm²) (uniform)
 gpas                     = 1;
 e_pas                    = -66;
-cm_axonmyel              = 0.01;
-Rm_axonnode              = 50;
 for t                    = 1 : numel (tree)
     % do not scale spines:
     neuron.mech{t}.all.pas      = struct ( ...
@@ -187,7 +186,6 @@ for t                    = 1 : numel (tree)
 
 
 end
-neuron_orig = neuron;
 
 %% Set up cells and run basic simulation with no inputs
 cells                    = tree;             % tree morphologies without the source stimulation cells
@@ -224,24 +222,20 @@ copyfile('./lib_mech/', '../Model/lib_mech/', 'f');
 %This will generate a segmentation fault error; ignore it and save outputs
 try
 out              = t2n (neuronn,tree, '-d-w-q-m');
-time             = out{1}.t;
 catch
 end
 
 h = findall(0,'Type','figure','Name','Error in NEURON'); % it returns all the handles for dialog boxes with the title "Error in NEURON"
 if isempty(h) % check if such error dialog exists
-    error('unsucessful message here');
+    errordlg(['Model generation for ' name ' failed!']);
 else
     close(h) % close the error dialog
-    disp('successful message for NEURON_NAME here')
+    disp(['Model generation for ' name ' completed!'])
+    disp('--------------------------------------');
 end
 
-disp(strcat('Cell number  ', num2str(cell_num), ' complete.'))
-%V                = zeros (length (time) ,length (out));
-
-% for counter      = 1 : length (out)
-%      V (:, counter) = out{counter}.record{counter}.cell.v{1};
-%  end
+%copy lib_mech back to generator to get our c and o files back 
+copyfile('../Model/lib_mech/', './lib_mech/', 'f');
 
 end
 
@@ -250,30 +244,6 @@ copyfile('./lib_custom/', '../Model/lib_custom/', 'f');
 copyfile('./lib_genroutines/', '../Model/lib_genroutines/', 'f');
 copyfile('./morphos/', '../Model/morphos/', 'f');
 
-%copy lib_mech back to generator to get our c and o files back 
-copyfile('../Model/lib_mech/', './lib_mech/', 'f');
-
-
-for i = 1:numel(trees)
-    if length(trees) == 1
-        copyfile('./TMS package/', strcat('../Model/', name , '/sim1/'), 'f');
-    else
-        copyfile('./TMS package/', strcat('../Model/Cell_', num2str(i), '/sim1/'), 'f');
-    end
+for cell_num = 1:numel(trees)
+    copyfile('./TMS package/', strcat('../Model/', trees{cell_num}.name, '/sim1/'), 'f');
 end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
