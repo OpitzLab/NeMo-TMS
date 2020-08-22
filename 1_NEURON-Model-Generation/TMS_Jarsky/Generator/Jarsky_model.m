@@ -93,9 +93,9 @@ for t                    = 1 : numel (tree)
 end
 
 %% Add passive parameters
-cm                       = 0.75;              % Membrane capacitance (µF/cm²)
+cm                       = 0.75;              % Membrane capacitance (ÂµF/cmÂ²)
 Ra                       = 200;               % Cytoplasmic resistivity (ohm*cm)
-Rm                       = 40000;             % Membrane resistance (ohm/cm²) (uniform)
+Rm                       = 40000;             % Membrane resistance (ohm/cmÂ²) (uniform)
 gpas                     = 1;
 e_pas                    = -66;
 for t                    = 1 : numel (tree)
@@ -245,5 +245,9 @@ copyfile('./lib_genroutines/', '../Model/lib_genroutines/', 'f');
 copyfile('./morphos/', '../Model/morphos/', 'f');
 
 for cell_num = 1:numel(trees)
-    copyfile('./TMS package/', strcat('../Model/', trees{cell_num}.name, '/sim1/'), 'f');
+    if numel(trees) == 1
+        copyfile('./TMS package/', strcat('../Model/', name, '/sim1/'), 'f');
+    else
+        copyfile('./TMS package/', strcat('../Model/', trees{cell_num}.name, '/sim1/'), 'f');
+    end
 end
