@@ -26,7 +26,8 @@ If you get an error similar to 'The specified profile is not valid.', you don't 
     - **'neuron_out.swc'** is the morphology file used in the calcium simulations.
     
 <code>visualize_adjacent(NEURON_results,calcium_results,output_folder)</code> where:
-* both the calcium concentration data and voltage traces from NEURON is needed. See above for the requirements.
+* Both the calcium concentration data and voltage traces from NEURON is needed. See above for the requirements.
+* Make sure you run the calcium simulations with the same timesteps and duration as the voltage trace, otherwise you can't visualize them side-by-side using this function.
 
 **Note:** In the above functions, 'output_folder' is created automatically if it doesn't exist.
 
