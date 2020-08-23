@@ -752,17 +752,26 @@ take_measurement(u, time, "soma, apic, dend", "clb", outDir .. "meas/data")
 -- the solution will be appended as a new list to outData
 -- write first time data to a txt file
 
-fileName = outDir .. "fullDataOut.dat"
+fileName = outDir .. "fullCalciumData.txt"
 fileOut = assert(io.open(fileName,"w"))
 lineToWrite = ' '
 for j=1,table.getn(index) do
 
 	measPosVector = MakeVec(xcrd[j],ycrd[j],zcrd[j])
 	ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend", dom:subset_handler())
-	lineToWrite = lineToWrite .. ca_at_measPt .. " "
+	if j == table.getn(index) then
+		lineToWrite = lineToWrite .. ca_at_measPt
+	else
+		lineToWrite = lineToWrite .. ca_at_measPt .. " "
+	end
 end
 fileOut:write(lineToWrite,"\n")
 print("Wrote Point In Time " .. math.floor(time/dt+0.5)*dt .. " to file OK! \n")
+
+timeFile = outDir .. "timeSteps.txt"
+timeFileOut = assert(io.open(timeFile,"w"))
+linetime = 0
+timeFileOut:write(linetime,"\n")
 ------------------------------------------------------------------------------------------
 -- create new grid function for old value
 uOld = u:clone()
@@ -842,9 +851,15 @@ while endTime-time > 0.001*dt do
 
 			measPosVector = MakeVec(xcrd[j],ycrd[j],zcrd[j])
 			ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend", dom:subset_handler())
-			lineToWrite = lineToWrite .. ca_at_measPt .. " "
+			if j == table.getn(index) then
+				lineToWrite = lineToWrite .. ca_at_measPt
+			else
+				lineToWrite = lineToWrite .. ca_at_measPt .. " "
+			end
 		end
 		fileOut:write(lineToWrite,"\n")
+		linetime = math.floor(time/dt+0.5)*dt
+		timeFileOut:write(linetime,"\n")
 		print("Wrote Point In Time " .. math.floor(time/dt+0.5)*dt .. " to file OK! \n")
 		----------------------------------------------------------------------------------
 		
@@ -862,6 +877,7 @@ while endTime-time > 0.001*dt do
 end
 
 fileOut:close()
+timeFileOut:close()
 
 if (generateVTKoutput) then 
 	out:write_time_pvd(outDir .. "vtk/solution", u)
