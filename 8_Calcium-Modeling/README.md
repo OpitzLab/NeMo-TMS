@@ -48,6 +48,6 @@ These are boxed in red in the figure above. Disregard the large code window. Set
 Below is a description of the files:
   - <code>fullDataOut.dat</code> is a text file containing the voltage at every node through time. An entire row is the voltage at one node through every time step.
   - <code>outDom.txt</code>, <code>outDom.swc</code>, and <code>outDom.ugx</code> is the neuron geometry used given in different formats
-  - <code>run-simulation.sh</code> is the bash shell script for running the code, for Windows 10 this is a PowerShell script and will have the <code>.ps1</code> extension.
+  - <code>run-simulation.sh</code> is the bash shell script for running the code, for Windows 10 this is a PowerShell script and will have the <code>.ps1</code> extension. Advanced users may use this as a template for running the simulation through the command prompt instead of the VRL gui.
   - <code>meas</code> is a folder containing the separate calcium concentrations for the different geometry subsets
   - <code>vtk</code> is a folder that contains the vtk output for the calcium concentrations and vtk output of the VDCC voltage data. Both files can be opened in Paraview.
