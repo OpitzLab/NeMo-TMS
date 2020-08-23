@@ -8,6 +8,7 @@ The VRL-ug4 gui will simulate the calcium dynamics inside a neuron, through acti
 * [uG4](https://github.com/UG4) simulation framework
 * **Optional:** [Gmsh](https://gmsh.info/), [ParaView](https://www.paraview.org/download/) both for visualization of output data
 * **Optional:** [ProMesh](http://www.promesh3d.com/) for visualizing the 3d geometry and converting from <code>.swc</code> to <code>.ugx</code>
+* **Optional:** To install ug4 manually (Windows, MacOS, Linux) please consult the instructions found here [uG4](https://github.com/UG4), for windows it is recommended to install [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7) for running terminal commands.
 
 ## VRL-uG4 GUI Simulation (MacOS Catalina Version 10.15.5 & Windows 10)
 The following steps have been tested on MacOS and Windows 10, the Linux version is still in development.
