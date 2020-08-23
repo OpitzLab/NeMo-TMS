@@ -752,7 +752,7 @@ take_measurement(u, time, "soma, apic, dend", "clb", outDir .. "meas/data")
 -- the solution will be appended as a new list to outData
 -- write first time data to a txt file
 
-fileName = outDir .. "fullCalciumData.dat"
+fileName = outDir .. "fullDataOut.dat"
 fileOut = assert(io.open(fileName,"w"))
 lineToWrite = ' '
 for j=1,table.getn(index) do
