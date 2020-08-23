@@ -1,1 +1,1 @@
-The ug4 build folder goes here. The pre-compiled build for MacOS can be found here: http://doi.org/10.5281/zenodo.3995132
+The ug4 build folder goes here. The pre-compiled build for MacOS can be found here: [ug4-build](http://doi.org/10.5281/zenodo.3995132)
