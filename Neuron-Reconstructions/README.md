@@ -15,7 +15,13 @@ Finally, a Laplacian smooth (alpha 0.25, 20 iterations) was applied to all regio
 
 #Generating an MTR file for multiple morphologies
 
+
 To generate multiple morphologies simultaneously, our generator function is capable of accepting, in addition to a single morphology in an .SWC file, multiple morphologies as an .MTR file.
 
 Generating such a file is simple, and can be done with the following functions using TREES Toolbox:
 
+Presuming we have 2 morphologies to load,
+
+<code>trees{1} = load_tree('cell_1.swc');</code>  
+<code>trees{2} = load_tree('cell_2.swc');</code>
+<code>save_tree(trees, 'trees.mtr');</code>
