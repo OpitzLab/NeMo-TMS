@@ -23,5 +23,7 @@ Generating such a file is simple, and can be done with the following functions u
 Presuming we have 2 morphologies to load,
 
 <code>trees{1} = load_tree('cell_1.swc');</code>  
+
 <code>trees{2} = load_tree('cell_2.swc');</code>
+
 <code>save_tree(trees, 'trees.mtr');</code>
