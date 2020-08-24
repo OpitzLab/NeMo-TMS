@@ -88,7 +88,7 @@ if any(strcmp(tree.rnames,'soma'))     % Only if there is already a region defin
         tuft_nodes = ismember(treenodes,nodestuft);
 
 % ******* Defining the new regions
-        tree.rnames = [tree.rnames,'soma'];
+        tree.rnames{1} =  'soma';
         tree.rnames = [tree.rnames,'basal'];
         tree.rnames = [tree.rnames,'proxAp'];
         tree.rnames = [tree.rnames,'middleAp'];
