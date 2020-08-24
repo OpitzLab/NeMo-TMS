@@ -30,6 +30,9 @@ A prompt will open asking the user how they wish for the axon to be handled. "Do
 
 For each morphology given, a figure will be produced showing the assigned model regions.
 
-Click on 'Yes' if you are prompted to initialize model folders.
+If you are prompted to initialize model folders (This prompt will only appear for the first run), click yes to continue:
+![image](confirmation_dialog.png)
+
+
 
 After completion, the script will generate all necessary files to the 'Model' folder where the 'Generator' directory was located.
