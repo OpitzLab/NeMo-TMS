@@ -11,7 +11,7 @@ Thes cells were firstly subjected to a quadratic diameter taper to bring them in
 
 Additionally, some manual modifications were made to remove any sharp, abrupt kinks or loops in neurite structure, as these are likely reconstruction artefacts.
 
-Finally, a Laplacian smooth (alpha 0.25, 20 iterations) was applied to all regions except for the soma using ProMesh, as this eliminates discontinuities which can cause unrealistic local induced electric field values.
+Finally, a Laplacian smooth (alpha 0.25, 20 iterations) was applied to all regions except for the soma using ProMesh, as this eliminates discontinuities which can cause unrealistic results in the presense of external electric fields.
 
 # Generating an MTR file for multiple morphologies
 
