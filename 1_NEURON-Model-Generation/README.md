@@ -32,8 +32,4 @@ For each morphology given, a figure will be produced showing the assigned model 
 
 Click on 'Yes' if you are prompted to initialize model folders.
 
-Every time the generation is completed, the script will return an error:
-
-![Error image](expected_error.png)
-
- Ignore this: It is expected. After completion, the script will generate all necessary files to the 'Model' folder where the 'Generator' directory was located.
+After completion, the script will generate all necessary files to the 'Model' folder where the 'Generator' directory was located.
