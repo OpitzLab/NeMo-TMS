@@ -35,4 +35,4 @@ If you are prompted to initialize model folders (This prompt will only appear fo
 
 
 
-After completion, the script will generate all necessary files to the 'Model' folder where the 'Generator' directory was located.
+After completion, the script will generate all necessary files to the 'Model' folder inside 'TMS_Jarsky' next to 'Generator' directory.
