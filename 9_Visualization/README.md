@@ -23,7 +23,7 @@ If you get an error similar to 'The specified profile is not valid.', you don't 
 * **calcium_results** points to the folder including the results of the calcium simulation. The following files should be present in this folder:
     - **'fullDataOut.txt'** which contains the calcium concentrations for all segments across time
     - **'outDom.txt'** which contains the list of segment coordinates used in 'fullDataOut.txt'
-    - **'neuron_out.swc'** is the morphology file exported from the [previous step](7_NEURON_UG4_Interface) and used as the geometry file in the calcium simulations.
+    - **'neuron_out.swc'** is the morphology file exported from the [previous step](../7_NEURON_UG4_Interface) and used as the geometry file in the calcium simulations.
     
 <code>visualize_adjacent(NEURON_results,calcium_results,output_folder)</code> where:
 * Both the calcium concentration data and voltage traces from NEURON is needed. See above for the requirements.
