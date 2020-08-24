@@ -13,7 +13,7 @@ Additionally, some manual modifications were made to remove any sharp, abrupt ki
 
 Finally, a Laplacian smooth (alpha 0.25, 20 iterations) was applied to all regions except for the soma using ProMesh, as this eliminates discontinuities which can cause unrealistic local induced electric field values.
 
-#Generating an MTR file for multiple morphologies
+# Generating an MTR file for multiple morphologies
 
 
 To generate multiple morphologies simultaneously, our generator function is capable of accepting, in addition to a single morphology in an .SWC file, multiple morphologies as an .MTR file.
