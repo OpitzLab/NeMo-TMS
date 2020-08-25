@@ -89,6 +89,7 @@ for t                    = 1 : numel (tree)
             xplore_tree(tree{t}, '-2');
             xlabel('x(\mum)');
             ylabel('y(\mum)');
+            zlabel('z(\mum)');
             title(name,'Interpreter','none');
         end
     end
