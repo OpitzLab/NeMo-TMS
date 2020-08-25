@@ -18,8 +18,7 @@ if (isempty(calcium_figs) || isempty(neuron_figs))
     error('PNG files not found!');
 end
 if ~isequal(length(calcium_figs),length(neuron_figs))
-    warndlg('The number of time points is not equal for NEURON and calcium simulations. Data will be visualized for the duration they both exist.');
-    nFigs = min([length(calcium_figs),length(neuron_figs)]);
+    warning('The number of time points is not equal for NEURON and calcium simulations. Data will be visualized for the duration they both exist.');
 end
 %% Create folder
 if(~exist([folder_out filesep 'video_adjacent'],'dir'))
@@ -30,6 +29,7 @@ video = VideoWriter([folder_out filesep 'video_adjacent' filesep 'video'],'MPEG-
 video.FrameRate = 20;
 open(video);
 
+nFigs = min([length(calcium_figs),length(neuron_figs)]);
 for ii=1:nFigs
   img_neuron = imread([folder_out filesep 'gmsh' filesep 'png_neuron' filesep 'view_' int2str(ii) '.png']);
   img_calcium = imread([folder_out filesep 'gmsh' filesep 'png_calcium' filesep 'view_' int2str(ii) '.png']);

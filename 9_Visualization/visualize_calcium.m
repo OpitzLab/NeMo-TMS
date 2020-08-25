@@ -45,7 +45,7 @@ geo_file = char(geo_file.');
 % replace SIMTYPE with proper number
 geo_file_mod = strrep(geo_file, 'SIMTYPE', 'calcium');
 % replace SPIKE_LEN with proper number
-geo_file_mod = strrep(geo_file_mod, 'SPIKE_LEN', num2str(size(data,2)));
+geo_file_mod = strrep(geo_file_mod, 'SPIKE_LEN', num2str(length(tindex)));
 % replace FILESEP with proper file separator
 geo_file_mod = strrep(geo_file_mod, 'FILESEP', filesep);
 % replace the value range with proper numbers
