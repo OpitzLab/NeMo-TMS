@@ -87,6 +87,8 @@ for t                    = 1 : numel (tree)
             tree         = t2n_writeTrees (tree,tname, fullfile (treepath, treeFilename));
             figure(cell_num);
             xplore_tree(tree{t}, '-2');
+            xlabel('x(\mum)');
+            ylabel('y(\mum)');
             title(name,'Interpreter','none');
         end
     end
@@ -251,3 +253,7 @@ for cell_num = 1:numel(trees)
         copyfile('./TMS package/', strcat('../Model/', trees{cell_num}.name, '/sim1/'), 'f');
     end
 end
+
+%Remove hocs folder from the generator folder
+delete('./morphos/hocs/*');
+rmdir('./morphos/hocs/');
