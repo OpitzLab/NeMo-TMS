@@ -222,6 +222,14 @@ end
 %Files are copied before running t2n to save c and o files of compiled mods
 copyfile('./lib_mech/', '../Model/lib_mech/', 'f');
 
+%Make these folders now so that T2N won't get upset
+if ~exist('lib_custom', 'dir')
+    mkdir('lib_custom');
+end
+if ~exist('lib_genroutines', 'dir')
+    mkdir('lib_genroutines')
+end
+
 %This will generate a segmentation fault error; ignore it and save outputs
 try
 out              = t2n (neuronn,tree, '-d-w-q-m');
