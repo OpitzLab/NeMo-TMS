@@ -9,7 +9,7 @@ For more information regarding quasipotentials, refere to: Wang, B., Grill, W. M
 **Optional:** [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6, note that SimNIBS comes with this version of Gmsh)
 
 ## Instructions for the GUI version
-**Note:** Make sure to add the [**'Matlab'** directory](https://simnibs.github.io/simnibs/build/html/tutorial/scripting.html#scripting-tutorial) in the SimNIBS installation directory to the Matlab set path. Some of the functions that come with SimNIBS are required for the coupling process.
+**Note:** Make sure to add the **SimNIBS MATLAB functions** to the MATLAB set path since some of functions that come with SimNIBS are required for the coupling process. These functions can be found in a folder called 'MATLAB' where you installed SimNIBS (refer [here](https://simnibs.github.io/simnibs/build/html/tutorial/scripting.html#scripting-tutorial) for more info).
 
 Run <code>couple_gui.m</code> in Matlab. The GUI walks you through the procedure step by step and is therefore suitable for those who are not familiar with the topic. In summary, the following steps will run:
 1. Loads and plots the SimNIBS mesh file (generated in [step 3](../3_Electric-Field-Modeling) after the E-field simulation on the FEM model). Make sure to use the mesh file resulted from the SimNIBS simulation, and not the raw mesh file you used as the input to SimNIBS.
