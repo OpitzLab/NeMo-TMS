@@ -758,7 +758,7 @@ lineToWrite = ' '
 for j=1,table.getn(index) do
 
 	measPosVector = MakeVec(xcrd[j],ycrd[j],zcrd[j])
-	ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend", dom:subset_handler())
+	ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend,axon", dom:subset_handler())
 	if j == table.getn(index) then
 		lineToWrite = lineToWrite .. ca_at_measPt
 	else
@@ -850,7 +850,7 @@ while endTime-time > 0.001*dt do
 		for j=1,table.getn(index) do
 
 			measPosVector = MakeVec(xcrd[j],ycrd[j],zcrd[j])
-			ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend", dom:subset_handler())
+			ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend,axon", dom:subset_handler())
 			if j == table.getn(index) then
 				lineToWrite = lineToWrite .. ca_at_measPt
 			else
