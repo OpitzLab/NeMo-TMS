@@ -14,7 +14,7 @@ For more information regarding quasipotentials, refere to: Wang, B., Grill, W. M
 Run <code>couple_gui.m</code> in Matlab. The GUI walks you through the procedure step by step and is therefore suitable for those who are not familiar with the topic. In summary, the following steps will run:
 1. Loads and plots the SimNIBS mesh file (generated in [step 3](../3_Electric-Field-Modeling) after the E-field simulation on the FEM model). Make sure to use the mesh file resulted from the SimNIBS simulation, and not the raw mesh file you used as the input to SimNIBS.
 ![](./images/FEM.png)
-2. Receives the neuron's desired location and depth from the user.<sup>[a](#myfootnoteA)</sup>
+2. Receives the neuron's desired location and depth (from the surface) from the user.<sup>[a](#myfootnoteA)</sup> Set depth as 0 if you wish the neuron to be placed at the exact location you enter.
 ![](./images/nrnloc.png)
 3. Loads and plots the neuron morphology file exported from the corresponding NEURON model (created in [step 2](../2_Export_NEURON_Segments/)).
 ![](./images/locs.png)
