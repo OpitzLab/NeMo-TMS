@@ -27,10 +27,10 @@ To run a full multi-scale model, follow the documentations in each directory in 
 8. <code>Calcium-Modeling</code> runs the simulations for calcium concentration based on the data from step 7
 9. <code>Visualization</code> outlines the procedure for visualizing the results
 
-## License
-[LICENSE STUFF]
+## Reference
 
-Please reference the following article in your publications:
+Please use the following reference to cite this toolbox:
 [JOURNAL INFORMATION]
 
-**Correspondence:** aopitz -at- umn.edu (Alex Opitz)
+## Correspondence
+aopitz -at- umn.edu (Alex Opitz)
