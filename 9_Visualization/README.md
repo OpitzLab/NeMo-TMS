@@ -1,5 +1,5 @@
 # Visualization
-In this step, we discuss how to visualize the results of the NEURON and calcium concentration simulations. Note that this is just one method for visualizaiton and the users are free to implement their own visualization procdure as they see fit.
+In this step, we discuss how to visualize the results of the NEURON and calcium concentration simulations. Note that this is just one method for visualizaiton and the users are free to use other visualization procdures/software.
 
 ## Software Requirements
 [MATLAB](https://www.mathworks.com/) (Tested on MATLAB 2019b), [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6)
