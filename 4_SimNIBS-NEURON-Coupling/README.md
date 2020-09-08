@@ -6,7 +6,7 @@ For more information regarding quasipotentials, refere to: Wang, B., Grill, W. M
 ## Software Requirements
 [MATLAB](https://www.mathworks.com/) (Tested on Matlab 2019a and 2019b), [SimNIBS](http://simnibs.org/) MATLAB functions (can be found inside the SimNIBS folder after installation, tested on SimNIBS 3.1.2)
 
-**Optional:** [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6, note that SimNIBS comes with this version of Gmsh) for visualization
+**Optional:** [Gmsh](https://gmsh.info/) (tested on Gmsh 3.0.6, note that this version of Gmsh comes with SimNIBS) for visualization
 
 ## Instructions for the GUI version
 **Note:** Before running the scripts here, make sure to add the **SimNIBS MATLAB functions** to the MATLAB set path since some of the functions that come with SimNIBS are required for the coupling process. These functions can be found in a folder called 'MATLAB' where you installed SimNIBS (refer [here](https://simnibs.github.io/simnibs/build/html/tutorial/scripting.html#scripting-tutorial) for more info).
