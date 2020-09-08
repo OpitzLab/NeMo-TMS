@@ -55,7 +55,7 @@ Below is a description of the files:
   - <code>vtk</code> is a folder that contains the vtk output for the calcium concentrations and vtk output of the VDCC voltage data. Both files can be opened in Paraview.
 
 ## Using Paraview
-Paraview can be used to visualize the data and make animations. Below are basic directions for opening the vtk outpu.
+Paraview can be used to visualize the data and make animations. Below are basic directions for opening the vtk output.
 1. Once the simulation is complete open the <code>vtk</code> folder and there will be a long list of files as shown below:
 
 ![vtkfolder](images/vtkpic.png)
