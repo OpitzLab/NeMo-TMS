@@ -53,3 +53,25 @@ Below is a description of the files:
   - <code>run-simulation.sh</code> is the bash shell script for running the code, for Windows 10 this is a PowerShell script and will have the <code>.ps1</code> extension. Advanced users may use this as a template for running the simulation through the command prompt instead of the VRL gui.
   - <code>meas</code> is a folder containing the separate calcium concentrations for the different geometry subsets
   - <code>vtk</code> is a folder that contains the vtk output for the calcium concentrations and vtk output of the VDCC voltage data. Both files can be opened in Paraview.
+
+## Using Paraview
+Paraview can be used to visualize the data and make animations. Below are basic directions for opening the vtk outpu.
+1. Once the simulation is complete open the <code>vtk</code> folder and there will be a long list of files as shown below:
+
+![vtkfolder](images/vtkpic.png)
+
+2. Open <code>solution.pvd</code> with Paraview, and click the 'eye' to the left of 'solution.pvd' in PIPELINE BROWSER as shown below, then select the dropdown menu and select 'ca__cyt'
+
+![p1](images/paraview1pic.png)
+
+The 'eye' will make the geometry visible and switching to 'ca__cyt' will color the geometry according to the output from the simulation.
+
+3. Make sure you are in the 'Properties' tab and click 'Apply' as shown in the red box below: 
+
+![p2](images/paraview2pic.png)
+
+4. Then rescale the data over all times steps by clicking the button with the 't' in it as shown in the figure above. Then try pressing the play button to watch the calcium change through the cell.
+
+
+
+
