@@ -71,7 +71,7 @@ The 'eye' will make the geometry visible and switching to 'ca__cyt' will color t
 ![p2](images/paraview2pic.png)
 
 4. Then rescale the data over all times steps by clicking the button with the 't' in it as shown in the figure above. Then try pressing the play button to watch the calcium change through the cell.
-For more details and tutorials for using ParaView please see the [ParView website](https://www.paraview.org/paraview-guide/).
+For more details and tutorials for using ParaView please see the [ParaView website](https://www.paraview.org/paraview-guide/).
 
 
 
