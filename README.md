@@ -1,5 +1,5 @@
-# Multi-Scale Neuron Modeling
-This toolset is for multi-scale modeling of the effects of Transcranial Magnetic Stimulation on single neuron activity. The instructions and open-source codes provided here enable users with a different levels of expertese to investigate the neuronal behavior under TMS.
+# NeMo-TMS Toolbox
+Neuron Modeling for TMS (NeMo-TMS) toolbox is for multi-scale modeling of the effects of Transcranial Magnetic Stimulation on single neuron activity. The instructions and open-source codes provided here enable users with a different levels of expertese to investigate the neuronal behavior under TMS.
 
 Refer to the following article for more details:
 [JOURNAL INFORMATION]
