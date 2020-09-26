@@ -5,13 +5,13 @@ The VRL-ug4 gui will simulate the calcium dynamics inside a neuron, through acti
 
 ## Software Requirements
 * [VRL](https://vrl-studio.mihosoft.eu/) studio, this is the gui used for setting file paths and simulation parameters.
-* [uG4](https://github.com/UG4) simulation framework
+* [uG4](https://github.com/UG4) simulation framework and manual installation instructions, click here for static build: [ug4-build](http://doi.org/10.5281/zenodo.3995132).
 * **Optional:** [ParaView](https://www.paraview.org/download/) for visualization of output data
 * **Optional:** [ProMesh](http://www.promesh3d.com/) for visualizing the 3d geometry and converting from <code>.swc</code> to <code>.ugx</code>
 * **Optional:** To install ug4 manually (Windows, MacOS, Linux) please consult the instructions found here [uG4-install](https://github.com/UG4/ughub), for windows it is recommended to install [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7) for running terminal commands.
 
 ## VRL-uG4 GUI Simulation (MacOS Catalina Version 10.15.5 & Windows 10)
-The following steps have been tested on MacOS and Windows 10, the Linux version is still in development.
+The following steps have been tested on MacOS and Windows 10, a static build for uG4 on Linux is under development.
 To run a simulation using VRL:
 1. please install [VRL](https://vrl-studio.mihosoft.eu/) studio, this is the gui used for setting file paths and simulation parameters. 
 2. Then download the <code>MacOS-VRL-CalciumDynamics</code> folder to the Desktop of your computer.
@@ -23,7 +23,7 @@ Below is a description of the folders and files:
   - <code>geometry</code> is the folder that contains the <code>.swc</code> geometry file
   - <code>scripts</code> is the folder containing the <code>.lua</code> script for ug4.
   - <code>output</code> this folder will contain the output data once the simulation is finished running
-  - <code>ug4</code> this is a static build of ug4, this is needed for the simulation to run, you will need to download a static build from here [ug4-build](http://doi.org/10.5281/zenodo.3995132), download the build that corresponds to your computer OS, and extract into the <code>MacOS-VRL-CalciumDynamics</code> folder.
+  - <code>ug4</code> this is a static build of ug4, this is needed for the simulation to run, you will need to download a static build. Download the build that corresponds to your computer OS, and extract into the <code>MacOS-VRL-CalciumDynamics</code> folder.
   - <code>iondynamics-01.vrlp</code> this is the VRL studio project used for running the <code>.lua</code> script into ug4. 
   - <code>voltageData</code> this is the voltage data that is used for the VDCC's, 
 
