@@ -1,0 +1,12 @@
+/*****************************
+TMS simulator for T2N morphologies
+GUI for generating parameters
+AUTHOR: Nicholas Hananeia
+CONTACT: nickhananeia@gmail.com
+*******************************/
+
+strdef tmpstr,simfold, quasi_file // temporary string object
+strdef s, result_folder
+
+load_file("GUI.hoc")
+GUI()

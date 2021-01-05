@@ -1,0 +1,15 @@
+/*****************************
+TMS simulator for T2N morphologies
+Main simulation file; execute to run simulation after copying wrapper files
+AUTHOR: Nicholas Hananeia
+CONTACT: nickhananeia@gmail.com
+*******************************/
+
+strdef tmpstr,simfold, quasi_file // temporary string object
+objref f, vlist, tvec, secRef, loc
+objref pc,nil,cvode,strf,tmpvec,tvec,tvecs,cell,cellList,pp,ppList,con,conList,nilcon,nilconList,rec,recList,rect,rectList,playt,playtList,play,playList,APCrec,APCrecList,APC,APCList,APCcon,APCconList,thissec,thisseg,thisval 
+strdef s, result_folder
+
+load_file("TMS_sim.hoc")
+TMS_sim()
+quit()

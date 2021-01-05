@@ -1,0 +1,48 @@
+/*****************************
+TMS simulator for T2N morphologies
+Main simulation function; call to execute and run according to input parameters
+AUTHOR: Nicholas Hananeia
+CONTACT: nickhananeia@gmail.com
+*******************************/
+
+
+func TMS_sim(){ localobj detector
+	//*********Load libraries and initialize***********
+	{load_file("initialize.hoc")}
+	initialize()
+	read_params()
+	io = xopen("../sim1/init_cells.hoc")
+	io = xopen("init_mech.hoc")
+	access cellList.o(0).allregobj.o(0).sec
+	
+	
+	//******Record voltage and time****
+	fired = 0 // set to 1 if cell has fired
+	tvec = new Vector()
+	tvec.record(&t)
+	vlist = recallv()
+	
+	detector = new NetCon(&v(0.5), nil)
+	detector.threshold = -30
+	detector.record("handle()")
+
+	// *****Execute TMS simulation*****
+	setstim(TMSAMP)
+	setpointers()
+	exportLocs_seg()
+	exportIndex()
+	if (E_UNIFORM){
+		getes_uniform(EX,EY,EZ)
+	} else {
+		getes_realistic(quasi_file)
+	}
+	newPlotV()
+	init()
+	run()
+	exportVoltage()
+	return fired
+}
+
+proc handle(){
+	fired = 1
+}

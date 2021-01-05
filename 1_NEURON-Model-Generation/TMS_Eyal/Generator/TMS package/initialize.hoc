@@ -1,0 +1,93 @@
+begintemplate Location2
+	public secRef, loc
+	objref secRef
+	proc init() {
+		secRef = new SectionRef()
+		loc = $1
+	}
+endtemplate Location2
+
+
+proc read_params(){local THETA, PHI, bPolar localobj params
+    TMSAMP = 1 // Default value if not specified
+    params = new File()
+    if(!params.ropen("params.txt")){
+		printf("Parameters file not found!\n")
+		sred("Press enter to quit", "y", "y")
+		quit()
+	}
+    //strdef result_folder
+    //sprint(result_folder, "test")
+    E_UNIFORM = params.scanvar()
+    if (!E_UNIFORM){
+        params.scanstr(quasi_file)
+    } else {
+        TMSAMP = params.scanvar()
+        bPolar = params.scanvar()
+        if (!bPolar){
+            EX = params.scanvar()
+            EY = params.scanvar()
+            EZ = params.scanvar()
+            // Normalize vector
+            EX = EX/(EX*EX+EY*EY+EZ*EZ)
+            EY = EY/(EX*EX+EY*EY+EZ*EZ)
+            EZ = EZ/(EX*EX+EY*EY+EZ*EZ)
+        } else {
+            THETA = params.scanvar()
+            PHI = params.scanvar()
+            EX = sin(THETA*(PI/180))*cos(PHI*(PI/180))
+            EY = sin(THETA*(PI/180))*sin(PHI*(PI/180))
+            EZ = cos(THETA*(PI/180))
+        }
+    }
+    params.close()
+}
+
+
+
+proc initialize(){
+	cellList = new List() // comprises all instances of cell templates, also artificial cells
+	ppList = new List() // comprises all Point Processes of any cell
+	conList = new List() // comprises all NetCon objects
+	tvecs = new List() //comprises all custom time vectors
+	recList = new List() //comprises all recording vectors
+	rectList = new List() //comprises all time vectors of recordings
+	playtList = new List() //comprises all time vectors for play objects
+	playList = new List() //comprises all vectors played into an object
+	APCList = new List() //comprises all APC objects
+	APCrecList = new List() //comprises all APC recording vectors
+	nilconList = new List() //comprises all NULL object NetCons
+	cvode = new CVode() //the Cvode object
+	thissec = new Vector() //for reading range variables
+	thisseg = new Vector() //for reading range variables
+	thisval = new Vector() //for reading range variables
+	debug_mode = 1
+	accuracy = 0
+	strf = new StringFunctions()
+	io = cvode.active(0)
+	tvec = new Vector()
+	celsius = 35
+	tstart = 0.0250000
+	dt = 0.025000
+	steps_per_ms = 1/dt
+	prerun = 200
+	if (unix_mac_pc() == 3) {
+		nrn_load_dll("../../lib_mech/nrnmech.dll")	
+	} else {	
+		nrn_load_dll("../../lib_mech/x86_64/.libs/libnrnmech.so")	
+	}
+	io = load_file("stdgui.hoc")
+	v_init = -70.000000
+	simfold = "../sim1"
+	io = xopen("../../lib_genroutines/genroutines.hoc")
+	io = xopen("../../lib_genroutines/pasroutines.hoc")
+	{load_file("interpCoordinates.hoc")}
+	{load_file("setPointers.hoc")}
+	{load_file("calcVe.hoc")}
+	{load_file("stimWaveform.hoc")}
+	{load_file("exportLocs_seg.hoc")}
+	system("mkdir results")	
+	chdir("results")
+	system("mkdir locs")
+	chdir("..")
+}
