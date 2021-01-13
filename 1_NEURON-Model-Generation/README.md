@@ -36,3 +36,5 @@ If you are prompted to initialize model folders (This prompt will only appear fo
 
 
 After completion, the script will generate all necessary files to the 'Model' folder inside 'TMS_Jarsky' directory.
+
+**Note:** In order to run the Eyal model for the cortical neurons, the procedure is identical, the only difference is that the codes are places in the 'TMS_Eyal' folder.
