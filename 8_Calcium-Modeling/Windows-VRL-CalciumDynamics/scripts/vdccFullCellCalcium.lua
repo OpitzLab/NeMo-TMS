@@ -44,6 +44,12 @@ numPreRefs = util.GetParamNumber("-numPreRefs", 1)
 --numGlobRefs = util.GetParamNumber("-numGlobRefs", 1)
 --numERMRefs = util.GetParamNumber("-numERMRefs", 1)
 
+--num of newton solves
+numNewton = util.GetParamNumber("-numNewton", 5)
+
+--voltage data sampling rate
+vSampleRate = util.GetParamNumber("-vSampleRate", 25e-3)
+
 -- vm folder
 vmData = util.GetParam("-vmData", "vmData")
 -- which ER mechanisms are to be activated?
@@ -260,6 +266,8 @@ print("ER Radius                    = " .. erRadius)
 print("Num of Refinements           = " .. numRefs)
 print("Solver                       = " .. solverID)
 print("Min Defect                   = " .. minDef)
+print("Number Newton                = " .. numNewton)
+print("Voltage Data Rate            = " .. vSampleRate)
 print("*********************************************************************************\n\n")
 
 -------------------------------
@@ -490,7 +498,7 @@ function membranePotential(x,y,z, t, si)
 	-- fId=math.floor(t*1e3)
 	--tchk = math.floor(t*1e3)
     if t > latestPointInTime then
-    	if t < fcnt*25e-6 then
+    	if t < fcnt*vSampleRate then
         	--voltageDataFile = tostring(vmData) .. "/xyz_Vm" .. math.floor(fcnt-1) .. ".dat"
         	voltageDataFile = tostring(vmData) .. "/vm_" .. string.format("%07d", math.floor(fcnt-1)) .. ".dat"
 	    	print("The Data file loaded: " .. voltageDataFile)
@@ -654,9 +662,9 @@ bicgstabSolver:set_convergence_check(convCheck)
 
 --- non-linear solver ---
 -- convergence check
-newtonConvCheck = CompositeConvCheck(approxSpace, 10, minDef, 1e-8)
+newtonConvCheck = CompositeConvCheck(approxSpace, numNewton, minDef, 1e-06)
 --newtonConvCheck = CompositeConvCheck(approxSpace, 10, 1e-14, 1e-08)
-newtonConvCheck:set_group_check("ca_cyt, ca_er, clb", 1e-16, 1e-08)
+newtonConvCheck:set_group_check("ca_cyt, ca_er, clb", minDef, 1e-06)
 if withRyR then
 	newtonConvCheck:set_group_check("o2, c1, c2", 1e-12, 1e-08)
 end
