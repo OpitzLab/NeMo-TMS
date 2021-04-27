@@ -1,0 +1,60 @@
+/*
+* $Id: stim.hoc,v 1.5 2009/02/24 00:55:27 ted Exp ted $
+* Set up stimulation waveform
+* 2018/05/20 Modified by Aman Aberra
+* Modified by Sina Shirinpour
+*/
+
+//n_time = tstop/dt+1 // number of time points
+
+objref stim_amp, stim_time
+stim_amp = new Vector()//n_time)
+stim_time = new Vector()//n_time)
+
+proc stim_waveform_tms() { localobj tms_file
+//  Import the TMS waveform
+	tms_file = new File()
+	tms_file.ropen("../../Results/TMS_Waveform/TMS_t_train.txt")
+	stim_time.scanf(tms_file)
+	tms_file.close()
+    tms_file.ropen("../../Results/TMS_Waveform/TMS_E_train.txt")
+	stim_amp.scanf(tms_file)
+	tms_file.close()
+    tstop = (stim_amp.size()-1)*dt
+	stim_amp.mul($1)
+}
+
+
+ATTACHED__ = 0
+
+proc attach_stim() {
+// since stim_xtra is GLOBAL, we only need to specify Vector.play()
+// for one instance of xtra, i.e. at just one internal node
+// of only one section that contains xtra
+    forall {  // check each section to find one that has xtra
+        if (ATTACHED__ == 0) {  // don't bother if stim is already attached to something
+            if (ismembrane("xtra")) {
+                stim_amp.play(&stim_xtra, stim_time, 1) // "interpolated" play
+                ATTACHED__ = 1
+            }
+        }
+    }
+}
+
+objref g1
+proc plot_waveform() {
+	g1 = new Graph()
+	stim_amp.plot(g1,stim_time)
+    g1.size(0,tstop,1.1*stim_amp.min(), 1.1*stim_amp.max())
+}
+
+
+proc setstim() {
+    stim_waveform_tms($1)
+    attach_stim()
+    plot_waveform()
+	printf("Generated TMS waveform.\n")
+    //run_APsite_save() //We don't use this
+    //printf("Simulation done!\n")
+}
+

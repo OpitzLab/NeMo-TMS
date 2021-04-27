@@ -1,0 +1,11 @@
+/*****************************
+TMS simulator for T2N morphologies
+GUI for generating parameters
+AUTHOR: Nicholas Hananeia
+CONTACT: nickhananeia@gmail.com
+*******************************/
+
+strdef quasi_file
+
+load_file("GUI.hoc")
+GUI()

@@ -1,0 +1,101 @@
+//objref midSecX, midSecY, midSecZ
+strdef s, result_folder
+
+
+proc exportLocs_seg(){ localobj savLocs, savDiam, sref
+    // all segment locs
+	
+    neuron_section_size = 0
+
+    savLocs = new File()
+	sprint(s,"../../Results/NEURON/locs/locs_all_seg.txt")
+	savLocs.wopen(s)
+
+	forall{ // loop over all sections
+        sref = new SectionRef()
+        if (!sref.has_parent) { // check if root section
+            for (x,0) { // loop over all segments in that section
+                if (x == 1/(2*nseg)) { // the first segment of the root section
+                    savLocs.printf("%.4f %.4f %.4f nan nan nan\n", x_xtra(x), y_xtra(x), z_xtra(x))
+                } else {
+                    savLocs.printf("%.4f %.4f %.4f %.4f %.4f %.4f\n", x_xtra(x), y_xtra(x), z_xtra(x), x_xtra(x-1/nseg), y_xtra(x-1/nseg), z_xtra(x-1/nseg))
+                }
+            }
+        } else{
+            for (x,0) { // loop over all segments in that section
+                if (x == 1/(2*nseg)) { // if the first segment, the parent segment is the last segment of the parent section
+                    savLocs.printf("%.4f %.4f %.4f ", x_xtra(x), y_xtra(x), z_xtra(x))
+                    sref.parent { savLocs.printf("%.4f %.4f %.4f \n", x_xtra(1-1/(2*nseg)), y_xtra(1-1/(2*nseg)), z_xtra(1-1/(2*nseg))) }
+                } else {
+                    savLocs.printf("%.4f %.4f %.4f %.4f %.4f %.4f\n", x_xtra(x), y_xtra(x), z_xtra(x), x_xtra(x-1/nseg), y_xtra(x-1/nseg), z_xtra(x-1/nseg))
+                }
+            }
+        }
+        neuron_section_size += 1
+	}
+	savLocs.close()
+	
+    savDiam = new File()
+	sprint(s,"../../Results/NEURON/locs/diam_all.txt")
+	savDiam.wopen(s)
+
+    forall{
+        sref = new SectionRef()
+        savDiam.printf("%.4f\n", diam3d(n3d()/2-0.5))
+	}
+    savDiam.close()
+}
+
+obfunc recallv() { localobj tmplist, tmpvec
+  tmplist = new List()
+  forall for (x,0) {
+    tmpvec = new Vector()
+    tmpvec.record(&v(x))
+    tmplist.append(tmpvec)
+  }
+  return tmplist
+}
+
+proc exportIndex(){ localobj retList, location, index, allsecs
+	retList = new List()
+	allsecs = new SectionList()
+	allsecs.wholetree()
+	forall{
+		for (x, 0 ){
+			location = new Location2(x)
+			retList.append(location)
+		}
+	}
+	index = new File()
+	sprint(s,"../../Results/NEURON/locs/index.dat")
+	index.wopen(s)
+
+	for i = 0, retList.count() - 1{
+		retList.o[i].secRef.sec{
+			index.printf("%s\t%f\t%f\t%d\t\n", secname(),diam3d(n3d()/2-0.5), retList.o[i].loc, i)
+		}
+	}
+	index.close()
+}
+
+proc exportVoltage(){ localobj v_traces, time_vec
+	time_vec = new File()
+	time_vec.wopen("../../Results/NEURON/tvec.dat")
+	for i = 0, tvec.size() - 1{
+		time_vec.printf("%f\n", tvec.x(i))
+	}
+	time_vec.close()
+
+	v_traces = new File()
+	v_traces.wopen("../../Results/NEURON/voltage_trace.dat")
+	for i = 0, vlist.o(0).size() - 1{
+		for j = 0, vlist.count() - 1{
+			if(j == vlist.count() - 1){
+				v_traces.printf("%f\n", vlist.o(j).x(i))
+			} else {
+				v_traces.printf("%f\t", vlist.o(j).x(i))
+			}
+		}
+	}
+	v_traces.close()
+}

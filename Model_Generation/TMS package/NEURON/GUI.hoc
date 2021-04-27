@@ -1,0 +1,121 @@
+proc GUI(){
+E_UNIFORM = 1
+xpanel("E-field Type")
+    xlabel("Choose how extracllular potentials are calculated:")
+    xradiobutton("Uniform Electric Field", "E_UNIFORM=1",1)
+    xradiobutton("Realistc Electric Field", "E_UNIFORM=0")
+    xbutton("Select","E_field_params()")
+xpanel()
+}
+proc E_field_params(){ localobj pwm, paramfile
+    pwm = new PWManager()
+    for jj=0,pwm.count()-1 {
+        if (strcmp(pwm.name(jj),"E-field Type") == 0) {
+            pwm.close(jj)
+            break
+        }
+    }
+    bPolar = 0
+    TMSAMP = 100
+    if (E_UNIFORM) {
+        xpanel("E-field")
+        xlabel("Choose the amplitude of E-field:")
+            xvalue("Amplitude","TMSAMP")
+        xlabel("Choose the orientation of E-field:")
+            xradiobutton("Cartesian coordinates", "bPolar = 0",1)
+            xradiobutton("Spherical coordinates", "bPolar = 1")
+        xbutton("Select","E_field_orientation()")
+        xpanel()
+    } else {
+        sprint(quasi_file,"../../Results/E-field_Coupling/quasipotentials.txt")
+        syn_params()
+    }
+}
+proc E_field_orientation(){ localobj pwm
+    pwm = new PWManager()
+    for jj=0,pwm.count()-1 {
+        if (strcmp(pwm.name(jj),"E-field") == 0) {
+            pwm.close(jj)
+            break
+        }
+    }
+    EX = 0
+    EY = -1
+    EZ = 0
+    THETA = 90
+    PHI = 270
+    if (bPolar){
+        xpanel("E-field Orientation")
+            xvalue("theta","THETA")
+            xvalue("phi","PHI")
+            xbutton("Select","syn_params()")
+        xpanel()
+    } else {
+        xpanel("E-field Orientation")
+            xvalue("x","EX")
+            xvalue("y","EY")
+            xvalue("z","EZ")
+            xbutton("Select","syn_params()")
+        xpanel()
+    }
+}
+proc syn_params(){ localobj pwm
+    pwm = new PWManager()
+    for jj=0,pwm.count()-1 {
+        if (strcmp(pwm.name(jj),"E-field Orientation") == 0) {
+            pwm.close(jj)
+            break
+        }
+    }
+    syn_freq = 3
+    syn_noise = 0.5
+    syn_weight = 0.01
+    syn_weight_sync = 0.01
+    xpanel("Simulation Parameters")
+        xlabel("Enter the random synaptic input parameters:")
+            xvalue("Frequency (Hz)","syn_freq")
+            xvalue("Noise","syn_noise")
+            xvalue("Weight","syn_weight")
+        xlabel("Enter the synchronous synaptic input parameters:")
+            xvalue("Weight","syn_weight_sync")
+        xbutton("Select","save_params()")
+    xpanel()
+}
+
+proc save_params(){ localobj pwm, paramfile
+    chdir("../..")
+	system("mkdir Results")	
+	chdir("Results")
+	system("mkdir NEURON")
+	chdir("NEURON")
+    paramfile = new File()
+    paramfile.wopen("params.txt")
+    paramfile.printf("/***E-field specification**\n")
+    if (E_UNIFORM) {
+        paramfile.printf("E_UNIFORM\t1\n")
+        paramfile.printf("TMSAMP\t%f\n",TMSAMP)
+        paramfile.printf("bPolar\t%d\n",bPolar)
+        if (bPolar) {
+            paramfile.printf("/*****Polar spec***********\n")
+            paramfile.printf("THETA\t%f\n",THETA)
+            paramfile.printf("PHI\t%f\n",PHI)
+        } else {
+            paramfile.printf("/*****Cartesian spec*******\n")
+            paramfile.printf("EX\t%f\n",EX)
+            paramfile.printf("EY\t%f\n",EY)
+            paramfile.printf("EZ\t%f\n",EZ)
+        }
+    } else {
+        paramfile.printf("E_UNIFORM\t0\n")
+        paramfile.printf("%s\n",quasi_file)
+        paramfile.printf("TMSAMP\t1\n")
+    }
+    paramfile.printf("/****Random synaptic parameters***\n")
+    paramfile.printf("SYN_FREQ\t%f\n",syn_freq)
+    paramfile.printf("SYN_NOISE\t%f\n",syn_noise)
+    paramfile.printf("SYN_WEIGHT\t%f\n",syn_weight)
+    paramfile.printf("/****Synchoronous synaptic parameters***\n")
+    paramfile.printf("SYN_WEIGHT_SYNC\t%f\n",syn_weight_sync)
+    paramfile.close()
+    quit()
+}
