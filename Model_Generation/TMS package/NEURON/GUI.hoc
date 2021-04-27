@@ -69,8 +69,8 @@ proc syn_params(){ localobj pwm
     }
     syn_freq = 3
     syn_noise = 0.5
-    syn_weight = 0.01
-    syn_weight_sync = 0.01
+    syn_weight = 0.00
+    syn_weight_sync = 0.00
     xpanel("Simulation Parameters")
         xlabel("Enter the random synaptic input parameters:")
             xvalue("Frequency (Hz)","syn_freq")
