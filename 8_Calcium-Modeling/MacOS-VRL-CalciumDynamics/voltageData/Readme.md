@@ -1,1 +1,0 @@
-The voltage data is placed here. There is a sample voltage data already in here.

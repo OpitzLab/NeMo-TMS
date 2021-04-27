@@ -1,1 +1,0 @@
-This is where you place the .swc files. The .swc file is the 1d graph geometry of the neuron. There is a sample geometry already in here.
