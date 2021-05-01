@@ -493,26 +493,20 @@ local 	fcnt = 1
 local   mapper = Mapper()
 local   voltageDataFile 
 function membranePotential(x,y,z, t, si)
-	-- use 1e4 for every 0.1 ms
-	-- use 1e3 for every 1.0 ms
-	-- fId=math.floor(t*1e3)
-	--tchk = math.floor(t*1e3)
+    timenum = t/ vSampleRate
+    --print("time num = " .. timenum)
     if t > latestPointInTime then
     	if t < fcnt*vSampleRate then
-        	--voltageDataFile = tostring(vmData) .. "/xyz_Vm" .. math.floor(fcnt-1) .. ".dat"
-        	voltageDataFile = tostring(vmData) .. "/vm_" .. string.format("%07d", math.floor(fcnt-1)) .. ".dat"
-	    	print("The Data file loaded: " .. voltageDataFile)
-			mapper:build_tree_from_file(voltageDataFile)
-			latestPointInTime = t
-		else
-			--voltageDataFile = tostring(vmData) .. "/xyz_Vm" .. math.floor(fcnt) .. ".dat"
-			voltageDataFile = tostring(vmData) .. "/vm_" .. string.format("%07d", math.floor(fcnt-1)) .. ".dat"
-	    	print("The Data file loaded: " .. voltageDataFile)
+        	voltageDataFile = tostring(vmData) .. "/vm_" .. string.format("%07d", math.floor(timenum)) .. ".dat"
+	else
+		voltageDataFile = tostring(vmData) .. "/vm_" .. string.format("%07d", math.floor(timenum)) .. ".dat" 	
 	    	fcnt=fcnt + 1
-			mapper:build_tree_from_file(voltageDataFile)
-			latestPointInTime = t
-		end
 	end
+
+	print("The Data file loaded: " .. voltageDataFile)
+	mapper:build_tree_from_file(voltageDataFile)
+	latestPointInTime = t
+    end
     --return mapper:get_data_from_nn({x*1e-6, y*1e-6, z*1e-6})
     return (mapper:get_data_from_nn({x, y, z}))*1e-3
 end
