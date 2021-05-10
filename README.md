@@ -22,6 +22,7 @@ For a quick guide on how to use NeMo-TMS, refer to **guide.pdf**, or open **guid
 
 ## Reference
 Please cite the following reference:
+
 Shirinpour et al., 2020. Multi-scale Modeling Toolbox for Single Neuron and Subcellular Activity under (repetitive) Transcranial Magnetic Stimulation. bioRxiv, https://doi.org/10.1101/2020.09.23.310219
 
 ## Correspondence
