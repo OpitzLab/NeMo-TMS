@@ -18,7 +18,7 @@ The procedures for running simulations at each scale and the intermediate steps 
 ## Instructions
 Refer to **Full_Tutorial.pdf** for a comprehensive tutorial on how to use NeMo-TMS.
 
-For a quick guide on how to use NeMo-TMS, refer to **guide.pdf**, or open **guide.mlapp** in MATLAB (2019b or later).
+For a quick guide on how to use NeMo-TMS, refer to **Quick_Guide.pdf**, or open **Quick_Guide.mlapp** in MATLAB (2019b or later).
 
 ## Reference
 Please cite the following reference:
