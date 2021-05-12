@@ -7,8 +7,11 @@
 % Adapted by Nicholas Hananeia, 2019-2020
 %%
 function[] = Jarsky_model(input_cell)
-% initialize model folder hierarchy in current folder:
-addpath('Jarsky files');
+% install T2N and TREES and add path for necessary files
+cd ./lib/;
+init_t2n_trees();
+cd ..;
+addpath('Jarsky_files');
 tstop                    = 1100;%40000;
 dt                       = 0.05;
 
@@ -35,7 +38,14 @@ axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','M
 %%
 
 for cell_num = 1:length(trees)
-simName = inputdlg('Enter simulation name; leave blank to use cell filename', 's');
+simName = inputdlg('Enter model name; leave blank to use cell filename', 'Model name');
+
+if(exist(strcat('../Models/', name), 'file'))
+    msg = 'Model by that name already exists. Delete the model folder or use a different name. Exiting...';
+    msgbox(msg,'Duplicate model name');
+    rmpath('Jarsky_files');
+    return
+end
 
 %% Load morphology
 treeFilename = './morphos/place_tree.mtr'; %Input file here!
@@ -258,8 +268,8 @@ neuronn{1}.con(2) = struct('source',struct('cell',3),'target',struct('cell',1,'p
 %%
 
 %Files are copied before running t2n to save c and o files of compiled mods
-copyfile('./Jarsky files/lib_mech/', strcat('../Models/', name, '/lib_mech/'), 'f');
-copyfile('./Jarsky files/lib_mech/', './lib_mech/', 'f');
+copyfile('./Jarsky_files/lib_mech/', strcat('../Models/', name, '/lib_mech/'), 'f');
+copyfile('./Jarsky_files/lib_mech/', './lib_mech/', 'f');
 
 %Make these folders now so that T2N won't get upset
 if ~exist('lib_custom', 'dir')
@@ -277,13 +287,11 @@ end
 
 h = findall(0,'Type','figure','Name','Error in NEURON'); % it returns all the handles for dialog boxes with the title "Error in NEURON"
 if isempty(h) % check if such error dialog exists
-    errordlg(['Model generation for ' name ' failed!']);
 else
     close(h) % close the error dialog
     disp(['Model generation for ' name ' completed!'])
     disp('--------------------------------------');
 end
-
 %copy lib_mech back to generator to get our c and o files back 
 copyfile(strcat('../Models/', name, '/lib_mech/'), './lib_mech/', 'f');
 
@@ -295,14 +303,16 @@ copyfile('./lib_genroutines/', strcat('../Models/', name, '/lib_genroutines/'), 
 copyfile('./morphos/', strcat('../Models/', name, '/morphos/'), 'f');
 
 movefile(strcat('../Models/', name, '/Code/sim1/'), strcat('../Models/', name, '/Code/NEURON/'));
-
-
+delete(strcat('../Models/', name, '/Code/NEURON/neuron_runthis.hoc'));
+if exist(strcat('../Models/', name, '/Code/NEURON/tvec.dat'), 'file')
+    delete(strcat('../Models/', name, '/Code/NEURON/tvec.dat'));
+end
 
 for cell_num = 1:numel(trees)
     if numel(trees) == 1
-        copyfile('./TMS package/', strcat('../Models/', name, '/Code/'), 'f');
+        copyfile('./TMS_package/', strcat('../Models/', name, '/Code/'), 'f');
     else
-        copyfile('./TMS package/', strcat('../Models/', trees{cell_num}.name, '/Code/'), 'f');
+        copyfile('./TMS_package/', strcat('../Models/', trees{cell_num}.name, '/Code/'), 'f');
     end
 end
 
@@ -316,6 +326,6 @@ delete('./lib_genroutines/*');
 rmdir('./lib_genroutines/');
 delete('./lib_mech/*');
 rmdir('./lib_mech/');
-rmpath('./Jarsky files/');
+rmpath('./Jarsky_files/');
 
 end

@@ -1,0 +1,60 @@
+/*****************************
+TMS simulator for T2N morphologies
+Main simulation function; call to execute and run according to input parameters
+AUTHOR: Nicholas Hananeia
+CONTACT: nickhananeia@gmail.com
+*******************************/
+
+
+func TMS_sim(){ localobj detector
+	//*********Load libraries and initialize***********
+	{load_file("initialize.hoc")}
+	read_params()
+	initialize()
+	io = xopen("../NEURON/init_cells.hoc")
+	io = xopen("init_mech.hoc")
+	io = xopen("init_pp.hoc")
+	io = xopen("init_con.hoc")
+	access cellList.o(0).allregobj.o(0).sec
+	
+	//***** Set synaptic parameters
+	cellList.o(1).cell.interval = 1000/SYN_FREQ
+	cellList.o(1).cell.noise = SYN_NOISE
+	conList.o(0).weight = SYN_WEIGHT
+	cellList.o(2).cell.interval = SYNC_INTERVAL
+	cellList.o(2).cell.start = SYNC_DELAY
+	cellList.o(2).cell.number = SYNC_NUM
+	conList.o(1).weight = SYNC_WEIGHT
+	fired = 0 // set to 1 if cell has fired
+
+
+	detector = new NetCon(&v(0.5), nil)
+	detector.threshold = -30
+	detector.record("handle()")
+
+	// *****Execute TMS simulation*****
+	setstim(TMSAMP)
+	setpointers()
+	exportLocs_seg()
+	exportIndex()
+	if (E_UNIFORM){
+		getes_uniform(EX,EY,EZ)
+	} else {
+		getes_realistic(quasi_file)
+	}
+	
+	//Record time and voltage
+	tvec = new Vector()
+	tvec.record(&t)
+	vlist = recallv()
+	
+	newPlotV()
+	init()
+	run()
+	exportVoltage()
+	return fired
+}
+
+proc handle(){
+	fired = 1
+}

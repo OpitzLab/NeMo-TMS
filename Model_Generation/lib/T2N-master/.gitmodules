@@ -1,0 +1,3 @@
+[submodule "src/masterplotter"]
+	path = src/masterplotter
+url=git@github.com:MarcelBeining/masterplotter.git
