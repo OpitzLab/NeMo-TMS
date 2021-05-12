@@ -11,7 +11,11 @@ fclose(fid);
 mesh = mesh_load_gmsh4([meshpath meshfile]);
 gm_surf = mesh_extract_regions(mesh,'elemtype','tri','region_idx',1002);
 %% Load neuron
-locs = load([nrnpath nrnfile]);
+try
+    locs = load([nrnpath nrnfile]);
+catch
+    error('Export NEURON model segments first.');
+end
 % Compartment coordinates
 Xc = locs(:,1);
 Yc = locs(:,2);
