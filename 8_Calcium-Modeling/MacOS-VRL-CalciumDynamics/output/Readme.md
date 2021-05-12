@@ -1,1 +1,0 @@
-This is where the output will be placed once the calcium simulation is done.

@@ -1,0 +1,102 @@
+/* 
+* Procedures for generating GUI panels for choosing E-field parameters
+* AUTHOR: Sina Shirinpour, University of Minnesota
+* CONTACT: shiri008[at]umn.edu
+*/
+
+objref shplot, pElec,sElec_list // for shape plot
+
+/*
+proc getes(){
+	E_uniform = $4
+	if (E_uniform){
+		getes_uniform($1, $2, $3)
+	} else {
+        getes_realistic(quasi_file)
+		
+	}
+}
+*/
+
+proc E_field_params(){ localobj pwm, file
+    pwm = new PWManager()
+    for jj=0,pwm.count()-1 {
+        if (strcmp(pwm.name(jj),"E-field") == 0) {
+            pwm.close(jj)
+            break
+        }
+    }
+    if (E_uniform) {
+        xpanel("Uniform E-field")
+            xlabel("Enter the uniform E-field vector in Cartesian coordinates:")
+            xvalue("X","EX")
+            xvalue("Y","EY")
+            xvalue("Z","EZ")
+            xbutton("Confirm","closepanels()")
+            // normalize e field?
+        xpanel()
+    } else {
+        file = new File()
+        file.chooser("", "Enter the quasipotentials file:", "*.txt", "open", "cancel", "")
+        file.chooser()
+        getes_realistic(file.getname())
+    }
+}
+
+proc closepanels(){ localobj pwm
+    pwm = new PWManager()
+    for jj=0,pwm.count()-1 {
+        if ((strcmp(pwm.name(jj),"Uniform E-field") == 0)) {
+            pwm.close(jj)
+            break
+        }
+    }
+    getes_uniform(EX,EY,EZ)
+}
+
+proc getes_realistic() { localobj potentials_file, ex_potential_vec
+
+	nseg_total = 0
+	forall { // Total number of segments
+		nseg_total += nseg
+	}
+	print nseg_total
+	ex_potential_vec = new Vector(nseg_total)
+
+
+	potentials_file = new File()
+	if(!potentials_file.ropen($s1)){
+		printf("Quasipotentials file not found!\n")
+		sred("Press enter to quit", "y", "y")
+		quit()
+	}
+	ex_potential_vec.scanf(potentials_file)
+	potentials_file.close()
+
+	ii = 0
+	forall {
+		for (x,0) {
+			es_xtra(x) = ex_potential_vec.x[ii]
+			ii += 1
+		}
+	}
+    printf("Imported potentials\n")
+}
+
+proc getes_uniform() {
+	// input E-field coordinates, assigns Ve to all compartments (es_xtra(x)) for unit E-field (V/m)
+
+	Ex = $1
+	Ey = $2
+	Ez = $3
+	forall {
+		if (ismembrane("xtra")) {
+			for(x,0){
+                // Ve in [mV] for E of 1 [V/m] <= µm*1e-3 = mm * 1mV/mm = mV
+				es_xtra(x) = -(Ex*x_xtra(x) + Ey*y_xtra(x) + Ez*z_xtra(x))*1e-3				
+			}
+		}
+	}
+
+	printf("Calculated potentials for Ex = %.2f , Ey = %.2f , Ez = %.2f\n",EX,EY,EZ)			
+}

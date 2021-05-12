@@ -1,0 +1,182 @@
+= sshj - SSHv2 library for Java
+Jeroen van Erp
+:sshj_groupid: com.hierynomus
+:sshj_version: 0.19.0
+:source-highlighter: pygments
+
+image:https://travis-ci.org/hierynomus/sshj.svg?branch=master[link="https://travis-ci.org/hierynomus/sshj"]
+image:https://api.codacy.com/project/badge/Grade/14a0a316bb9149739b5ea26dbfa8da8a["Codacy code quality", link="https://www.codacy.com/app/jeroen_2/sshj?utm_source=github.com&utm_medium=referral&utm_content=hierynomus/sshj&utm_campaign=Badge_Grade"]
+image:https://maven-badges.herokuapp.com/maven-central/com.hierynomus/sshj/badge.svg["Maven Central",link="https://maven-badges.herokuapp.com/maven-central/com.hierynomus/sshj"]
+image:https://javadoc-emblem.rhcloud.com/doc/com.hierynomus/sshj/badge.svg["Javadoc",link="http://www.javadoc.io/doc/com.hierynomus/sshj"]
+
+To get started, have a look at one of the examples. Hopefully you will find the API pleasant to work with :)
+
+== Getting SSHJ
+
+To get SSHJ, you have two options:
+
+. Add a dependency to SSHJ to your project.
+. Build SSHJ yourself.
+
+And, if you want, you can also run the SSHJ examples.
+
+Binary releases of SSHJ are not provided here, but you can download it http://search.maven.org/#artifactdetails%7C{sshj_groupid}%7Csshj%7C{sshj_version}%7Cjar[straight from the Maven Central repository] if you want to.
+
+== Depending on SSHJ
+If you're building your project using Maven, you can add the following dependency to the `pom.xml`:
+
+[source,xml,subs="verbatim,attributes"]
+----
+<dependency>
+  <groupId>{sshj_groupid}</groupId>
+  <artifactId>sshj</artifactId>
+  <version>{sshj_version}</version>
+</dependency>
+----
+
+If your project is built using another build tool that uses the Maven Central repository, translate this dependency into the format used by your build tool.
+
+== Building SSHJ
+. Clone the Overthere repository.
+. Ensure you have Java6 installed with the http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html[Unlimited strength Java Cryptography Extensions (JCE)].
+. Run the command `./gradlew clean build`.
+
+== Running the examples
+In the `examples` directory, there is a separate Maven project that shows how the library can be used in some sample cases. If you want to run them, follow these guidelines:
+
+. Install http://maven.apache.org/[Maven 2.2.1] or up.
+. Clone the Overthere repository.
+. Go into the `examples` directory and run the command `mvn eclipse:eclipse`.
+. Import the `examples` project into Eclipse.
+. Change the login details in the example classes (address, username and password) and run them!
+
+== Features of the library include:
+
+* reading known_hosts files for host key verification
+* publickey, password and keyboard-interactive authentication
+* command, subsystem and shell channels
+* local and remote port forwarding
+* scp + complete sftp version 0-3 implementation
+
+== Supported algorithms
+Implementations / adapters for the following algorithms are included:
+
+ciphers::
+  `aes{128,192,256}-{cbc,ctr}`, `blowfish-{cbc,ctr}`, `3des-{cbc,ctr}`, `twofish{128,192,256}-{cbc,ctr}`, `twofish-cbc`, `serpent{128,192,256}-{cbc,ctr}`, `idea-{cbc,ctr}`, `cast128-{cbc,ctr}`, `arcfour`, `arcfour{128,256}`
+  SSHJ also supports the following extended (non official) ciphers: `camellia{128,192,256}-{cbc,ctr}`, `camellia{128,192,256}-{cbc,ctr}@openssh.org`
+
+key exchange::
+  `diffie-hellman-group1-sha1`, `diffie-hellman-group14-sha1`,
+  `diffie-hellman-group14-sha256`, `diffie-hellman-group15-sha512`, `diffie-hellman-group16-sha512`, `diffie-hellman-group17-sha512`, `diffie-hellman-group18-sha512`
+  `diffie-hellman-group-exchange-sha1`, `diffie-hellman-group-exchange-sha256`,
+  `ecdh-sha2-nistp256`, `ecdh-sha2-nistp384`, `ecdh-sha2-nistp521`, `curve25519-sha256@libssh.org`
+  SSHJ also supports the following extended (non official) key exchange algoriths:
+  `diffie-hellman-group14-sha256@ssh.com`, `diffie-hellman-group15-sha256`, `diffie-hellman-group15-sha256@ssh.com`, `diffie-hellman-group15-sha384@ssh.com`,
+  `diffie-hellman-group16-sha256`, `diffie-hellman-group16-sha384@ssh.com`, `diffie-hellman-group16-sha512@ssh.com`, `diffie-hellman-group18-sha512@ssh.com`
+
+signatures::
+  `ssh-rsa`, `ssh-dss`, `ecdsa-sha2-nistp256`, `ssh-ed25519`
+
+mac::
+  `hmac-md5`, `hmac-md5-96`, `hmac-sha1`, `hmac-sha1-96`, `hmac-sha2-256`, `hmac-sha2-512`
+
+compression::
+  `zlib` and `zlib@openssh.com` (delayed zlib)
+
+private key files::
+   `pkcs5`, `pkcs8`, `openssh-key-v1`
+
+If you need something that is not included, it shouldn't be too hard to add (do contribute it!)
+
+== Comparing to other implementations
+http://ssh-comparison.quendi.de/comparison.html[SSH Implementation Comparison]
+
+== Dependencies
+Java 6+. http://www.slf4j.org/download.html[slf4j] is required. http://www.bouncycastle.org/java.html[bouncycastle] is highly recommended and required for using some of the crypto algorithms. http://www.jcraft.com/jzlib/[jzlib] is required for using zlib compression.
+
+== Reporting bugs
+Issue tracker: https://github.com/hierynomus/sshj/issues
+
+== Discussion
+Google Group: http://groups.google.com/group/sshj-users
+
+== Contributing
+Fork away!
+
+== Release history
+SSHJ 0.20.0 (2017-02-09)::
+* Merged https://github.com/hierynomus/sshj/pulls/294[#294]: Reference ED25519 by constant instead of name
+* Merged https://github.com/hierynomus/sshj/pulls/293[#293], https://github.com/hierynomus/sshj/pulls/295[#295] and https://github.com/hierynomus/sshj/pulls/301[#301]: Fixed OSGi packaging
+* Added new Diffie Hellman groups 15-18 for stronger KeyExchange algorithms
+SSHJ 0.19.1 (2016-12-30)::
+* Enabled PKCS5 Key files in DefaultConfig
+* Merged https://github.com/hierynomus/sshj/pulls/291[#291]: Fixed sshj.properties loading and chained exception messages
+* Merged https://github.com/hierynomus/sshj/pulls/284[#284]: Correctly catch interrupt in keepalive thread
+* Fixed https://github.com/hierynomus/sshj/issues/292[#292]: Pass the configured RandomFactory to Diffie Hellmann KEX
+* Fixed https://github.com/hierynomus/sshj/issues/256[#256]: SSHJ now builds if no git repository present
+* LocalPortForwarder now correctly interrupts its own thread on close()
+SSHJ 0.19.0 (2016-11-25)::
+* Fixed https://github.com/hierynomus/sshj/issues/276[#276]: Add support for ed-25519 and new OpenSSH key format
+* Fixed https://github.com/hierynomus/sshj/issues/280[#280]: Read version from a generated sshj.properties file to correctly output version during negotiation
+SSHJ 0.18.0 (2016-09-30)::
+* Fixed Android compatibility
+* Upgrade to Gradle 3.0
+* Merged https://github.com/hierynomus/sshj/pulls/271[#271]: Load known_hosts without requiring BouncyCastle
+* Merged https://github.com/hierynomus/sshj/pulls/269[#269]: Brought back Java6 support by popular demand
+* Merged https://github.com/hierynomus/sshj/pulls/267[#267]: Added support for per connection logging (Fixes https://github.com/hierynomus/sshj/issues/264[#264])
+* Merged https://github.com/hierynomus/sshj/pulls/262[#262], https://github.com/hierynomus/sshj/pulls/265[#265] and https://github.com/hierynomus/sshj/pulls/266[#266]: Added PKCS5 key file support
+* Fixed toString of sftp FileAttributes (Fixes https://github.com/hierynomus/sshj/pulls/258[#258])
+* Fixed https://github.com/hierynomus/sshj/issues/255[#255]: No longer depending on 'privately marked' classes in `net.i2p.crypto.eddsa.math` package, fixes OSGI dependencies
+SSHJ 0.17.2 (2016-07-07)::
+* Treating SSH Server identification line ending in '\n' instead of '\r\n' leniently.
+SSHJ 0.17.1 (2016-07-06)::
+* Improved parsing of the SSH Server identification. Too long header lines now no longer break the protocol.
+SSHJ 0.17.0 (2016-07-05)::
+* *Introduced breaking change in SFTP copy behaviour*: Previously an SFTP copy operation would behave differently if both source and target were folders with different names.
+  In this case instead of copying the contents of the source into the target directory, the directory itself was copied as a sub directory of the target directory.
+  This behaviour has been removed in favour of the default behaviour which is to copy the contents of the source into the target. Bringing the behaviour in line with how SCP works.
+* Fixed https://github.com/hierynomus/sshj/issues/252[#252] (via: https://github.com/hierynomus/sshj/pulls/253[#253]): Same name subdirs are no longer merged by accident
+SSHJ 0.16.0 (2016-04-11)::
+* Fixed https://github.com/hierynomus/sshj/issues/239[#239]: Remote port forwards did not work if you used the empty string as address, or a catch-all address.
+* Fixed https://github.com/hierynomus/sshj/issues/242[#242]: Added OSGI headers to sources jar manifest
+* Fixed https://github.com/hierynomus/sshj/issues/236[#236]: Remote Port forwarding with dynamic port allocation fails with BufferUnderflowException
+* Upgraded gradle distribution to 2.12
+* Closed https://github.com/hierynomus/sshj/issues/234[#234]: Dropped Java6 support (0.15.0 was already Java6 incompatible due to Java7 dependency)
+* Fixed https://github.com/hierynomus/sshj/issues/118[#118]: Added configuration switch for waiting on a server ident before sending the client ident.
+* Fixed https://github.com/hierynomus/sshj/issues/114[#114]: Added javadoc that you always need to call close() on a Command before inspecting the exit codes.
+* Fixed https://github.com/hierynomus/sshj/issues/237[#237]: Fixed race condition if a `hostkeys-00@openssh.com` global request is received directly after a successful auth.
+SSHJ 0.15.0 (2015-11-20)::
+* Fixed https://github.com/hierynomus/sshj/issues/220[#220]: Added support for `ssh-ed25519` host keys
+* Fixed https://github.com/hierynomus/sshj/issues/225[#225]: Fixed bug in ECDSA fingerprint calculation that sometimes produced an incorrect fingerprint
+* Added `arcfour` Stream Ciphers from RFC4253 and RFC4345
+* Added all Block Ciphers from RFC4344 and RFC4253
+SSHJ 0.14.0 (2015-11-04)::
+* Fixed https://github.com/hierynomus/sshj/issues/171[#171]: Added support for `curve25519-sha256@libssh.org` key exchange algorithm
+* Added support for `ecdh-sha2-nistp256`, `ecdh-sha2-nistp384` and  `ecdh-sha2-nistp521` key exchange algorithms
+* Fixed https://github.com/hierynomus/sshj/issues/167[#167]: Added support for `diffie-hellman-group-exchange-sha1` and `diffie-hellman-group-exchange-sha256` key exchange methods
+* Fixed https://github.com/hierynomus/sshj/issues/212[#212]: Configure path escaping to enable shell expansion to work correctly
+* Merged https://github.com/hierynomus/sshj/issues/210[#210]: RemoteFileInputStream.skip returns wrong value (Fixes https://github.com/hierynomus/sshj/issues/209[#209])
+* Merged https://github.com/hierynomus/sshj/issues/208[#208]: Added SCP bandwidth limitation support
+* Merged https://github.com/hierynomus/sshj/issues/211[#211]: Made keyfile format detection more robust
+SSHJ 0.13.0 (2015-08-18)::
+* Merged https://github.com/hierynomus/sshj/issues/199[#199]: Fix for IndexOutOfBoundsException in ReadAheadRemoteFileInputStream, fixes https://github.com/hierynomus/sshj/issues/183[#183]
+* Merged https://github.com/hierynomus/sshj/issues/195[#195]: New authentication supported: `gssapi-with-mic`
+* Merged https://github.com/hierynomus/sshj/issues/201[#201]: New option to verify negotiated key exchange algorithms
+* Merged https://github.com/hierynomus/sshj/issues/196[#196]: Fix for looking up complete hostname in known hosts file
+SSHJ 0.12.0 (2015-04-14)::
+* Added support for HTTP proxies when running JDK6 or JDK7, fixes: https://github.com/hierynomus/sshj/issues/170[#170]
+* Merged https://github.com/hierynomus/sshj/issues/186[#186]: Fix for detecting end-of-stream
+* Compiling to JDK6, fixes https://github.com/hierynomus/sshj/issues/179[#179] and https://github.com/hierynomus/sshj/issues/185[#185]
+* Correctly close socket and channel when LocalPortForwarder fails to open and start the channel (Fixes https://github.com/hierynomus/sshj/issues/175[#175] and https://github.com/hierynomus/sshj/issues/176[#176])
+* Merged https://github.com/hierynomus/sshj/issues/181[#181]: Invalid write packet length when reading with offset (Fixes https://github.com/hierynomus/sshj/issues/180[#180])
+SSHJ 0.11.0 (2015-01-23)::
+* New maven coordinates `com.hierynomus:sshj:0.11.0` as https://github.com/hierynomus[@hierynomus] took over as maintainer of SSHJ
+* Migrated build system to Gradle 2.2.1
+* Merged https://github.com/hierynomus/sshj/issues/150[#150]: Fix for incorrect file handle on some SSH servers, fixes: https://github.com/hierynomus/sshj/issues/54[#54], https://github.com/hierynomus/sshj/issues/119[#119], https://github.com/hierynomus/sshj/issues/168[#168], https://github.com/hierynomus/sshj/issues/169[#169]
+* Made `jzlib` optional in OSGi bundling, fixes: https://github.com/hierynomus/sshj/issues/162[#162]
+* Improved some log levels, fixes: https://github.com/hierynomus/sshj/issues/161[#161]
+* Merged https://github.com/hierynomus/sshj/issues/156[#156], https://github.com/hierynomus/sshj/issues/164[#164], https://github.com/hierynomus/sshj/issues/165[#165]: Fixed block sizes for `hmac-sha2-256` and `hmac-sha2-512`
+* Merged https://github.com/hierynomus/sshj/issues/141[#141]: Add proxy support
+* Merged https://github.com/hierynomus/sshj/issues/157[#157], https://github.com/hierynomus/sshj/issues/163[#163]: Doc and build fixes
+* Upgraded BouncyCastle to 1.51, fixes: https://github.com/hierynomus/sshj/issues/142[#142]
+* Implemented keep-alive with connection drop detection, fixes https://github.com/hierynomus/sshj/issues/166[#166]

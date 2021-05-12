@@ -1,0 +1,120 @@
+begintemplate Location2
+	public secRef, loc
+	objref secRef
+	proc init() {
+		secRef = new SectionRef()
+		loc = $1
+	}
+endtemplate Location2
+
+
+proc read_params(){local THETA, PHI, bPolar localobj params, timing
+    TMSAMP = 1 // Default value if not specified
+	SYN_FREQ = 25
+	SYN_NOISE = 0.5
+	SYN_WEIGHT = 0.001
+	SYNC_WEIGHT = 0.001
+	SYNC_INTERVAL = 1000
+	SYNC_DELAY = 40
+	SYNC_OFFSET = 2 //Offset to synchronous input from main TMS pulse
+    params = new File()
+    if(!params.ropen("../../Results/NEURON/params.txt")){
+		printf("Parameters file not found!\n")
+		sred("Press enter to quit", "y", "y")
+		quit()
+	}
+    //strdef result_folder
+    //sprint(result_folder, "test")
+    E_UNIFORM = params.scanvar()
+    if (!E_UNIFORM){
+        params.scanstr(quasi_file)
+		TMSAMP = params.scanvar()
+    } else {
+        TMSAMP = params.scanvar()
+        bPolar = params.scanvar()
+        if (!bPolar){
+            EX = params.scanvar()
+            EY = params.scanvar()
+            EZ = params.scanvar()
+            // Normalize vector
+            EX = EX/(EX*EX+EY*EY+EZ*EZ)
+            EY = EY/(EX*EX+EY*EY+EZ*EZ)
+            EZ = EZ/(EX*EX+EY*EY+EZ*EZ)
+        } else {
+            THETA = params.scanvar()
+            PHI = params.scanvar()
+            EX = sin(THETA*(PI/180))*cos(PHI*(PI/180))
+            EY = sin(THETA*(PI/180))*sin(PHI*(PI/180))
+            EZ = cos(THETA*(PI/180))
+        }
+    }
+	SYN_FREQ = params.scanvar()
+	SYN_NOISE = params.scanvar()
+	SYN_WEIGHT = params.scanvar()
+	SYNC_WEIGHT = params.scanvar()
+    params.close()
+	
+	timing = new File()
+	if(!timing.ropen("../../Results/TMS_waveform/TMS_timing.txt")){
+		printf("Timing file not found!\n")
+		sred("Press enter to quit", "y", "y")
+		quit()
+	}
+	SYNC_INTERVAL = timing.scanvar()
+	SYNC_DELAY = timing.scanvar() - SYNC_OFFSET
+	SYNC_NUM = timing.scanvar()
+	dt = timing.scanvar()
+	timing.close()
+}
+
+
+
+proc initialize(){
+	cellList = new List() // comprises all instances of cell templates, also artificial cells
+	ppList = new List() // comprises all Point Processes of any cell
+	conList = new List() // comprises all NetCon objects
+	tvecs = new List() //comprises all custom time vectors
+	recList = new List() //comprises all recording vectors
+	rectList = new List() //comprises all time vectors of recordings
+	playtList = new List() //comprises all time vectors for play objects
+	playList = new List() //comprises all vectors played into an object
+	APCList = new List() //comprises all APC objects
+	APCrecList = new List() //comprises all APC recording vectors
+	nilconList = new List() //comprises all NULL object NetCons
+	cvode = new CVode() //the Cvode object
+	thissec = new Vector() //for reading range variables
+	thisseg = new Vector() //for reading range variables
+	thisval = new Vector() //for reading range variables
+	debug_mode = 1
+	accuracy = 0
+	strf = new StringFunctions()
+	io = cvode.active(0)
+	tvec = new Vector()
+	celsius = 35
+	tstart = dt
+	steps_per_ms = 1/dt
+	prerun = 200
+	if (unix_mac_pc() == 3) {
+		nrn_load_dll("../../lib_mech/nrnmech.dll")	
+	} else {	
+		nrn_load_dll("../../lib_mech/x86_64/.libs/libnrnmech.so")	
+	}
+	io = load_file("stdgui.hoc")
+	v_init = -70.000000
+	simfold = "../NEURON"
+	io = xopen("../../lib_genroutines/genroutines.hoc")
+	io = xopen("../../lib_genroutines/pasroutines.hoc")
+	{load_file("interpCoordinates.hoc")}
+	{load_file("setPointers.hoc")}
+	{load_file("calcVe.hoc")}
+	{load_file("stimWaveform.hoc")}
+	{load_file("exportLocs_seg.hoc")}
+	chdir("../..")
+	system("mkdir Results")	
+	chdir("Results")
+	system("mkdir NEURON")
+	chdir("NEURON")
+	system("mkdir locs")
+	chdir("../..")
+	chdir("./Code/NEURON")
+}
