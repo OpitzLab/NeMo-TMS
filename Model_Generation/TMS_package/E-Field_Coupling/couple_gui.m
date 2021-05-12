@@ -67,7 +67,11 @@ end
 %% Load neuron and plot
 nrnfile = 'locs_all_seg.txt';
 nrnpath = [fullfile('..','..','Results','NEURON','locs') filesep];
-locs = load([nrnpath nrnfile]);
+try
+    locs = load([nrnpath nrnfile]);
+catch
+    msgbox('Export NEURON model segments first.','Error');
+end
 % Compartment coordinates
 Xc = locs(:,1);
 Yc = locs(:,2);
