@@ -7,6 +7,7 @@ init_t2n_trees();
 cd ..;
 addpath('./Aberra_files/');
 
+
 tstop                    = 1100;%40000;
 dt                       = 0.05;
 
@@ -32,12 +33,6 @@ trees = load_tree(fileid); %Specify input morphology here!
 for cell_num = 1:length(trees)
 simName = inputdlg('Enter model name; leave blank to use cell filename', 'Model name');
 
-if(exist(strcat('../Models/', name), 'file'))
-    msg = 'Model by that name already exists. Delete the model folder or use a different name. Exiting...';
-    msgbox(msg,'Duplicate model name');
-    rmpath('Aberra_files');
-    return
-end
 
 %% Load morphology
 treeFilename = './morphos/place_tree.mtr'; %Input file here!
@@ -46,6 +41,20 @@ treepath = '';
 if length(simName{1})~=0 
     name = simName{1};
 end
+
+if(exist(strcat('../Models/', name), 'file'))
+    disp('Model by that name already exists; exiting...');
+    rmpath('Aberra_files');
+    return
+end
+
+dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite', 'Enter synapse distance');
+
+if length(dist_input{1})~=0
+    syn_distance = str2double(dist_input{1});
+end
+
+
 %to de-group the morphologies (if necessary), and have the different tree
 %strucutres in the cell array 'tree':
 current_dir = strcat('../Models/', name);
@@ -284,7 +293,7 @@ end
 Pvec = Pvec_tree(tree{t});
 dist_vec = Pvec - syn_distance;
 for node = 1:length(dist_vec)
-    if ~((tree{t}.R(node) == 3 )|| (tree{t}.R(node) == 4) || (tree{t}.R(node) == 5))  
+    if ~(tree{t}.R(node) == 4)  
         dist_vec(node) = 99998;
     end
     if dist_vec(node)<=0

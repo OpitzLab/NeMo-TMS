@@ -12,6 +12,8 @@ cd ./lib/;
 init_t2n_trees();
 cd ..;
 addpath('Jarsky_files');
+
+
 tstop                    = 1100;%40000;
 dt                       = 0.05;
 
@@ -39,14 +41,6 @@ axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','M
 
 for cell_num = 1:length(trees)
 simName = inputdlg('Enter model name; leave blank to use cell filename', 'Model name');
-
-if(exist(strcat('../Models/', name), 'file'))
-    msg = 'Model by that name already exists. Delete the model folder or use a different name. Exiting...';
-    msgbox(msg,'Duplicate model name');
-    rmpath('Jarsky_files');
-    return
-end
-
 %% Load morphology
 treeFilename = './morphos/place_tree.mtr'; %Input file here!
 treepath = '';
@@ -54,6 +48,20 @@ treepath = '';
 if length(simName{1})~=0 
     name = simName{1};
 end
+
+if(exist(strcat('../Models/', name), 'file'))
+    disp('Model by that name already exists; exiting...');
+    rmpath('Jarsky_files');
+    return
+end
+
+dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite', 'Enter synapse distance');
+
+if length(dist_input{1})~=0
+    syn_distance = str2double(dist_input{1});
+end
+
+
 %to de-group the morphologies (if necessary), and have the different tree
 %strucutres in the cell array 'tree':
 current_dir = strcat('../Models/', name);
