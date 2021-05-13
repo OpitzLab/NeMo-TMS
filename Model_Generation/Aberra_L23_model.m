@@ -49,9 +49,10 @@ end
 dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite', 'Enter synapse distance');
 
 if length(dist_input{1})~=0
-    syn_distance = str2double(dist_input{1});
+    if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
+        syn_distance = str2double(dist_input{1});
+    end
 end
-
 
 %to de-group the morphologies (if necessary), and have the different tree
 %strucutres in the cell array 'tree':
@@ -294,10 +295,10 @@ Pvec = Pvec_tree(tree{t});
 dist_vec = Pvec - syn_distance;
 for node = 1:length(dist_vec)
     if ~(tree{t}.R(node) == 4)  
-        dist_vec(node) = 99998;
+        dist_vec(node) = 99999;
     end
     if dist_vec(node)<=0
-        dist_vec(node) = 99999;
+        dist_vec(node) = 99998;
     end
 end
 [~, syn_target] = min(dist_vec);
