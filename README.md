@@ -19,7 +19,7 @@ Refer to **Full_Tutorial.pdf** for a comprehensive tutorial on how to use NeMo-T
 For a quick guide on how to use NeMo-TMS, refer to **Quick_Guide.pdf**, or open **Quick_Guide.mlapp** in MATLAB (2019b or later).
 
 ## Older versions
-You can access the older versions of the toolbox from the **Releases** section.
+You can access the older versions of the toolbox from the [Releases](https://github.com/OpitzLab/NeMo-TMS/releases) section.
 
 ## Reference
 Please cite the following reference:
