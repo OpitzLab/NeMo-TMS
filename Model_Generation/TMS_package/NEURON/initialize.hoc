@@ -52,6 +52,7 @@ proc read_params(){local THETA, PHI, bPolar localobj params, timing
 	SYN_NOISE = params.scanvar()
 	SYN_WEIGHT = params.scanvar()
 	SYNC_WEIGHT = params.scanvar()
+	SYNC_OFFSET = params.scanvar()
     params.close()
 	
 	timing = new File()

@@ -71,6 +71,7 @@ proc syn_params(){ localobj pwm
     syn_noise = 0.5
     syn_weight = 0.00
     syn_weight_sync = 0.00
+	tms_offset = 2.00
     xpanel("Simulation Parameters")
         xlabel("Enter the random synaptic input parameters:")
             xvalue("Frequency (Hz)","syn_freq")
@@ -78,6 +79,7 @@ proc syn_params(){ localobj pwm
             xvalue("Weight","syn_weight")
         xlabel("Enter the synchronous synaptic input parameters:")
             xvalue("Weight","syn_weight_sync")
+			xvalue("TMS offset", "tms_offset")
         xbutton("Select","save_params()")
     xpanel()
 }
@@ -116,6 +118,7 @@ proc save_params(){ localobj pwm, paramfile
     paramfile.printf("SYN_WEIGHT\t%f\n",syn_weight)
     paramfile.printf("/****Synchoronous synaptic parameters***\n")
     paramfile.printf("SYN_WEIGHT_SYNC\t%f\n",syn_weight_sync)
+	paramfile.printf("TMS_OFFSET\t%f\n", tms_offset)
     paramfile.close()
     quit()
 }
