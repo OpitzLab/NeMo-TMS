@@ -43,7 +43,8 @@ if length(simName{1})~=0
 end
 
 if(exist(strcat('../Models/', name), 'file'))
-    disp('Model by that name already exists; exiting...');
+    msg = 'Model by that name already exists. Delete the model folder or use a different name. Exiting...';
+    msgbox(msg, 'Duplicate model name');
     rmpath('Aberra_files');
     return
 end
@@ -53,7 +54,10 @@ dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite', 
 if length(dist_input{1})~=0
     if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
         syn_distance = str2double(dist_input{1});
-    end
+    else
+        msg = 'Negative distance entered. Reverting to default.';
+        msgbox(msg, 'Warning: Negative distance entered.');
+    end 
 end
 
 
