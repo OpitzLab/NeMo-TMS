@@ -25,7 +25,7 @@ neuron.params.dlambda    = 0.025;neuron.params.freq       = 500;
 %fileid = strcat('./morphos/', input_cell);
 fileid = './morphos/Aberra_human_L5.swc';
 axon_type = 4;
-syn_distance = 10;
+syn_distance = 50;
 [~, name, ~] = fileparts(fileid);
 trees = load_tree(fileid); %Specify input morphology here!
 
