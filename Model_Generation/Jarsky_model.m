@@ -338,8 +338,8 @@ delete('./lib_custom/*');
 rmdir('lib_custom');
 delete('./lib_genroutines/*');
 rmdir('./lib_genroutines/');
-delete('./lib_mech/*');
-rmdir('./lib_mech/');
+% delete('./lib_mech/*');
+rmdir('./lib_mech/', 's');
 rmpath('./Jarsky_files/');
 
 end
