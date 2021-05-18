@@ -32,7 +32,7 @@ neuron.params.freq       = 500;
 fileid = strcat('./morphos/', input_cell);
 [~, name, ~] = fileparts(fileid);
 trees = load_tree(fileid); %Specify input morphology here!
-syn_distance = 100; %distance from soma at which synapse will be placed
+syn_distance = 50; %distance from soma at which synapse will be placed
 resampling_interval = 0.5;
 
 axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','Myelinated axon');
