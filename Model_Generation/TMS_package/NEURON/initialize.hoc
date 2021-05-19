@@ -56,7 +56,7 @@ proc read_params(){local THETA, PHI, bPolar localobj params, timing
     params.close()
 	
 	timing = new File()
-	if(!timing.ropen("../../Results/TMS_waveform/TMS_timing.txt")){
+	if(!timing.ropen("../../Results/TMS_Waveform/TMS_timing.txt")){
 		printf("Timing file not found!\n")
 		sred("Press enter to quit", "y", "y")
 		quit()
