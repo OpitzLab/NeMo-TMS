@@ -79,7 +79,7 @@ proc syn_params(){ localobj pwm
             xvalue("Weight","syn_weight")
         xlabel("Enter the synchronous synaptic input parameters:")
             xvalue("Weight","syn_weight_sync")
-			xvalue("TMS offset", "tms_offset")
+	    xvalue("TMS offset (ms)", "tms_offset")
         xbutton("Select","save_params()")
     xpanel()
 }
