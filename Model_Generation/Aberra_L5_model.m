@@ -336,6 +336,7 @@ end
 
 h = findall(0,'Type','figure','Name','Error in NEURON'); % it returns all the handles for dialog boxes with the title "Error in NEURON"
 if isempty(h) % check if such error dialog exists
+    errordlg(['Model generation for ' name ' failed!']);
 else
     close(h) % close the error dialog
     disp(['Model generation for ' name ' completed!'])
