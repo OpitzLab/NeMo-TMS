@@ -9,7 +9,7 @@ for idx = 1:length(mesh.element_data)
         break
     end
 end
-if ~strcmp(mesh.element_data{idx}.name, 'E')
+if isempty(idx) || ~strcmp(mesh.element_data{idx}.name, 'E')
     message = (['The input mesh file from SimNIBS does not include any electric fields. ' ...
         'Make sure to select "vector E" in "Simulation Options" in SimNIBS.']);
     errordlg(message,'Error: Missing Electric Fields');
