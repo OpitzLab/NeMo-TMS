@@ -61,7 +61,7 @@ for idx = 1:length(E_int)
         break
     end
 end
-if ~strcmp(E_int{idx}.name, 'E')
+if isempty(idx) || ~strcmp(E_int{idx}.name, 'E')
     error(['The input mesh file from SimNIBS does not include electric field. ' ...
         'Make sure to select "vector E" in "Simulation Options" in SimNIBS.']);
 end
