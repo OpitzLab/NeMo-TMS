@@ -1,12 +1,21 @@
 %%Aberra model for TMS -L23PC-cADpyr229_1
+% MATLAB adaptation, Nicholas Hananeia 2021
+
 
 function[] = Aberra_L23_model()
-% install T2N and TREES and add path for necessary files
-cd ./lib/;
-init_t2n_trees();
-cd ..;
-addpath('./Aberra_files/');
+fclose('all');
 
+% install T2N and TREES and add path for necessary files
+run('./lib/init_t2n_trees.m');
+
+if ~exist('./Aberra_files/lib_mech/nrnmech.dll', 'file') && ~exist('./Aberra_files/lib_mech/x86_64/.libs/libnrnmech.so', 'file')
+    msg = 'Compiled mod file not detected! Compile mods in Aberra_files/lib_mech before continuing! Exiting...';
+    msgbox(msg, 'Mods not compiled');
+    return
+end
+    
+
+addpath('./Aberra_files/');
 
 tstop                    = 1100;%40000;
 dt                       = 0.05;
@@ -25,7 +34,7 @@ neuron.params.dlambda    = 0.025;neuron.params.freq       = 500;
 %fileid = strcat('./morphos/', input_cell);
 fileid = './morphos/Aberra_human_L23.swc';
 axon_type = 4;
-syn_distance = 50;
+syn_distance = 10;
 [~, name, ~] = fileparts(fileid);
 trees = load_tree(fileid); %Specify input morphology here!
 
@@ -47,8 +56,7 @@ if(exist(strcat('../Models/', name), 'file'))
     return
 end
 
-opts.Interpreter = 'tex';
-dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (\mum):', 'Enter synapse distance',1,{num2str(syn_distance)},opts);
+dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (microns)', 'Enter synapse distance');
 
 if length(dist_input{1})~=0
     if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
@@ -343,16 +351,16 @@ else
     disp('--------------------------------------');
 end
 
+fclose('all');
+
 %copy lib_mech back to generator to get our c and o files back 
 copyfile(strcat('../Models/', name, '/lib_mech/'), './lib_mech/', 'f');
-
 
 
 %% Copy across necessary files to model folder
 copyfile('./lib_custom/', strcat('../Models/', name, '/lib_custom/'), 'f');
 copyfile('./lib_genroutines/', strcat('../Models/', name, '/lib_genroutines/'), 'f');
 copyfile('./morphos/', strcat('../Models/', name, '/morphos/'), 'f');
-
 movefile(strcat('../Models/', name, '/Code/sim1/'), strcat('../Models/', name, '/Code/NEURON/'));
 delete(strcat('../Models/', name, '/Code/NEURON/neuron_runthis.hoc'));
 if exist(strcat('../Models/', name, '/Code/NEURON/tvec.dat'), 'file')
@@ -372,19 +380,19 @@ end
 
 
 %Remove temp folders from the generator folder
+
 delete('./morphos/hocs/*');
 rmdir('./morphos/hocs/');
 delete('./lib_custom/*');
 rmdir('lib_custom');
 delete('./lib_genroutines/*');
 rmdir('./lib_genroutines/');
-% delete('./lib_mech/*');
-rmdir('./lib_mech/', 's');
+delete('./lib_mech/*');
+rmdir('./lib_mech/');
 try
     add_stack(name);
 catch
 end
 
 rmpath('./Aberra_files/');
-
 end

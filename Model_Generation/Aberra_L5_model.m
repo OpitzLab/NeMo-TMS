@@ -1,10 +1,18 @@
 %%Aberra model for TMS L5 PC
+% MATLAB adaptation, Nicholas Hananeia 2021
 
 function[] = Aberra_L5_model()
+fclose('all');
+
 % install T2N and TREES and add path for necessary files
-cd ./lib/;
-init_t2n_trees();
-cd ..;
+run('./lib/init_t2n_trees.m');
+
+if ~exist('./Aberra_files/lib_mech/nrnmech.dll', 'file') && ~exist('./Aberra_files/lib_mech/x86_64/.libs/libnrnmech.so', 'file')
+    msg = 'Compiled mod file not detected! Compile mods in Aberra_files/lib_mech before continuing! Exiting...';
+    msgbox(msg, 'Mods not compiled');
+    return
+end
+
 addpath('./Aberra_files/');
 
 
@@ -14,18 +22,18 @@ dt                       = 0.05;
 % Define standard parameters
 neuron.params            = [];
 neuron.params.celsius    = 35;
-neuron.params.v_init     = -70;
+neuron.params.v_init     = -85;
 neuron.params.prerun     = 200;
 neuron.params.tstop      = tstop;
 neuron.params.dt         = dt;
 neuron.params.nseg       = 'dlambda';
-neuron.params.dlambda    = 0.025;neuron.params.freq       = 500;
+neuron.params.dlambda    = 0.1;neuron.params.freq       = 500;
 
 
 %fileid = strcat('./morphos/', input_cell);
 fileid = './morphos/Aberra_human_L5.swc';
 axon_type = 4;
-syn_distance = 50;
+syn_distance = 10;
 [~, name, ~] = fileparts(fileid);
 trees = load_tree(fileid); %Specify input morphology here!
 
@@ -49,8 +57,7 @@ if(exist(strcat('../Models/', name), 'file'))
     return
 end
 
-opts.Interpreter = 'tex';
-dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (\mum):', 'Enter synapse distance',1,{num2str(syn_distance)},opts);
+dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (microns)', 'Enter synapse distance');
 
 if length(dist_input{1})~=0
     if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
@@ -177,16 +184,19 @@ kainfo.region            = treeregions;
 
 
 for t                    = 1 : numel (tree)
+    neuron.mech{t}.all.ca_ion = struct();
 
     
     neuron.mech{t}.apical.na_ion.ena = 50;
     neuron.mech{t}.apical.pas.cm = 2;
-    neuron.mech{t}.apical.k_ion.ek = -85;
+    neuron.mech{t}.apical.k_ion = struct('ek', -85);
     neuron.mech{t}.basal.pas.cm = 2;
     neuron.mech{t}.soma.na_ion.ena = 50;
     neuron.mech{t}.soma.k_ion.ek = -85;
     neuron.mech{t}.axon.na_ion.ena = 50;
-    neuron.mech{t}.axon.k_ion.ek = -102;
+    neuron.mech{t}.axon.k_ion = struct('ek', -85);
+    neuron.mech{t}.node.k_ion = struct('ek', -85);
+    neuron.mech{t}.unmyelin.k_ion = struct('ek', -85);
 
     neuron.mech{t}.range.Ih = struct('gIhbar', vec);
     neuron.mech{t}.basal.Ih = struct('gIhbar', 0.000080);
@@ -207,7 +217,7 @@ for t                    = 1 : numel (tree)
     neuron.mech{t}.axon.Ca_HVA = struct('gCa_HVAbar', 0.000990);
     neuron.mech{t}.axon.K_Pst = struct('gK_Pstbar', 0.973538);
     neuron.mech{t}.axon.SKv3_1 = struct('gSKv3_1bar', 1.021945);
-    neuron.mech{t}.axon.Ca_LVAst = struct('gCa_LVAstbar', 0.008752);
+   neuron.mech{t}.axon.Ca_LVAst = struct('gCa_LVAstbar', 0.008752);
     
     neuron.mech{t}.soma.CaDynamics_E2 = struct(...
             'gamma',  0.000609, ...
@@ -224,34 +234,22 @@ for t                    = 1 : numel (tree)
             %Nodes
             neuron.mech{t}.node.NaTa_t = struct('gNaTa_tbar', 2*3.137968);
             neuron.mech{t}.node.K_Tst = struct('gK_Tstbar', 0.089259);
-            neuron.mech{t}.node.CaDynamics_E2 = struct(...
-                'gamma', 0.002910,...
-                'decay', 287.198731);
             neuron.mech{t}.node.Nap_Et2 = struct('gNap_Et2bar', 0.006827);
-            neuron.mech{t}.node.SK_E2 = struct('gSK_E2bar', 0.007104);
-            neuron.mech{t}.node.Ca_HVA = struct('gCa_HVAbar', 0.000990);
             neuron.mech{t}.node.K_Pst = struct('gK_Pstbar', 0.973538);
             neuron.mech{t}.node.SKv3_1 = struct('gSKv3_1bar', 1.021945);
-            neuron.mech{t}.node.Ca_LVAst = struct('gCa_LVAstbar', 0.008752);
-			%neuron.mech{t}.node.Im = struct('gImbar'); Only in some morph
-			%neuron.mech{t}.node.Ca = struct('gCabar'); Only in some
+			%neuron.mech{t}.node.Im = struct('gImbar');% Only in some morph
+			%neuron.mech{t}.node.Ca = struct('gCabar');% Only in some
             
             %Myelin
             neuron.mech{t}.myelin.pas = struct(...
                 'cm' , 0.02, ...
-                'g_pas' , 1/1.125e6);
+                'g' , 1/1.125e6);
     
             neuron.mech{t}.unmyelin.NaTa_t = struct('gNaTa_tbar', 3.137968);
             neuron.mech{t}.unmyelin.K_Tst = struct('gK_Tstbar', 0.089259);
-            neuron.mech{t}.unmyelin.CaDynamics_E2 = struct(...
-                'gamma', 0.002910,...
-                'decay', 287.198731);
             neuron.mech{t}.unmyelin.Nap_Et2 = struct('gNap_Et2bar', 0.006827);
-            neuron.mech{t}.unmyelin.SK_E2 = struct('gSK_E2bar', 0.007104);
-            neuron.mech{t}.unmyelin.Ca_HVA = struct('gCa_HVAbar', 0.000990);
             neuron.mech{t}.unmyelin.K_Pst = struct('gK_Pstbar', 0.973538);
             neuron.mech{t}.unmyelin.SKv3_1 = struct('gSKv3_1bar', 1.021945);
-            neuron.mech{t}.unmyelin.Ca_LVAst = struct('gCa_LVAstbar', 0.008752);
             
     end
    neuron.mech{t}.all.xtra = struct();
@@ -336,13 +334,13 @@ end
 
 h = findall(0,'Type','figure','Name','Error in NEURON'); % it returns all the handles for dialog boxes with the title "Error in NEURON"
 if isempty(h) % check if such error dialog exists
-    errordlg(['Model generation for ' name ' failed!']);
 else
     close(h) % close the error dialog
     disp(['Model generation for ' name ' completed!'])
     disp('--------------------------------------');
 end
 
+fclose('all');
 %copy lib_mech back to generator to get our c and o files back 
 copyfile(strcat('../Models/', name, '/lib_mech/'), './lib_mech/', 'f');
 
@@ -354,7 +352,7 @@ copyfile('./lib_genroutines/', strcat('../Models/', name, '/lib_genroutines/'), 
 copyfile('./morphos/', strcat('../Models/', name, '/morphos/'), 'f');
 
 movefile(strcat('../Models/', name, '/Code/sim1/'), strcat('../Models/', name, '/Code/NEURON/'));
-delete(strcat('../Models/', name, '/Code/NEURON/neuron_runthis.hoc'));
+%delete(strcat('../Models/', name, '/Code/NEURON/neuron_runthis.hoc'));
 if exist(strcat('../Models/', name, '/Code/NEURON/tvec.dat'), 'file')
     delete(strcat('../Models/', name, '/Code/NEURON/tvec.dat'));
 end
@@ -376,8 +374,7 @@ delete('./lib_custom/*');
 rmdir('lib_custom');
 delete('./lib_genroutines/*');
 rmdir('./lib_genroutines/');
-% delete('./lib_mech/*');
-rmdir('./lib_mech/', 's');
+delete('./lib_mech/*');
+rmdir('./lib_mech/');
 rmpath('./Aberra_files/');
-
 end

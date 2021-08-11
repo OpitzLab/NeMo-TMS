@@ -4,15 +4,24 @@
 % 
 % Input: SWC or MTR file containing morphology data in ./morphos/
 %  
-% Adapted by Nicholas Hananeia, 2019-2020
+% Adapted by Nicholas Hananeia, 2019-2021
 %%
-function[] = Jarsky_model(input_cell)
-% install T2N and TREES and add path for necessary files
-cd ./lib/;
-init_t2n_trees();
-cd ..;
-addpath('Jarsky_files');
+function[] = Jarsky_model()
+fclose('all');
 
+
+% install T2N and TREES and add path for necessary files
+run('./lib/init_t2n_trees.m');
+
+if ~exist('./Jarsky_files/lib_mech/nrnmech.dll', 'file') && ~exist('./Jarsky_files/lib_mech/x86_64/.libs/libnrnmech.so', 'file')
+    msg = 'Compiled mod file not detected! Compile mods in Jarsky_files/lib_mech before continuing! Exiting...';
+    msgbox(msg, 'Mods not compiled');
+    return
+end
+    
+
+addpath('Jarsky_files');
+[input_cell, cell_path] = uigetfile({'*.swc';'*.mtr'}, 'Select morphology file', './morphos');
 
 tstop                    = 1100;%40000;
 dt                       = 0.05;
@@ -20,7 +29,7 @@ dt                       = 0.05;
 % Define standard parameters
 neuron.params            = [];
 neuron.params.celsius    = 35;
-neuron.params.v_init     = -70;
+neuron.params.v_init     = -85;
 neuron.params.prerun     = 200;
 neuron.params.tstop      = tstop;
 neuron.params.dt         = dt;
@@ -29,10 +38,10 @@ neuron.params.dlambda    = 0.025;
 neuron.params.freq       = 500;
 
 
-fileid = strcat('./morphos/', input_cell);
+fileid = strcat(cell_path, input_cell);
 [~, name, ~] = fileparts(fileid);
 trees = load_tree(fileid); %Specify input morphology here!
-syn_distance = 50; %distance from soma at which synapse will be placed
+syn_distance = 100; %distance from soma at which synapse will be placed
 resampling_interval = 0.5;
 
 axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','Myelinated axon');
@@ -56,8 +65,8 @@ if(exist(strcat('../Models/', name), 'file'))
     return
 end
 
-opts.Interpreter = 'tex';
-dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (\mum):', 'Enter synapse distance',1,{num2str(syn_distance)},opts);
+
+dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (microns)', 'Enter synapse distance');
 
 if length(dist_input{1})~=0
     if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
@@ -301,12 +310,13 @@ end
 
 h = findall(0,'Type','figure','Name','Error in NEURON'); % it returns all the handles for dialog boxes with the title "Error in NEURON"
 if isempty(h) % check if such error dialog exists
-    errordlg(['Model generation for ' name ' failed!']);
 else
     close(h) % close the error dialog
     disp(['Model generation for ' name ' completed!'])
     disp('--------------------------------------');
 end
+
+fclose('all');
 %copy lib_mech back to generator to get our c and o files back 
 copyfile(strcat('../Models/', name, '/lib_mech/'), './lib_mech/', 'f');
 
@@ -339,8 +349,7 @@ delete('./lib_custom/*');
 rmdir('lib_custom');
 delete('./lib_genroutines/*');
 rmdir('./lib_genroutines/');
-% delete('./lib_mech/*');
-rmdir('./lib_mech/', 's');
+delete('./lib_mech/*');
+rmdir('./lib_mech/');
 rmpath('./Jarsky_files/');
-
 end
