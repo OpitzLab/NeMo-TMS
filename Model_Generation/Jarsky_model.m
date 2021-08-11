@@ -65,8 +65,8 @@ if(exist(strcat('../Models/', name), 'file'))
     return
 end
 
-
-dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (microns)', 'Enter synapse distance');
+opts.Interpreter = 'tex';
+dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (\mum):', 'Enter synapse distance',1,{num2str(syn_distance)},opts);
 
 if length(dist_input{1})~=0
     if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
