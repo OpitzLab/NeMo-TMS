@@ -5,7 +5,7 @@ function TMS_Waveform()
 %  Receive TMS parameters
 % 1: Monophasic, 2: Biphasic
 TMS_type = menu('Choose TMS pulse type:','Monophasic','Biphasic');
-STEP_type = menu('Choose step time (us) :','5','25');
+STEP_type = menu('Choose step time (us) :','5','25 (Default)');
 
 
 %%
