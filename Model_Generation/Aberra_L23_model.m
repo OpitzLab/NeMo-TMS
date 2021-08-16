@@ -90,25 +90,6 @@ end
 has_myelin = 1;
 
 tree{1}.rnames = {'soma', 'axon', 'basal', 'apical', 'myelin', 'unmyelin', 'node'};
-
-%% Scale diameters to the human equivalent as in Aberra
-% axon_factor = 2.453;
-% apical_factor = 1.876;
-% basal_factor = 1.946;
-% somatic_factor = 2.453;
-% 
-% for index = 1:length(tree{1}.R)
-%     if tree{1}.R(index) == 3
-%         tree{1}.D(index) = tree{1}.D(index)*basal_factor;
-%     elseif tree{1}.R(index) == 4
-%         tree{1}.D(index) = tree{1}.D(index)*apical_factor;
-%     elseif (tree{1}.R(index) > 4) && (tree{1}.R(index) ~= 7)
-%         tree{1}.D(index) = tree{1}.D(index)*axon_factor;
-%     end    
-% end
-
-
-
 %% Convert the tree into NEURON
 for t                    = 1 : numel (tree)
     if ~all (cellfun (@(x) isfield (x, 'NID'), tree)) || ...
@@ -131,7 +112,6 @@ for t                    = 1 : numel (tree)
     end
 end
 
-xplore_tree(tree{1}, '-2');
 
 %% Add passive parameters
 cm                       = 1;              % Membrane capacitance (µF/cm²)
@@ -171,19 +151,8 @@ vec(~isApical) = NaN;
 %% Add active mechanisms
 
 
-% ********** Na conductance (gNabar)
-nainfo.gnode             = 30.0;                % in S/cm2
-nainfo.ena = 67.5;
-nainfo.region            = treeregions;
-% ********** A-type K+ channel proximal (gAKp) and distal (gAKd)
-kainfo.ek                = -102;
-kainfo.region            = treeregions;
-
-
-
-
-
 for t                    = 1 : numel (tree)
+    neuron.mech{t}.all.ca_ion = struct();
 
     
     neuron.mech{t}.apical.na_ion.ena = 50;
@@ -193,7 +162,10 @@ for t                    = 1 : numel (tree)
     neuron.mech{t}.soma.na_ion.ena = 50;
     neuron.mech{t}.soma.k_ion.ek = -85;
     neuron.mech{t}.axon.na_ion.ena = 50;
-    neuron.mech{t}.axon.k_ion.ek = -102;
+    neuron.mech{t}.axon.k_ion = struct('ek', -85);
+    neuron.mech{t}.node.k_ion = struct('ek', -85);
+    neuron.mech{t}.unmyelin.k_ion = struct('ek', -85);
+
 
     neuron.mech{t}.range.Ih = struct('gIhbar', vec);
     neuron.mech{t}.basal.Ih = struct('gIhbar', 0.000080);
@@ -202,7 +174,7 @@ for t                    = 1 : numel (tree)
     neuron.mech{t}.apical.NaTs2_t = struct('gNaTs2_tbar', 0.012009);
     neuron.mech{t}.apical.SKv3_1 = struct('gSKv3_1bar', 0.000513);
     neuron.mech{t}.apical.Im = struct('gImbar', 0.000740);
-    neuron.mech{t}.apical.Ih = struct('gIhbar', 0);
+    neuron.mech{t}.apical.Ih = struct();
     
     neuron.mech{t}.axon.NaTa_t = struct('gNaTa_tbar', 3.429725);
     neuron.mech{t}.axon.K_Tst = struct('gK_Tstbar', 0.001035);
@@ -231,36 +203,21 @@ for t                    = 1 : numel (tree)
             %Nodes
    			neuron.mech{t}.node.NaTa_t = struct('gNaTa_tbar', 2*3.429725); 
 			neuron.mech{t}.node.K_Tst = struct('gK_Tstbar', 0.001035); 
-			neuron.mech{t}.node.CaDynamics_E2 = struct('gamma', 0.016713);
 			neuron.mech{t}.node.Nap_Et2 = struct('gNap_Et2bar', 0.009803); 
-			neuron.mech{t}.node.SK_E2 = struct('gSK_E2bar', 0.008085); 
-			neuron.mech{t}.node.Ca_HVA = struct('gCa_HVAbar' , 0.000306);
 			neuron.mech{t}.node.K_Pst = struct('gK_Pstbar', 0.959296);
 			neuron.mech{t}.node.SKv3_1 = struct('gSKv3_1bar', 0.094971);
-			neuron.mech{t}.node.CaDynamics_E2 = struct('decay', 384.114655);
-			neuron.mech{t}.node.Ca_LVAst = struct('gCa_LVAstbar', 0.000050);
-			%neuron.mech{t}.node.Im = struct('gImbar'); Only in some morph
-			%neuron.mech{t}.node.Ca = struct('gCabar'); Only in some
             
             %Myelin
             neuron.mech{t}.myelin.pas = struct(...
                 'cm' , 0.02, ...
                 'g_pas' , 1/1.125e6);
             
-            %unmyelin and unmyelin same as UM axon
 
-    
             neuron.mech{t}.unmyelin.NaTa_t = struct('gNaTa_tbar', 3.429725);
             neuron.mech{t}.unmyelin.K_Tst = struct('gK_Tstbar', 0.001035);
-            neuron.mech{t}.unmyelin.CaDynamics_E2 = struct(...
-                'gamma', 0.016713,...
-                'decay', 384.114655);
             neuron.mech{t}.unmyelin.Nap_Et2 = struct('gNap_Et2bar', 0.009803);
-            neuron.mech{t}.unmyelin.SK_E2 = struct('gSK_E2bar', 0.008085);
-            neuron.mech{t}.unmyelin.Ca_HVA = struct('gCa_HVAbar', 0.000306);
             neuron.mech{t}.unmyelin.K_Pst = struct('gK_Pstbar', 0.959296);
             neuron.mech{t}.unmyelin.SKv3_1 = struct('gSKv3_1bar', 0.094971);
-            neuron.mech{t}.unmyelin.Ca_LVAst = struct('gCa_LVAstbar', 0.000050);
             
     end
    neuron.mech{t}.all.xtra = struct();
