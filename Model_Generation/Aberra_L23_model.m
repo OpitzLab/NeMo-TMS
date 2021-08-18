@@ -210,7 +210,7 @@ for t                    = 1 : numel (tree)
             %Myelin
             neuron.mech{t}.myelin.pas = struct(...
                 'cm' , 0.02, ...
-                'g_pas' , 1/1.125e6);
+                'g' , 1/1.125e6);
             
 
             neuron.mech{t}.unmyelin.NaTa_t = struct('gNaTa_tbar', 3.429725);
