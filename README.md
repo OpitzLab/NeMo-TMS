@@ -2,7 +2,7 @@
 Neuron Modeling for TMS (NeMo-TMS) toolbox is for multi-scale modeling of the effects of Transcranial Magnetic Stimulation on single-neuron activity. The instructions and open-source codes provided here enable users with different levels of expertise to investigate the neuronal behavior under TMS.
 
 Refer to the following article for more details:
-Shirinpour et al., 2020. Multi-scale Modeling Toolbox for Single Neuron and Subcellular Activity under (repetitive) Transcranial Magnetic Stimulation. bioRxiv, https://doi.org/10.1101/2020.09.23.310219
+Shirinpour, et al. "Multi-scale modeling toolbox for single neuron and subcellular activity under Transcranial Magnetic Stimulation." Brain Stimulation (2021). https://doi.org/10.1016/j.brs.2021.09.004
 
 ## Overview
 This paradigm incorporates modeling at three scales:
@@ -24,7 +24,7 @@ You can access the older versions of the toolbox from the [Releases](https://git
 ## Reference
 Please cite the following reference:
 
-Shirinpour et al., 2020. Multi-scale Modeling Toolbox for Single Neuron and Subcellular Activity under (repetitive) Transcranial Magnetic Stimulation. bioRxiv, https://doi.org/10.1101/2020.09.23.310219
+Shirinpour, et al. "Multi-scale modeling toolbox for single neuron and subcellular activity under Transcranial Magnetic Stimulation." Brain Stimulation (2021). https://doi.org/10.1016/j.brs.2021.09.004
 
 ## Correspondence
 aopitz[at]umn.edu (Prof. Alexander Opitz)
