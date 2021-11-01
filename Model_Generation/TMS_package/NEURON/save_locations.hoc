@@ -21,5 +21,4 @@ access cellList.o(0).allregobj.o(0).sec
 setpointers()
 exportLocs_seg()
 exportIndex()
-system("del tvec.dat")
 quit()
