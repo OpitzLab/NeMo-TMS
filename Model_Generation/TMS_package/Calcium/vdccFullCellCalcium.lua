@@ -50,6 +50,9 @@ numNewton = util.GetParamNumber("-numNewton", 5)
 --voltage data sampling rate
 vSampleRate = util.GetParamNumber("-vSampleRate", 25e-3)
 
+--does it have an axon?
+--withAxon = util.GetParam("-axon","AX")
+
 -- vm folder
 vmData = util.GetParam("-vmData", "vmData")
 -- which ER mechanisms are to be activated?
@@ -273,9 +276,32 @@ print("*************************************************************************
 -------------------------------
 -- setup approximation space --
 -------------------------------
--- load domain
+
 reqSubsets = {"dend", "apic", "soma","axon"}
-dom = util.CreateDomain(gridName, 0, reqSubsets)
+dom = util.CreateDomain(gridName, 0) --, reqSubsets)
+chk_axon = util.CheckSubsets(dom,reqSubsets)
+
+if not util.CheckSubsets(dom,reqSubsets) then
+	withAxon = "noAX"
+	print("check " .. tostring(chk_axon) .. ", no axon found!")
+	print("adjusting required subsets")
+	reqSubsets = {"dend", "apic", "soma"}
+	dom = util.CreateDomain(gridName,0,reqSubsets)
+else
+	withAxon = "AX"
+	print("check " .. tostring(chk_axon) .. ", axon found!")
+	print("required subsets okay")
+	reqSubsets = {"dend", "apic", "soma","axon"}
+	dom = util.CreateDomain(gridName,0,reqSubsets)
+end
+
+-- load domain
+if withAxon == "AX" then
+	reqSubsets = {"dend", "apic", "soma","axon"}
+else
+	reqSubsets = {"dend", "apic", "soma"}
+end
+
 scale_domain(dom, 1e6)
 
 if numRefs > 0 then
@@ -407,14 +433,16 @@ diffClb:set_mass_scale(volScaleCyt)
 diffClb:set_diffusion(D_clb*volScaleCyt)
 
 -- for axon part --
-diffCaCytAxon = ConvectionDiffusion("ca_cyt","axon","fv1")
-diffCaCytAxon:set_mass_scale(1)
+if withAxon == "AX" then
+	diffCaCytAxon = ConvectionDiffusion("ca_cyt","axon","fv1")
+	diffCaCytAxon:set_mass_scale(1)
 
-diffCaERAxon = ConvectionDiffusion("ca_er","axon","fv1")
-diffCaERAxon:set_mass_scale(1)
+	diffCaERAxon = ConvectionDiffusion("ca_er","axon","fv1")
+	diffCaERAxon:set_mass_scale(1)
 
-diffClbAxon = ConvectionDiffusion("clb","axon","fv1")
-diffClbAxon:set_mass_scale(1)
+	diffClbAxon = ConvectionDiffusion("clb","axon","fv1")
+	diffClbAxon:set_mass_scale(1)
+end
 --------------------------------------------------------
 
 if withIP3R then
@@ -463,7 +491,11 @@ if withSERCAandLeak then
 	serca:set_scale_inputs({1e3,1e3})
 	serca:set_scale_fluxes({1e15}) -- from mol/(um^2 s) to (mol um)/(dm^3 s)
 
-	discSERCA = MembraneTransport1d("soma, apic, dend,axon", serca)
+	if withAxon == "AX" then
+		discSERCA = MembraneTransport1d("soma, apic, dend,axon", serca)
+	else
+		discSERCA = MembraneTransport1d("soma, apic, dend", serca)
+	end
 	discSERCA:set_density_function(SERCAdensity)
 	discSERCA:set_radius_factor(erRadiusFactor)
 	
@@ -471,7 +503,11 @@ if withSERCAandLeak then
 	leakER:set_scale_inputs({1e3,1e3})
 	leakER:set_scale_fluxes({1e3}) -- from mol/(m^2 s) to (mol um)/(dm^3 s)
 	
-	discERLeak = MembraneTransport1d("soma, apic, dend,axon", leakER)
+	if withAxon == "AX" then
+		discERLeak = MembraneTransport1d("soma, apic, dend,axon", leakER)
+	else
+		discERLeak = MembraneTransport1d("soma, apic, dend", leakER)
+	end
 	discERLeak:set_density_function(1e12*leakERconstant/(1e3)) -- from mol/(um^2 s M) to m/s
 	discERLeak:set_radius_factor(erRadiusFactor)
 end
@@ -519,7 +555,13 @@ function ap_membranePotential(x,y,z,t,si)
 return math.sin(t)*0.065
 end
 --]]
-vdcc = VDCC_BG_UserData({"ca_cyt", ""}, {"soma", "apic", "dend","axon"}, approxSpace)
+
+if withAxon == "AX" then
+	vdcc = VDCC_BG_UserData({"ca_cyt", ""}, {"soma", "apic", "dend","axon"}, approxSpace)
+else
+	vdcc = VDCC_BG_UserData({"ca_cyt", ""}, {"soma", "apic", "dend"}, approxSpace)
+end
+
 vdcc:set_potential_function("membranePotential")
 vdcc:set_constant(1, 1.0)
 vdcc:set_scale_inputs({1e3, 1.0})
@@ -556,9 +598,11 @@ domDisc:add(diffCaCyt)
 domDisc:add(diffCaER)
 domDisc:add(diffClb)
 
-domDisc:add(diffCaCytAxon)
-domDisc:add(diffCaERAxon)
-domDisc:add(diffClbAxon)
+if withAxon == "AX" then
+	domDisc:add(diffCaCytAxon)
+	domDisc:add(diffCaERAxon)
+	domDisc:add(diffClbAxon)
+end
 
 domDisc:add(discBuffer)
 
@@ -760,7 +804,11 @@ lineToWrite = ' '
 for j=1,table.getn(index) do
 
 	measPosVector = MakeVec(xcrd[j],ycrd[j],zcrd[j])
-	ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend,axon", dom:subset_handler())
+	if withAxon == "AX" then
+		ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend,axon", dom:subset_handler())
+	else
+		ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend", dom:subset_handler())
+	end
 	if j == table.getn(index) then
 		lineToWrite = lineToWrite .. ca_at_measPt
 	else
@@ -852,7 +900,11 @@ while endTime-time > 0.001*dt do
 		for j=1,table.getn(index) do
 
 			measPosVector = MakeVec(xcrd[j],ycrd[j],zcrd[j])
-			ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend,axon", dom:subset_handler())
+			if withAxon == "AX" then
+				ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend,axon", dom:subset_handler())
+			else
+				ca_at_measPt = EvaluateAtClosestVertex(measPosVector, u, "ca_cyt", "soma,apic,dend", dom:subset_handler())
+			end
 			if j == table.getn(index) then
 				lineToWrite = lineToWrite .. ca_at_measPt
 			else
