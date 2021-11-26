@@ -300,6 +300,12 @@ out              = t2n (neuronn,tree, '-d-w-q-m');
 catch
 end
 
+if ~exist(strcat('../Models/', name, '/Code/sim1/init_cells.hoc'), 'file')
+    errordlg(['Model generation for ' name ' failed!']);
+    rmpath('Aberra_files');
+    return
+end
+
 h = findall(0,'Type','figure','Name','Error in NEURON'); % it returns all the handles for dialog boxes with the title "Error in NEURON"
 if isempty(h) % check if such error dialog exists
     errordlg(['Model generation for ' name ' failed!']);
