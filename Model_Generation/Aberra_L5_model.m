@@ -22,12 +22,12 @@ dt                       = 0.05;
 % Define standard parameters
 neuron.params            = [];
 neuron.params.celsius    = 35;
-neuron.params.v_init     = -85;
+neuron.params.v_init     = -70;
 neuron.params.prerun     = 200;
 neuron.params.tstop      = tstop;
 neuron.params.dt         = dt;
 neuron.params.nseg       = 'dlambda';
-neuron.params.dlambda    = 0.1;neuron.params.freq       = 500;
+neuron.params.dlambda    = 0.025;neuron.params.freq       = 500;
 
 
 %fileid = strcat('./morphos/', input_cell);
@@ -57,8 +57,7 @@ if(exist(strcat('../Models/', name), 'file'))
     return
 end
 
-opts.Interpreter = 'tex';
-dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (\mum):', 'Enter synapse distance',1,{num2str(syn_distance)},opts);
+dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (microns)', 'Enter synapse distance');
 
 if length(dist_input{1})~=0
     if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
@@ -79,7 +78,7 @@ t2n_initModelfolders(current_dir);
 
 %Load morphologies. 
 if(length(trees) == 1)
-    tree{1,1} = resample_tree(trees, 1);
+    tree{1,1} = resample_tree(trees, 5);
     neuron.params.exchfolder = strcat('../Models/',name, '/Code/');
 else
     tree{1,1} = trees{cell_num};
@@ -91,25 +90,6 @@ end
 has_myelin = 1;
 
 tree{1}.rnames = {'soma', 'axon', 'basal', 'apical', 'myelin', 'node' 'unmyelin'};
-
-%% Scale diameters to the human equivalent as in Aberra
-% axon_factor = 2.453;
-% apical_factor = 1.876;
-% basal_factor = 1.946;
-% somatic_factor = 2.453;
-% 
-% for index = 1:length(tree{1}.R)
-%     if tree{1}.R(index) == 3
-%         tree{1}.D(index) = tree{1}.D(index)*basal_factor;
-%     elseif tree{1}.R(index) == 4
-%         tree{1}.D(index) = tree{1}.D(index)*apical_factor;
-%     elseif (tree{1}.R(index) > 4) && (tree{1}.R(index) ~= 7)
-%         tree{1}.D(index) = tree{1}.D(index)*axon_factor;
-%     end    
-% end
-
-
-
 %% Convert the tree into NEURON
 for t                    = 1 : numel (tree)
     if ~all (cellfun (@(x) isfield (x, 'NID'), tree)) || ...
@@ -132,6 +112,7 @@ for t                    = 1 : numel (tree)
     end
 end
 
+tree{1}.frustum = 1;
 xplore_tree(tree{1}, '-2');
 
 %% Add passive parameters
@@ -172,18 +153,6 @@ vec(~isApical) = NaN;
 %% Add active mechanisms
 
 
-% ********** Na conductance (gNabar)
-nainfo.gnode             = 30.0;                % in S/cm2
-nainfo.ena = 67.5;
-nainfo.region            = treeregions;
-% ********** A-type K+ channel proximal (gAKp) and distal (gAKd)
-kainfo.ek                = -102;
-kainfo.region            = treeregions;
-
-
-
-
-
 for t                    = 1 : numel (tree)
     neuron.mech{t}.all.ca_ion = struct();
 
@@ -206,7 +175,7 @@ for t                    = 1 : numel (tree)
     neuron.mech{t}.apical.NaTs2_t = struct('gNaTs2_tbar', 0.026145);
     neuron.mech{t}.apical.SKv3_1 = struct('gSKv3_1bar', 0.004226);
     neuron.mech{t}.apical.Im = struct('gImbar', 0.000143);
-    neuron.mech{t}.apical.Ih = struct('gIhbar', 0);
+    neuron.mech{t}.apical.Ih = struct();
     
     neuron.mech{t}.axon.NaTa_t = struct('gNaTa_tbar', 3.137968);
     neuron.mech{t}.axon.K_Tst = struct('gK_Tstbar', 0.089259);
@@ -238,8 +207,6 @@ for t                    = 1 : numel (tree)
             neuron.mech{t}.node.Nap_Et2 = struct('gNap_Et2bar', 0.006827);
             neuron.mech{t}.node.K_Pst = struct('gK_Pstbar', 0.973538);
             neuron.mech{t}.node.SKv3_1 = struct('gSKv3_1bar', 1.021945);
-			%neuron.mech{t}.node.Im = struct('gImbar');% Only in some morph
-			%neuron.mech{t}.node.Ca = struct('gCabar');% Only in some
             
             %Myelin
             neuron.mech{t}.myelin.pas = struct(...
@@ -331,6 +298,12 @@ end
 try
 out              = t2n (neuronn,tree, '-d-w-q-m');
 catch
+end
+
+if ~exist(strcat('../Models/', name, '/Code/sim1/init_cells.dat'), 'file')
+    errordlg(['Model generation for ' name ' failed!']);
+    rmpath('Aberra_files');
+    return
 end
 
 h = findall(0,'Type','figure','Name','Error in NEURON'); % it returns all the handles for dialog boxes with the title "Error in NEURON"
