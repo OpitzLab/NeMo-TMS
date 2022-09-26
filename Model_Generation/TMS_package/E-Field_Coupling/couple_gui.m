@@ -144,6 +144,12 @@ end
 theta = acos(v1*v2'); % Angle between v1 and v2
 axis_rot = cross(v1,v2)/norm(cross(v1,v2)); % axis around which v1 should turn to align with v2
 
+% in case v1 and v2 are parallel use an orthagonal vector
+if any(isnan(axis_rot))
+    axis_rot = null(v1);
+    axis_rot = axis_rot(:,1)';
+end
+
 % A skew symmetric representation of the normalized axis
 axis_skewed = [0 -axis_rot(3) axis_rot(2); axis_rot(3) 0 -axis_rot(1); -axis_rot(2) axis_rot(1) 0];
 
