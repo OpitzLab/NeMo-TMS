@@ -37,9 +37,10 @@ proc read_params(){local THETA, PHI, bPolar localobj params, timing
             EY = params.scanvar()
             EZ = params.scanvar()
             // Normalize vector
-            EX = EX/(EX*EX+EY*EY+EZ*EZ)
-            EY = EY/(EX*EX+EY*EY+EZ*EZ)
-            EZ = EZ/(EX*EX+EY*EY+EZ*EZ)
+			norm = sqrt(EX*EX+EY*EY+EZ*EZ)
+            EX = EX/norm
+            EY = EY/norm
+            EZ = EZ/norm
         } else {
             THETA = params.scanvar()
             PHI = params.scanvar()
