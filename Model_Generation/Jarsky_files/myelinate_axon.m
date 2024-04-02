@@ -9,15 +9,16 @@ function tree = myelinate_axon(tree)
 
 %Presumes that regions already assigned with
 %1: soma, 2: axon, 3: basal, 4: apical
-L_hill = 5;
-L_iseg = 5;
+L_hill = 7.5;
+L_iseg = 7.5;
 L_myelin = 100;
 L_node = 1;
 D_myelin = 1.5;
-D_hill = 0.8;
+D_hill = 1;
 D_node = 0.8;
-D_iseg = 0.5;
-length_threshold = 20; %Terminals shorter than this will not be myelinated
+D_iseg = 0.7;
+D_term = 0.4;
+length_threshold = 5; %Terminals shorter than this will not be myelinated
 
 %Add axon subregions
 tree.rnames = [tree.rnames,'hill'];
@@ -113,23 +114,25 @@ for i = 1:length(paths)
 end
 
 %% UNMYELINATED TERMINAL SEGMENTS
-short_terminals = [];
-for i = 1:length(terminal_nodes)
-    if terminal_lengths(i) < length_threshold
-        short_terminals = [short_terminals, i];
+%Internodal myelin segments spaced based on length
+for i = 1:length(paths)
+    paths{i} = flip(paths{i}); 
+end
+
+for i = 1:length(paths)
+    axon_length = 0;
+    for j = 1:length(paths{i})
+        if tree.R(paths{i}(j)) == 7 && axon_length < length_threshold
+            tree.R(paths{i}(j)) = 2;
+        end
+        axon_length = axon_length + len(paths{i}(j));
     end
 end
 
-for i = 1:length(short_terminals)
-    %Counting outwards in again
-    paths{short_terminals(i)} = flip(paths{short_terminals(i)});
-    j = 1;
-    while tree.R(paths{short_terminals(i)}(j)) ~= 8
-        tree.R(paths{short_terminals(i)}(j)) = 2;
-        j = j + 1;
-    end
-    paths{short_terminals(i)} = flip(paths{short_terminals(i)});
+for i = 1:length(paths)
+    paths{i} = flip(paths{i}); 
 end
+
         
 %% AIS AND HILLOCK
 %Find the longest path, this will be our main branch.
@@ -147,21 +150,27 @@ for i = 1:length(path_to_root)
         tree.R(path_to_root(i)) = 5;
     elseif axon_length < (L_hill + L_iseg)
         tree.R(path_to_root(i)) = 6;
-    elseif tree.R(path_to_root(i)) ~= 8
-        tree.R(path_to_root(i)) = 7;
+    %elseif tree.R(path_to_root(i)) ~= 8
+    %    tree.R(path_to_root(i)) = 7;
     end
     axon_length = axon_length + len(path_to_root(i));
 end
 
 %% SET DIAMETER OF AXON SEGMENTS
 for i = 1:length(tree.R)
-    if tree.R(i) == 5
+   if tree.R(i) == 5
         tree.D(i) = D_hill;
     elseif tree.R(i) == 6
         tree.D(i) = D_iseg;
     elseif tree.R(i) == 7
-        tree.D(i) = D_myelin;
-    elseif tree.R(i) == 8 || tree.R(i) == 2
+        %tree.D(i) = D_myelin;
+        if tree.D(i) <=1
+            tree.D(i) = 1;  %correct for any super-narrow bits of axon in the reconstruction
+        end
+        tree.D(i) = tree.D(i)*1.3 %beef up myelin diameter
+    elseif tree.R(i) == 8 
         tree.D(i) = D_node;
+    elseif tree.R(i) == 2
+        tree.D(i) = D_term;
     end
 end
