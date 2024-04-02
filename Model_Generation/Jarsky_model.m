@@ -4,12 +4,10 @@
 % 
 % Input: SWC or MTR file containing morphology data in ./morphos/
 %  
-% Adapted by Nicholas Hananeia, 2019-2021
+% Adapted by Nicholas Hananeia, 2019-2024
 %%
 function[] = Jarsky_model()
 fclose('all');
-
-
 % install T2N and TREES and add path for necessary files
 run('./lib/init_t2n_trees.m');
 
@@ -49,14 +47,14 @@ axon_type = menu('Choose desired axon:','Do not alter','No axon','Stick axon','M
 %%
 
 for cell_num = 1:length(trees)
-simName = inputdlg('Enter model name; leave blank to use cell filename', 'Model name');
+%simName = inputdlg('Enter model name; leave blank to use cell filename', 'Model name');
 %% Load morphology
 treeFilename = './morphos/place_tree.mtr'; %Input file here!
 treepath = '';
 
-if length(simName{1})~=0 
-    name = simName{1};
-end
+%if length(simName{1})~=0 
+%    name = simName{1};
+%end
 
 if(exist(strcat('../Models/', name), 'file'))
     msg = 'Model by that name already exists. Delete the model folder or use a different name. Exiting...';
@@ -66,16 +64,16 @@ if(exist(strcat('../Models/', name), 'file'))
 end
 
 opts.Interpreter = 'tex';
-dist_input = inputdlg('Enter distance of synapse from soma on apical dendrite (\mum):', 'Enter synapse distance',1,{num2str(syn_distance)},opts);
+dist_input = 100;%inputdlg('Enter distance of synapse from soma on apical dendrite (\mum):', 'Enter synapse distance',1,{num2str(syn_distance)},opts);
 
-if length(dist_input{1})~=0
-    if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
-        syn_distance = str2double(dist_input{1});
-    else
-        msg = 'Negative distance entered. Reverting to default.';
-        msgbox(msg, 'Warning: Negative distance entered.');
-    end 
-end
+% if length(dist_input{1})~=0
+%     if str2double(dist_input{1}) >= 0  %we don't want a negative value causing nonsense
+%         syn_distance = str2double(dist_input{1});
+%     else
+%         msg = 'Negative distance entered. Reverting to default.';
+%         msgbox(msg, 'Warning: Negative distance entered.');
+%     end 
+% end
 
 %to de-group the morphologies (if necessary), and have the different tree
 %strucutres in the cell array 'tree':
@@ -139,10 +137,12 @@ for t                    = 1 : numel (tree)
 end
 
 
+
 %% Add passive parameters
 cm                       = 0.75;              % Membrane capacitance (µF/cm²)
 Ra                       = 200;               % Cytoplasmic resistivity (ohm*cm)
 Rm                       = 40000;             % Membrane resistance (ohm/cm²) (uniform)
+Rn                       = 50;
 gpas                     = 1;
 e_pas                    = -66;
 for t                    = 1 : numel (tree)
@@ -182,6 +182,32 @@ for t                    = 1 : numel (tree)
     vec_gNa{t}                    = range_conductanceNa (nainfo, tree{t}, ...
         '-wE'); % some option determining excitability
     vec_gKa{t}                    = range_conductanceKa (kainfo, tree{t});
+
+
+     included_sodium = find(strcmp(tree{1}.rnames, 'proxAp') | strcmp(tree{1}.rnames, 'middleAp') | strcmp(tree{1}.rnames, 'distalAp') | strcmp(tree{1}.rnames, 'tuft'));
+     included_kdistal = find(strcmp(tree{1}.rnames, 'middleAp') | strcmp(tree{1}.rnames, 'distalAp') | strcmp(tree{1}.rnames, 'tuft'));
+     included_kproximal = find(strcmp(tree{1}.rnames, 'proxAp'));
+
+     %Ensuring that all non-ranged areas for each channel do not receive
+     %ranged variables
+     for i = 1:length(tree{1}.R)
+        if ~ismember(tree{1}.R(i), included_sodium)
+            vec_gNa{t}(i) = NaN;
+        end
+        if ~ismember(tree{1}.R(i), included_kdistal)
+            vec_gKa{t}.distal(i) = NaN;   
+        end
+        if ~ismember(tree{1}.R(i), included_kproximal)
+            vec_gKa{t}.proximal(i) = NaN;
+        end
+        if ismember(tree{1}.R(i), included_kdistal)
+            vec_gKa{t}.proximal(i) = 0;
+        end
+
+        if ismember(tree{1}.R(i), included_kproximal)
+            vec_gKa{t}.distal(i) = 0;
+        end
+     end
     
     neuron.mech{t}.range.nax      = struct ( ...
         'gbar',                vec_gNa{t});
@@ -193,13 +219,14 @@ for t                    = 1 : numel (tree)
         'gkdrbar', gkdr, ...
         'ek',                  -77);
     
-    neuron.mech{t}.kap            = struct ( ...
-        'gkabar',              vec_gKa{t}.proximal);
     neuron.mech{t}.all.kap        = struct ( ...
         'gkabar',              kainfo.gka, ...
         'ek',                  -77);
-    neuron.mech{t}.all.kad = struct();
-    
+    neuron.mech{t}.range.kap            = struct ( ...
+        'gkabar',              vec_gKa{t}.proximal);
+
+    neuron.mech{t}.all.kad = struct(...
+        'gkabar', 0); %it has a nonzero default value, let's make sure
     neuron.mech{t}.range.kad      = struct ( ...
         'gkabar',              vec_gKa{t}.distal);
     neuron.mech{t}.proxAp.kad     = struct ( ...
@@ -217,7 +244,7 @@ for t                    = 1 : numel (tree)
     %Myelin segments have lowered membrane capacitance
     neuron.mech{t}.myelin.pas = struct(...
         'cm', 0.01, ...
-        'g_pas', 1/1.125e6);
+        'Ra', 150);
     %AIS, nodes, and unmyelinated axon have elevated sodium conductance
     neuron.mech{t}.iseg.nax = struct(...
         'gbar', 15, ...
@@ -233,6 +260,7 @@ for t                    = 1 : numel (tree)
 
 
 end
+
 
 %% Set up cells and run basic simulation with no inputs
 cells                    = tree;             % tree morphologies without the source stimulation cells
@@ -304,7 +332,7 @@ end
 
 %This will generate a segmentation fault error; ignore it and save outputs
 try
-out              = t2n (neuronn,tree, '-d-w-q-m');
+out              = t2n (neuronn,tree, '-q');
 catch
 end
 
@@ -332,6 +360,7 @@ copyfile(strcat('../Models/', name, '/lib_mech/'), './lib_mech/', 'f');
 copyfile('./lib_custom/', strcat('../Models/', name, '/lib_custom/'), 'f');
 copyfile('./lib_genroutines/', strcat('../Models/', name, '/lib_genroutines/'), 'f');
 copyfile('./morphos/', strcat('../Models/', name, '/morphos/'), 'f');
+delete(strcat('../Models/', name, '/morphos/*.swc'));
 
 movefile(strcat('../Models/', name, '/Code/sim1/'), strcat('../Models/', name, '/Code/NEURON/'));
 delete(strcat('../Models/', name, '/Code/NEURON/neuron_runthis.hoc'));
@@ -357,5 +386,9 @@ delete('./lib_genroutines/*');
 rmdir('./lib_genroutines/');
 delete('./lib_mech/*');
 rmdir('./lib_mech/');
+try
+    add_stack(name);
+catch
+end
 rmpath('./Jarsky_files/');
 end
